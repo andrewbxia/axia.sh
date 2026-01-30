@@ -300,7 +300,7 @@ a{
     }
 }
 
-#track-88x31, #self-88x31{
+#track-88x31, .self-88x31{
     max-width: 250px;
     img{
         image-rendering: pixelated;

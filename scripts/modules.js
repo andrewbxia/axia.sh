@@ -225,7 +225,7 @@ class ThemeSwitch{
         ThemeSwitch.#extra(...args);
     });
     static #occupied = false;
-    static #occupiedtypes = [];
+    static #occupiedtypes = []; // list of currently playing switch types
 
     static #coverscss = `
     .ts-cover{
@@ -233,7 +233,8 @@ class ThemeSwitch{
         width: 100vw;
         height: 100vh;
         pointer-events: none;
-        // outline: solid 10px red;
+        /* transition: background-color .5s ease; */
+        /* outline: solid 10px red; */
         &.l-d{
             background-color: var(--theme-l-d-diff);
         }
@@ -305,20 +306,25 @@ class ThemeSwitch{
                 additive: [true, false],
             })
             .then(() => {
-                eq(".collapse").classList.remove("filter");
                 ThemeSwitch.fire();
-            })
-            .rule({
-                from: {rotate: "0deg"},
-                to: {rotate: "-360deg"}, // push a little extra to end
-                duration: 700,
-                easing: "ease-in",
-                forwards: true,
-                additive: [true, false],
-            })
-            .then(() => {
                 ThemeSwitch.#resettypes();
             });
+
+            // .then(() => {
+            //     eq(".collapse").classList.remove("filter");
+            //     ThemeSwitch.fire();
+            // })
+            // .rule({
+            //     from: {rotate: "0deg"},
+            //     to: {rotate: "-360deg"}, // push a little extra to end
+            //     duration: 700,
+            //     easing: "ease-in",
+            //     forwards: true,
+            //     additive: [true, false],
+            // })
+            // .then(() => {
+            //     ThemeSwitch.#resettypes();
+            // });
         },
 
         function slidein(){
