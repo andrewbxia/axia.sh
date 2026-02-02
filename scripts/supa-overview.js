@@ -15,6 +15,20 @@ const postparameters = [ "id", "created_at", "edited_at", "content",
 const qlimit = 5;
 const pagelimit = debug ? 2: 5;
 
+async function getstatus(){
+    const response = await fetch(`${supaurl}/rest/v1/rpc/get_status`, {
+        method: "POST",
+            headers: {
+            apikey: publicanonkey,
+            "Authorization": `Bearer ${publicanonkey}`,
+            "Content-Type": "application/json"
+        }
+    });
+    const data = await response.json();
+    attachdebug("status", JSON.stringify(data[0]));
+    return data[0];
+}
+
 async function getpostsoverview(){
     const response = await fetch(`${supaurl}/rest/v1/posts?select=${overviewparameters}&order=id.desc&limit=${qlimit}`, {
         headers: {
@@ -119,7 +133,7 @@ async function checkvisit(){
     }
 
 
-    const resp = await fetch(`${supaurl}/rest/v1/rpc/get`, {
+    const resp = await fetch(`${supaurl}/rest/v1/rpc/get_visitors`, {
         method: "POST",
             headers: {
             apikey: publicanonkey,

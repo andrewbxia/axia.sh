@@ -479,7 +479,7 @@ function dispblogload(){
     const int = setInterval(() => {
         if(blogstate === 3 || cnt !== blogloadcnt){
             clearInterval(int);
-            attachdebug("detected stopping", blogstate, cnt, blogloadcnt);
+            // attachdebug("detected stopping", blogstate, cnt, blogloadcnt);
             setTimeout(() => {
                 if(cnt !== blogloadcnt) return;
                 eid("blog-loading")?.remove();

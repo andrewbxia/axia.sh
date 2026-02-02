@@ -551,3 +551,26 @@ function tohsl(cssColor, components = false){
     }
     return `hsl(${h}, ${s}%, ${l}%${a === 1 ? '' : `, ${a}`})`;
 }
+
+function dateago(date, comp = new Date(), minlimit = "year"){
+    const units = {
+        year: 365 * 24 * 60 * 60 * 1000,
+        month: 30 * 24 * 60 * 60 * 1000,
+        week: 7 * 24 * 60 * 60 * 1000,
+        day: 24 * 60 * 60 * 1000,
+        hour: 60 * 60 * 1000,
+        minute: 60 * 1000,
+        second: 1000
+    };
+    const unitidxs = ["year", "month", "week", "day", "hour", "minute", "second"]
+    if(!units[minlimit]){
+        minlimit = "year";
+    }
+    const diff = comp - date;
+    let idx = 0;
+    while(idx < unitidxs.length - 1 && diff < units[unitidxs[idx]]){
+        idx++;
+    }
+    idx = min(idx, unitidxs.indexOf(minlimit));
+    return [diff / units[unitidxs[idx]], unitidxs[idx]];
+}

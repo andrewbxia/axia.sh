@@ -1,5 +1,6 @@
 "use strict";
 // attachdebug("hi");
+getstatus();
 
 // hi debugger if its saturday for you rn u get a cookie
 // i explicitly state where in this code chatgpt was used n stuffies
@@ -114,6 +115,21 @@ function playbsplash() {
 setTimeout(() => {
     playbsplash();
 }, randint(7000,3000));
+
+const isay = eid("status");
+async function setstatus(){
+    const status = await getstatus();
+    const info = mk("span", {style: "display: inline-block;"});
+    app(info, mktxt("h3", status.title));
+    // app(info, p(status.))j
+
+    const statustxt = p(status.status);
+
+    isay.innerHTML = "";
+    appmany(isay, [info, statustxt]);
+}
+
+
 
 
 function togglewcb(){
