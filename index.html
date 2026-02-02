@@ -310,7 +310,12 @@
                     <div class="speech-bubble delay-cover">
                         <div class="bubble-cover"></div>
                     </div>
-
+                    <script>
+                        eq(".speech-bubble>.bubble-shade").innerHTML = 
+                            eq(".speech-bubble>.bubble").innerHTML;
+                        eq(" .delay-cover > .bubble-cover").style.setProperty("--c-height", `${eq(".speech-bubble>.bubble").offsetHeight * .5}px`);
+                    // attachdebug(eq(" .delay-cover > .bubble-cover").style.getPropertyValue("--c-height"));
+                   </script>
                 
 
                 </div>

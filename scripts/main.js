@@ -1,5 +1,5 @@
 "use strict";
-attachdebug("hi");
+// attachdebug("hi");
 
 // hi debugger if its saturday for you rn u get a cookie
 // i explicitly state where in this code chatgpt was used n stuffies
@@ -200,7 +200,8 @@ const artzinfo = [
     )} and liked it a lot! ${linkhtml("https://joeylent.dev/", 
         "Joey")} told me to add the (poorly drawn) blahaj lol`],
     ["IMG_3150.webp", `scuffed yveltal planner doodle ! !`],
-    ["IMG_3151.webp", `other scuffed planner doodle`]
+    ["IMG_3151.webp", `other scuffed planner doodle`],
+    ["IMG_3385.webp", `random physics doodle (i dont smoke irl)`],
 
     // "IMG_.jpg",
     // "IMG_.jpg",

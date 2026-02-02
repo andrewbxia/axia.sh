@@ -54,10 +54,14 @@ a{
             /* width: 100%; */
             #abt-me{
                 #i-say{
-                    margin-top: 3em;
+                    margin-top: 5.5em;
                     --width: 325px;
                     font-size: 0.8em;
                     >.speech-bubble{
+                        >div{
+                            padding: 1em .5em;
+                            padding-bottom: .25em;
+                        }
                         /* --bubble-h: 5em; */
                     }
                 }
@@ -431,7 +435,8 @@ a{
         perspective: 25em;
         --offset: calc(0.08 * var(--width));
         --bubble-w: 17em;
-        --bubble-h: 4.5em;    
+        /* --bubble-h: 4.5em; */
+        --bubble-h: auto;
         /* modified ver. of https://codepen.io/thebabydino/pen/DmVqBM */
         >.speech-bubble{
             transform-origin: 0% 500px;
@@ -451,22 +456,25 @@ a{
                 position: absolute;
                 bottom: calc(-0.7 * var(--height));
                 left: calc(0.5 * var(--width));
-                padding: 1em;
+                padding: 1em 1.5em;
+                padding-bottom: .5em;
                 width: var(--bubble-w);
                 height: var(--bubble-h);
                 transform: rotate(-4deg) rotateY(-15deg);
                 z-index: 1;
             }
-            >.bubble-cover{
+            >div.bubble-cover{
+                --c-width: 33%;
+                --c-height: 3em;
                 &::before{
                     position: absolute;
                     content: '';
-                    --width: 33%;
-                    --height: 50%;
-                    width: var(--width);
-                    height: var(--height);
-                    bottom: calc(-0.33 * var(--height));
-                    right: calc(-0.4 * var(--width));
+                    /* --c-height: 50%; */
+                    /* --c-height: 3em; */
+                    width: var(--c-width);
+                    height: var(--c-height);
+                    bottom: calc(-0.33 * var(--c-height));
+                    right: calc(-0.4 * var(--c-width));
                     background-color: rgba(var(--theme-dark-vals), 0.5);
                 }
             }
@@ -495,6 +503,7 @@ a{
                 }
             }
             >.bubble-shade{
+                color: transparent;
                 &::before, &::after {
                     position: absolute;
                     /* z-index: -1; */
