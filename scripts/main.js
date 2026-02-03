@@ -234,6 +234,7 @@ const dirs = Array.from({length: numImages}, (_, i) => `side-${i}`);
 
 // Generate position offsets for animation delay
 // Creates a pattern that staggers the animation timing
+// For cnt=8: produces [0, 4, 1, 5, 2, 6, 3, 7] - alternates between first and second half
 function generateposs(cnt){
     const poss = [];
     const half = Math.floor(cnt / 2);
@@ -284,11 +285,11 @@ async function artzurl(idx){
     // Generate dynamic CSS for positioning based on number of images
     let positionCSS = "";
     const angleStep = 360 / numImages;
-    const radius = "var(--size)"; // Use CSS variable for radius
+    // Keep as CSS variable string so it can be dynamically adjusted by the stylesheet
+    const radius = "var(--size)"; 
     
     for(let i = 0; i < numImages; i++){
         const angle = i * angleStep;
-        const radians = angle * Math.PI / 180;
         
         // Calculate position using polar coordinates
         // For a regular polygon, we rotate around Y axis and translate in Z
