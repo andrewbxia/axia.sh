@@ -386,7 +386,7 @@ a{
     font-family: inherit !important;
 }
 
-#main{
+main{
     /* background-image: url('../assets/imgs/thing.png');
     background-size: cover; */
     --bg-opacity: 0.7;

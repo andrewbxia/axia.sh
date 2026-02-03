@@ -279,7 +279,7 @@ if (params.has("b-edit")){
     // eid(mainid).innerHTML = editorhtml + eid(mainid).innerHTML;
     // console.log(eid(mainid).innerHTML);
     eid("page-left").innerHTML = editorhtml;
-    eqa("#main, #page-left, #page-right, #page, #demark-bar, .track, #cd-player")
+    eqa("main, #page-left, #page-right, #page, #demark-bar, .track, #cd-player")
         .forEach((el) => el.classList.add("editing"));
     slider = eid("slider");
     slider.addEventListener("mousedown", (event) => {

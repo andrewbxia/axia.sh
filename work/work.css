@@ -7,7 +7,7 @@ body{
     height: 100vh;
 }
 
-#main{
+main{
     pointer-events:none;
     transform-style: preserve-3d;
     /* perspective: 1500px; set in html */
