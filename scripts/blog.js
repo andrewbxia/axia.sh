@@ -46,13 +46,16 @@ function generatepost(post){
     const postt = app(mk("h2", {class: "post-title"}), link(`?post=${id}`, title, "_self"));
     app(posth, postt);
     app(posth, mktxt("h3", desc, {class: "post-subtitle"}));
-    const misc = mk("span", {class: "post-misc"});
+    const misc = div({class: "post-misc"});
 
     const dayms = 1000*60*60*24;
     const hasedited = (created.getTime() + dayms / 2) < edited.getTime();
-    const datestr = created.toDateString() + (hasedited ? ` (${edited.toDateString()})` : "");
-    appmany(misc, 
-        [p(datestr), p(tags.join(" · "))]
+    const dates = appmany(span(), [
+        p(created.toDateString(), {title: "written date"}),
+        hasedited ? p(` (${edited.toDateString()})`, {title: "edited date"}) : null,
+    ]);
+    appmany(misc, [
+        dates, p(tags.join(" · "))]
     );
 
     postc.querySelectorAll("img").forEach(img => {
@@ -65,8 +68,8 @@ function generatepost(post){
     
     
     const wordcount = postel.innerText.split(" ").length; // lazy but gets the job done heheheheheh
-    const postwc = mktxt("h6", `<<--|  ~${wordcount}±${(1-abs(Math.sin(wordcount)))
-        .toFixed(randint(2,2))}-ish words  |-->>`, {class: "post-wordcount"});
+    const postwc = mktxt("h6", `<<--|  ~${wordcount}±${(1 - abs(sin(wordcount)))
+        .toFixed(randint(2, 2))}-ish words  |-->>`, {class: "post-wordcount"});
     appnest(posth, misc, postwc)
     
     return postel;

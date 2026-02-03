@@ -113,7 +113,7 @@ const log10 = (a) => Math.log10(a);
 const logn = (a, base) => log2(a) / log2(base);
 const atana = (ratio) => {
     ratio = clamp(ratio, -1, 1);
-    pi*ratio/4 - ratio * (abs(ratio) - 1) * (.2447 + .0663 * abs(ratio))
+    return pi*ratio/4 - ratio * (abs(ratio) - 1) * (.2447 + .0663 * abs(ratio))
 };
 const atan2a = (x, y) => {
     // return Math.atan2(y, x);
@@ -277,7 +277,7 @@ function mk(type, attr = {}){
     }
     return el;
 }
-function mktxt(type, txt, attr = {}, explicit = false){ /* explicitly set as inner text */
+function mktxt(type = "p", txt = "", attr = {}, explicit = false){ /* explicitly set as inner text */
     if(typeof attr === "boolean"){
         explicit = attr;
         attr = {};
@@ -387,42 +387,34 @@ const styling = (sty) => {
     return st;
 }
 
-const getstylesheets = () => {
-    let str = ``;
-    eqa("style").forEach(st => {
-        str += st.innerHTML;
-    });
-    return str;
-    // --border variable on my website got overridden since im using 
-    // this on my crappy school issued chromebok where there are 
-    // literally 9 spyware extensions on this thing, anyways the very very
-    // very smart IT people who put stylelint tailwind classes on this
-    // did a very good job at overriding my --border variable 
-    // had to make this function since they disabled inspect element
-    // ugh
-}
-
+// elements 
 const img = (src, attr = {}) => mk("img", {src, ...attr});
 const imghtml = (src) => `<img src="${src}" />`;
-const p = (txt, attr = {}) => mktxt("p", txt, attr);
-const li = (txt) => mktxt("li", txt);
+// text & header elements
+const h_n = (n = 1, txt, attr = {}) => mktxt(`h${n}`, txt, attr); //, true);
+// i could do h1=(...args)=>h_n(1,...args) but i dont get parameter hints thta way
+const h1 = (txt, attr = {}) => h_n(1, txt, attr);
+const h2 = (txt, attr = {}) => h_n(2, txt, attr);
+const h3 = (txt, attr = {}) => h_n(3, txt, attr);
+const h4 = (txt, attr = {}) => h_n(4, txt, attr);
+const h5 = (txt, attr = {}) => h_n(5, txt, attr);
+const h6 = (txt, attr = {}) => h_n(6, txt, attr);
 
+const p = (txt, attr = {}, explicit) => mktxt("p", txt, attr, explicit);
+const li = (txt, attr = {}) => mktxt("li", txt, attr);
+const span = (txt, attr = {style: "display: inline"}) => mktxt("span", txt, attr);
 
-// header & footer templates
-const component = (html, attr = {}) => 
-    html.replace(/{{(.*?)}}/g, (match, key) => {
-        return key in attr ? attr[key] : match;});
+const fieldset = (txt, legend, attr = {}) => appmany(mk("fieldset", attr), [
+    mktxt("legend", legend, 
+        {style: "text-decoration:underline; font-variation-settings: 'wght' 700;"}),
+    mktxt("p", txt)
+]);
 
-const header = component(``, {});
-const footer = component(``, {});
+// organize elemnets
+const div = (attr = {}) => mk("div", attr);
 
-function putheader(){
-    document.body.insertAdjacentHTML("afterbegin", header);
-    // any scripts that need to be run insert script elements here
-}
-function putfooter(){
-    document.body.insertAdjacentHTML("beforeend", footer);
-}
+//input elements
+const button = (txt, onclick = nofunc, attr = {}) => mktxt("button", txt, {onclick, ...attr}, true);
 
 
 // things to do when thing loads or some thing

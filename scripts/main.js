@@ -116,18 +116,28 @@ setTimeout(() => {
 }, randint(7000,3000));
 
 const isay = eid("status");
+function statusshade(){
+    const shade = eq(".speech-bubble>.bubble-shade");
+    const bubble = eq(".speech-bubble>.bubble");
+    const cover = eq(" .delay-cover > .bubble-cover");
+    shade.innerHTML = bubble.innerHTML;
+    cover.style.setProperty("--c-height", `${bubble.offsetHeight * .5}px`);
+}
+
 async function setstatus(){
     const status = await getstatus();
     const daysago = dateago(new Date(status.date), "day", 2);
-    const info = mk("span", {style: "display: inline-block;"});
-    app(info, mktxt("h3", `___ ${status.title} ___`));
+    const info = div();
+    app(info, h3(`___ ${status.title} ___`));
     app(info, p(`${fix2num(daysago[0], 1)} ${daysago[1]}s ago...`));
 
     const statustxt = p(status.status);
 
     isay.innerHTML = "";
     appmany(isay, [info, statustxt]);
+    statusshade();
 }
+statusshade();
 setstatus();
 
 
@@ -282,15 +292,15 @@ function trackitem(idx, transition = "none"){
     // if(idx >= artzinfo.length) desc = "index overflow cat!!";
     // else 
     desc = artzinfo[idx % artzinfo.length][1];
-    return app(mk("div",{class: `${dirs[idx % dirs.length]}` }), 
+    return app(div({class: `${dirs[idx % dirs.length]}` }), 
         app(
-            mk("div",
+            div(
                 {class: `${imgprefix}${(idx)} t-img`,
                     style: `animation-delay: calc(${-poss[idx % poss.length]} * var(--spin-speed) / 16 - var(--spin-speed) / 4);`,
             }),
             app(
-                mk("div",{style: `transition: ${transition}`}), 
-                mktxt("p", desc, {class: "t-img-desc"})
+                div({style: `transition: ${transition}`}), 
+                p(desc, {class: "t-img-desc"})
             ))
         );
 }
@@ -346,9 +356,8 @@ function scrolltrack3(event){
 for(const track of track3){
     track.addEventListener("scroll", scrolltrack3);
 }
+
 //todo: maybe make this handle n images instead of 4 with programatic css
-
-
 const lmenu = eid("left-menu");
 const lmenuops = eid("left-menu-options");
 const lmenutime = 750;
