@@ -867,21 +867,6 @@ a{
         width: var(--width);
         aspect-ratio: var(--aspect-ratio);
         transform-style: preserve-3d;
-        &.left{
-            transform: rotateY(-90deg);
-            margin-left: calc(var(--size) * -1);
-        }
-        &.right{
-            transform: rotateY(90deg);
-            margin-left: calc(var(--size) * 1);
-        }
-        &.front{
-            transform: translateZ(var(--size));
-        }
-        &.back{
-            transform: translateZ(calc(var(--size) * -1)) rotateX(180deg) 
-            scale(-1);
-        }
     }
     &.backface>div{
         pointer-events: none;
