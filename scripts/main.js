@@ -225,14 +225,31 @@ const artzinfo = [
 ];
 
 artzinfo.sort(() => chance(2)); // big brain
-const dirs = ["front", "back", "left", "right"];
-const poss = [0, 4, 6, 2, 1, 5, 7, 3];
-const imgprefix = "chich";
 
+// Configuration: number of images per track (can be changed to any value)
+const numImages = 4;
+
+// Generate direction names dynamically
+const dirs = Array.from({length: numImages}, (_, i) => `side-${i}`);
+
+// Generate position offsets for animation delay
+// Creates a pattern that staggers the animation timing
 function generateposs(cnt){
     const poss = [];
+    const half = Math.floor(cnt / 2);
+    for(let i = 0; i < cnt; i++){
+        // Alternate pattern: 0, half, half+1, 1, half+2, 2, etc.
+        if(i % 2 === 0){
+            poss.push(i / 2);
+        } else {
+            poss.push(half + Math.floor(i / 2));
+        }
+    }
     return poss;
 }
+
+const poss = generateposs(numImages * 2);
+const imgprefix = "chich";
 
 let trackimgcss = "", bgurlloaded = 0;
 async function artzurl(idx){
@@ -263,6 +280,26 @@ async function artzurl(idx){
         bgurlloaded++;
     }
     styling(trackimgcss);
+    
+    // Generate dynamic CSS for positioning based on number of images
+    let positionCSS = "";
+    const angleStep = 360 / numImages;
+    const radius = "var(--size)"; // Use CSS variable for radius
+    
+    for(let i = 0; i < numImages; i++){
+        const angle = i * angleStep;
+        const radians = angle * Math.PI / 180;
+        
+        // Calculate position using polar coordinates
+        // For a regular polygon, we rotate around Y axis and translate in Z
+        positionCSS += `
+        .track > div.side-${i} {
+            transform: rotateY(${angle}deg) translateZ(${radius});
+        }\n`;
+    }
+    
+    styling(positionCSS);
+    
     eqa(".t-img").forEach((e) => {
         const bimg = compst(e).backgroundImage;
         const bimgurl = bimg.substring(5, bimg.length - 2);
@@ -346,7 +383,6 @@ function scrolltrack3(event){
 for(const track of track3){
     track.addEventListener("scroll", scrolltrack3);
 }
-//todo: maybe make this handle n images instead of 4 with programatic css
 
 
 const lmenu = eid("left-menu");
