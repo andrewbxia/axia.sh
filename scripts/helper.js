@@ -552,7 +552,31 @@ function tohsl(cssColor, components = false){
     return `hsl(${h}, ${s}%, ${l}%${a === 1 ? '' : `, ${a}`})`;
 }
 
-function dateago(date, comp = new Date(), minlimit = "year"){
+
+/*
+// returns minimum unit that is at least 1, or the unit passed for minlimit
+dateago("week")
+EX: 
+3 months ago -> [12, "week"]
+3 days ago -> [3, "day"]
+
+dateago("day")
+EX:
+3 months ago -> [90, "day"]
+3 days ago -> [3, "day"]
+3 hours ago -> [3, "hour"]
+*/
+
+function dateago(date, minlimit = "year", multlimit = 1, comp = new Date()){
+    if(!(date instanceof Date)){
+        err("arg 1 is not a date");
+        return [-1, "year"];
+    }
+    if(!(comp instanceof Date)) comp = new Date();
+    if(date > comp){
+        darn("dates in the future, swapping");
+        [date, comp] = [comp, date];
+    }
     const units = {
         year: 365 * 24 * 60 * 60 * 1000,
         month: 30 * 24 * 60 * 60 * 1000,
@@ -562,15 +586,16 @@ function dateago(date, comp = new Date(), minlimit = "year"){
         minute: 60 * 1000,
         second: 1000
     };
-    const unitidxs = ["year", "month", "week", "day", "hour", "minute", "second"]
+    const unitidxs = Object.keys(units);
     if(!units[minlimit]){
         minlimit = "year";
     }
     const diff = comp - date;
-    let idx = 0;
-    while(idx < unitidxs.length - 1 && diff < units[unitidxs[idx]]){
+    let idx = 0, passedlimit = unitidxs[0] === minlimit;
+    while(idx < unitidxs.length - 1 && (!passedlimit || diff < multlimit * units[unitidxs[idx]])){
         idx++;
+        if(unitidxs[idx] === minlimit) passedlimit = true;
+        // i swear someones gonna counsel me on binary search
     }
-    idx = min(idx, unitidxs.indexOf(minlimit));
     return [diff / units[unitidxs[idx]], unitidxs[idx]];
 }

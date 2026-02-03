@@ -1,6 +1,5 @@
 "use strict";
 // attachdebug("hi");
-getstatus();
 
 // hi debugger if its saturday for you rn u get a cookie
 // i explicitly state where in this code chatgpt was used n stuffies
@@ -119,17 +118,17 @@ setTimeout(() => {
 const isay = eid("status");
 async function setstatus(){
     const status = await getstatus();
+    const daysago = dateago(new Date(status.date), "day", 2);
     const info = mk("span", {style: "display: inline-block;"});
-    app(info, mktxt("h3", status.title));
-    // app(info, p(status.))j
+    app(info, mktxt("h3", `___ ${status.title} ___`));
+    app(info, p(`${fix2num(daysago[0], 1)} ${daysago[1]}s ago...`));
 
     const statustxt = p(status.status);
 
     isay.innerHTML = "";
     appmany(isay, [info, statustxt]);
 }
-
-
+setstatus();
 
 
 function togglewcb(){
