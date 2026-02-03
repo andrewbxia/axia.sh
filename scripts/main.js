@@ -19,7 +19,7 @@ document.addEventListener("visitorstats", () => {
         ls.rm("lastvisit");
     }
 });
-assert(eq("main").length <= 1, "more than 1 main tag thingy!");
+assert(eqa("main").length <= 1, "more than 1 main tag thingy!");
 // attachdebug(
 //     "fix2str",
 //     benchmark(fix2str, rand, 1000),
