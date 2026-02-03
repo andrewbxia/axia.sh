@@ -216,7 +216,7 @@ const artzinfo = [
         "Joey")} told me to add the (poorly drawn) blahaj lol`],
     ["IMG_3150.webp", `scuffed yveltal planner doodle ! !`],
     ["IMG_3151.webp", `other scuffed planner doodle`],
-    ["IMG_3385.webp", `random physics doodle (i dont smoke irl)`],
+    ["IMG_3385.webp", `random physics doodle (i dont smoke irl dont worry)`],
 
     // "IMG_.jpg",
     // "IMG_.jpg",
