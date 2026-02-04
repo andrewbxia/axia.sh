@@ -454,7 +454,7 @@ const resetfitcalc = () => {
 }
 
 const resetfft = () => {
-    const then = perf.now();
+    const then = perf.now;
     const M = strokeidxs[cutoffidx]; // # of sampels
     const z = [];
     const N = nextpow2(M);
@@ -525,7 +525,7 @@ const resetfft = () => {
     // const acc = 2 * (diffs.mag + 1) / (pow(diffs.mag + 1, 2) + 1);
     // attachdebug(acc, diffs.toString(), diffs.mag, K)
     // eid("fit").innerText = `fit: ${(100 * acc).toFixed(2)}%`;
-    attachdebug(`FFT calc time: ${((perf.now() - then)).toFixed(2)} ms`);
+    attachdebug(`FFT calc time: ${((perf.now - then)).toFixed(2)} ms`);
 };
 resetfft();
 
@@ -537,7 +537,7 @@ let ctxrimg = null;
 let ctxiimg = null;
 
 
-let prevt = perf.now();
+let prevt = perf.now;
 function draw(){
     const ctx = fft.getContext("2d", {willReadFrequently: true});
     const ctxr = fftr.getContext("2d", {willReadFrequently: true});
@@ -686,8 +686,8 @@ function draw(){
     }
 
 
-    const t = (perf.now() - prevt);
-    prevt = perf.now();
+    const t = (perf.now - prevt);
+    prevt = perf.now;
     // points per second
     const speed = 1000 / ptps * strokeidxs[cutoffidx];
     phase += t * 2 * pi / speed;

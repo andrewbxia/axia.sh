@@ -64,13 +64,13 @@ function beaut(){
 
 function savestatus(){
     if(!saved){
-        eid("save-status").innerText = `saving...(${savelimit - (perf.now() - savemeter.getrecent())}ms)`;
+        eid("save-status").innerText = `saving...(${savelimit - (perf.now - savemeter.getrecent())}ms)`;
     }
-    else if(parseInt(lastsave) > perf.now() - savelimit){
+    else if(parseInt(lastsave) > perf.now - savelimit){
         eid("save-status").innerText = "saved!";
     }
     else{
-        eid("save-status").innerText = `saved! ${((perf.now() - lastsave)/1000).toFixed(2)}s ago`;
+        eid("save-status").innerText = `saved! ${((perf.now - lastsave)/1000).toFixed(2)}s ago`;
     }
 
 }
@@ -82,7 +82,7 @@ const defsavedata = {
 const savedata = localStorage.getItem(savekeyword) ? JSON.parse(localStorage.getItem(savekeyword)) : defsavedata;
 const editmode = {method: "lastsave", id: -1};
 let draftsaveidx = -1;
-let lastsave = perf.now();
+let lastsave = perf.now;
 let writingid = null;
 let editing = false;
 let loadlastsave = false;
@@ -258,7 +258,7 @@ function autosave(){
     // todo: save as json of seperate blog ids and then a save system for drafts (save1, save2, yatta yatta)
     // find way to edit individual article elements
     saved = true;
-    lastsave = perf.now();
+    lastsave = perf.now;
     log(`saved ${lastsave}`);
 }
 if (params.has("b-edit")){

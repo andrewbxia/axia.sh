@@ -30,6 +30,7 @@ assert(eqa("main").length <= 1, "more than 1 main tag thingy!");
 // REJECT CAMEL CASE
 FpsMeter.init();
 KeySetSide.init();
+
 const containerlimiterid = "page";
 ScrollProgress.init(containerlimiterid);
 ThemeSwitch.init(() => {

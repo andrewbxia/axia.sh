@@ -222,7 +222,7 @@ for(const key in audioFiles){
 
 function playKeysound({element = null, manualKeysound = null}) {
     console.log(selectedKeysound)
-    // console.warn(perf.now());
+    // console.warn(perf.now);
     let keysound = manualKeysound || selectedKeysound;
     if(typeof audioFiles[keysound] === "string"){
         keysound = audioFiles[keysound];

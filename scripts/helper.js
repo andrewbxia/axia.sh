@@ -24,7 +24,7 @@ class perf{
     static mark(name = perf.defname){
         performance.mark(name);
     }
-    static now(){
+    static get now(){
         return performance.now();
     }
     static meas(startmark, endmark, measurename = "poop"){ // measure
@@ -37,7 +37,7 @@ class perf{
         if(markidx < 0) markidx += mark.length; // wrap to last idx
         markidx = max(markidx, mark.length - 1);
         if(mark.length > 0){
-            return perf.now() - mark[markidx].startTime;
+            return perf.now - mark[markidx].startTime;
         }
         return 0;
     }
@@ -87,7 +87,7 @@ const brect = (el) => el.getBoundingClientRect();
 const pint = (el, rad = 10) => parseInt(el, rad);
 const poat = (el) => parseFloat(el);
 const log = (...message) => console.log(...message);
-const dlog = (...message) => {if(debug) console.trace(perf.now(), ...message)}; // debug log
+const dlog = (...message) => {if(debug) console.trace(perf.now, ...message)}; // debug log
 const dlert = (...message) => {if(debug) alert(...message)};
 const warn = (...message) => console.warn(...message);
 const darn = (...message) => {if(debug) warn(...message)}; // lmao im keeping darn no dwarn here
@@ -126,6 +126,7 @@ const atan2a = (x, y) => {
 }
 
 const round = (a) => floor(a + 0.5);
+const snap = (num, to = 2) => round(num / to) * to; // snaps to nearest multiple of 'to'
 
 const isnan = isNaN;
 const assert = (condition, msg) => {if(!condition) throw new Error(msg);};
@@ -179,11 +180,11 @@ const fix2num = (num, places = 2) => {
 const frand = (mult = 1, add = 0, places = 2) => fix2num(rand(mult, add), places);
 const benchmark = (func = nofunc, paramfunc = zerofunc, ...params) => {
     const iter = 1000000;
-    const start = perf.now();
+    const start = perf.now;
     for(let i = 0; i < iter; i++){
         func(paramfunc(...params));
     }
-    const end = perf.now();
+    const end = perf.now;
     return (end - start) / 1000;
 }
 
@@ -192,7 +193,7 @@ const params = new URLSearchParams(window.location.search);
 // based off of https://github.com/stephenmathieson/ordinal-number-suffix
 function numsuffix(num, onlysuffix = false){
     const prefix = onlysuffix ? "" : num + "";
-    num %= 100
+    num %= 100;
     return prefix + (floor(num / 10) === 1
       ? 'th'
       : (num % 10 === 1
