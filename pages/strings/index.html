@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>stringed teeth</title>
+    
+    <script src="/scripts/helper.js"></script>
+    <script src="/scripts/helper-classes.js"></script>
+    <script src="/scripts/modules.js"></script>
+    
+    <link rel="stylesheet" href="/styles/theme.css">
+    <!-- <script src="/scripts/helper.js"></script>
+    <script src="/scripts/helper-classes.js"></script>
+    
+    <link rel="stylesheet" href="/styles/theme.css"> -->
+    <link rel="stylesheet" href="./strings.css">
+
+    <script defer src="./strings.js"></script>
+    <style>
+        body, html{
+            width: 100%;
+            height: 100%;
+            max-width: 100%;
+            max-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+        div{
+            outline: 2px dashed red;
+        }
+        main{
+            width: 100%;
+            height: 100%;
+            max-height: 100%;
+            display: flex;
+            flex-direction: row;
+            >*{
+                height: 100%;
+            }
+            overflow-y: hidden;
+        }
+        #left-menu{
+            width: 200px;
+            display: flex;
+            flex-direction: column;
+            >*{
+                width: 100%;
+            }
+
+        }
+        #right-container{
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            >*{
+                width: 100%;
+            }
+        }
+        #top-menu{
+            height: 150px;
+        }
+        canvas#str{
+            flex-grow: 1;
+            image-rendering: pixelated;
+        }
+    </style>
+
+</head>
+<body>
+    <div id="debug" style="pointer-events:none;position:fixed;bottom:0;left:0;color:white"></div>
+    <div id="main">
+        <div id="left-menu"></div>
+        <div id="right-container" class="container">
+            <canvas id="str">
+                canvas element whoops
+            </canvas>
+        </div>
+    </div>
+</body>
+
+</html>
