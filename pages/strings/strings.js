@@ -3,8 +3,8 @@ FpsMeter.init();
 
 
 const bgcolor = "black";
-let mode = "none";
-let start = -1;
+let mode = "none", 
+    pointmode = "normal"; // normal, peg
 const strokes = []; // arr of strokes
 const strokeidxs = [0]; // indices of stroke ENDS
 const pointsize = 2;
@@ -45,10 +45,7 @@ const addpoint = (x, y) => {
     //     return;
     // }
     strokeidxs[cutoffidx] = strokes.length;
-    strokes.push([x - center[0], y - center[1]]);
-}
-const pushstroke = () => {
-   
+    strokes.push([x - center[0], y - center[1], pointmode === "peg" ? true : false]);
 }
 const drawpoint = (x, y, ctx, size = pointsize) =>
     ctx.fillRect(x - size/2, y - size/2, size, size);
@@ -90,9 +87,13 @@ document.onmousemove = (e) => {
 
 
     const rect = brect(strings);
-    const x = snap(e.clientX - rect.left, pointsize);
-    const y = snap(e.clientY - rect.top , pointsize);
+    // const x = snap(e.clientX - rect.left, pointsize);
+    // const y = snap(e.clientY - rect.top , pointsize);
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
     addpoint(x, y);
+    resetstrings();
+    // handlepoints(["add", pointmode, x, y]);
     // resetfft();
 }
 document.onmouseup = (e) => {
@@ -130,20 +131,64 @@ document.addEventListener("touchend", (e) => {
 
 const redo = () => {
     cutoffidx = min(strokeidxs.length - 1, cutoffidx + 1);
+    resetstrings();
     // resetfft();
 }
 const clr = () => {
     cutoffidx = 0;
+    resetstrings();
     // resetfft();
 }
 
 
 const undo = () => {
     cutoffidx = max(0, cutoffidx - 1);
+    resetstrings();
     // resetfft();
+}
+// -----------------
+const pointangles = []; // angle, fromidx, toidx
+
+const strmode = () => {
+    const checkbox = eid("str-mode");
+    const output = checkbox.parentElement.querySelector(".output");
+    pointmode = checkbox.checked ? "peg" : "normal";
+    output.textContent = pointmode;
+}
+strmode();
+
+function resetstrings(){
+    pointangles.length = 0;
+    let prevp = 0;
+    while(prevp < strokeidxs[cutoffidx]){
+        if(strokes[prevp][2]){
+            prevp++;
+            continue;
+        }
+        break;
+    }
+    const firstp = prevp;
+
+    function addangle(fromidx, toidx){
+        const p = strokes[toidx];
+        const angle = atan2(p[0] - strokes[fromidx][0], p[1] - strokes[fromidx][1]);
+        pointangles.push([angle, fromidx, toidx]); // angle, fromidx, toidx
+    }
+
+
+    for(let i = prevp + 1; i < strokeidxs[cutoffidx]; i++){
+        const p = strokes[i];
+        if(!p[2]){
+            addangle(prevp, i);
+            prevp = i;
+        }
+    }
+    if(prevp !== firstp) addangle(prevp, firstp);
+    pointangles.sort((a, b) => a[0] - b[0]);
 }
 
 
+// -----------------
 
 function draw(){
     const ctx = strings.getContext("2d", {willReadFrequently: true});

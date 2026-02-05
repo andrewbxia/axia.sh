@@ -69,14 +69,20 @@
 </head>
 <body>
     <div id="debug" style="pointer-events:none;position:fixed;bottom:0;left:0;color:white"></div>
-    <div id="main">
-        <div id="left-menu"></div>
+    <main>
+        <div id="left-menu">
+            <label for="str-mode">
+                input mode:
+                <input type="checkbox" id="str-mode" oninput="strmode()">
+                <div class="output"></div>
+            </label>
+        </div>
         <div id="right-container" class="container">
             <canvas id="str">
                 canvas element whoops
             </canvas>
         </div>
-    </div>
+    </main>
 </body>
 
 </html>
