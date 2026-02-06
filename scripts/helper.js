@@ -112,7 +112,10 @@ const log2 = (a) => Math.log2(a);
 const log10 = (a) => Math.log10(a);
 const logn = (a, base) => log2(a) / log2(base);
 const atan = (ratio) => {
-    ratio = clamp(ratio, -1000, 1000); // graph this and twiddle clamp
+    return Math.atan(ratio); 
+
+    // below only works for vals btn -1 -> 1
+    ratio = clamp(ratio, -1, 1); // graph this and twiddle clamp
     return pi*ratio/4 - ratio * (abs(ratio) - 1) * (.2447 + .0663 * abs(ratio))
 };
 const atan2 = (x, y) => {

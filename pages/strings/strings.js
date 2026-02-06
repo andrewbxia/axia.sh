@@ -5,7 +5,8 @@ FpsMeter.init();
 const bgcolor = "black";
 let mode = "none", 
     pointmode = "normal"; // normal, peg
-const strokes = []; // arr of strokes
+const strokes = [[], []]; // norms, pegs
+const peg = 0, norm = 1;
 const strokeidxs = [0]; // indices of stroke ENDS
 const pointsize = 2;
 const pointhalf = pointsize / 2;
@@ -16,6 +17,7 @@ let cutoffidx = 0; // basic undo/redo functionality
 
 
 const prunestrokes = () => {
+    return;
     while(strokeidxs[cutoffidx] < strokes.length){
         strokes.pop();
     }
@@ -44,8 +46,9 @@ const addpoint = (x, y) => {
     //     log("duplicate point ignored:", x, y);
     //     return;
     // }
-    strokeidxs[cutoffidx] = strokes.length;
-    strokes.push([x - center[0], y - center[1], pointmode === "peg" ? true : false]);
+    // strokeidxs[cutoffidx] = strokes.length;
+    const idx = pointmode === "peg" ? peg : norm;
+    strokes[idx].push([x - center[0], y - center[1], pointmode === "peg" ? true : false]);
 }
 const drawpoint = (x, y, ctx, size = pointsize) =>
     ctx.fillRect(x - size/2, y - size/2, size, size);
@@ -160,24 +163,17 @@ strmode();
 function resetstrings(){
     pointangles.length = 0;
     let prevp = 0;
-    while(prevp < strokeidxs[cutoffidx]){
-        if(strokes[prevp][2]){
-            prevp++;
-            continue;
-        }
-        break;
-    }
     const firstp = prevp;
 
     function addangle(fromidx, toidx){
-        const p = strokes[toidx];
-        const angle = atan2(p[0] - strokes[fromidx][0], p[1] - strokes[fromidx][1]);
+        const p = strokes[peg][toidx];
+        const angle = atan2(p[peg] - strokes[peg][fromidx][0], p[1] - strokes[peg][fromidx][1]);
         pointangles.push([angle, fromidx, toidx]); // angle, fromidx, toidx
     }
 
 
     for(let i = prevp + 1; i < strokeidxs[cutoffidx]; i++){
-        const p = strokes[i];
+        const p = strokes[norm][i];
         if(!p[2]){
             addangle(prevp, i);
             prevp = i;
@@ -197,9 +193,13 @@ function draw(){
     ctx.fillStyle = bgcolor;
     ctx.fillRect(0, 0, rect.width, rect.height);
     ctx.fillStyle = pointcolor;
-    for(let i = 0; i < strokeidxs[cutoffidx]; i++){
-        const p = strokes[i];
+    for(let type = 0; type < strokes.length; type++){
+        for(let i = 0; i < strokes[type].length; i++){
+        const p = strokes[type][i];
+        if(p[2]) ctx.fillStyle = "red";
+            else ctx.fillStyle = pointcolor;
         drawpoint(p[0] + center[0], p[1] + center[1], ctx);
+    }
     }
 
     requestAnimationFrame(draw);
