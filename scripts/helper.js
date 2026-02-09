@@ -162,6 +162,11 @@ function min(...args){
     }
     return minn;
 }
+function absmax(a, mini = a){
+    const absmin = abs(mini);
+    const absmax = abs(a);
+    return absmax > absmin ? a : mini;
+}
 const clamp = (val, mini = val, maxi = val) => min(max(val, mini), maxi);
 const floor = (a) => Math.floor(a);
 const ceil = (a) => Math.ceil(a);

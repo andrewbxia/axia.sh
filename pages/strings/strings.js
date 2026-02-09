@@ -11,6 +11,7 @@ const strokeidxs = [0]; // indices of stroke ENDS
 const pointsize = 2;
 const pointhalf = pointsize / 2;
 const pointcolor = "white";
+const distthresh = 20, anglethresh = 15;
 const center = [0, 0];
 
 let cutoffidx = 0; // basic undo/redo functionality
@@ -139,7 +140,9 @@ const redo = () => {
 }
 const clr = () => {
     cutoffidx = 0;
-    resetstrings();
+    strokes[peg].length = 0;
+    strokes[norm].length = 0;
+    // resetstrings();
     // resetfft();
 }
 
@@ -170,6 +173,14 @@ function resetstrings(){
         const angle = atan2(p[peg] - strokes[peg][fromidx][0], p[1] - strokes[peg][fromidx][1]);
         pointangles.push([angle, fromidx, toidx]); // angle, fromidx, toidx
     }
+    function dist(point, p1, p2){
+        const a = -(p2[1] - p1[1]) / (p2[0] - p1[0]);
+        const b = 1;
+        const c = a * p1[1] - p1[0];
+        return abs(
+            a * point[0] + b * point[1] + c
+        ) / sqrt(a * a + b * b);
+    }
 
 
     for(let i = prevp + 1; i < strokeidxs[cutoffidx]; i++){
@@ -181,6 +192,8 @@ function resetstrings(){
     }
     if(prevp !== firstp) addangle(prevp, firstp);
     pointangles.sort((a, b) => a[0] - b[0]);
+    // sort points by x coord, y coord
+    // for each point, bin search closest point within dist
 }
 
 
