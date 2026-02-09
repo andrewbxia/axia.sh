@@ -173,6 +173,7 @@ function resetstrings(){
         const angle = atan2(p[peg] - strokes[peg][fromidx][0], p[1] - strokes[peg][fromidx][1]);
         pointangles.push([angle, fromidx, toidx]); // angle, fromidx, toidx
     }
+    
     function dist(point, p1, p2){
         const a = -(p2[1] - p1[1]) / (p2[0] - p1[0]);
         const b = 1;
@@ -181,6 +182,7 @@ function resetstrings(){
             a * point[0] + b * point[1] + c
         ) / sqrt(a * a + b * b);
     }
+
 
 
     for(let i = prevp + 1; i < strokeidxs[cutoffidx]; i++){
