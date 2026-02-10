@@ -306,6 +306,21 @@ class WeightedChoices{
         this.#choices.push(choice);
         this.#weights.push(weight + (this.#weights.at(-1) || 0));
     }
+    remove(choice){
+        let idx = 0;
+        while(idx < this.#choices.length && this.#choices[idx] !== choice){
+            idx++;
+        }
+        if(idx === this.#choices.length) return false;
+        const weight = this.#weights[idx] - (this.#weights[idx - 1] || 0);
+        this.#choices.splice(idx, 1);
+        this.#weights.splice(idx, 1);
+        while(idx < this.#choices.length){
+            this.#weights[idx] -= weight;
+            idx++;
+        }
+        return true;
+    }
 
     constructor(choices, weights){
         if(weights === undefined){
