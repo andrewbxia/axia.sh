@@ -61,7 +61,7 @@ a{
                     font-size: 0.8em;
                     >.speech-bubble{
                         >div{
-                            padding: 1em .5em;
+                            padding: 1em .25em;
                             padding-bottom: .25em;
                         }
                         /* --bubble-h: 5em; */
@@ -460,7 +460,7 @@ main{
                 left: calc(0.5 * var(--width));
                 padding: 1em 1.5em;
                 padding-bottom: .5em;
-                width: var(--bubble-w);
+                min-width: var(--bubble-w);
                 height: var(--bubble-h);
                 transform: rotate(-4deg) rotateY(-15deg);
                 z-index: 1;
@@ -469,7 +469,7 @@ main{
                 --c-width: 33%;
                 --c-height: 3em;
                 &::before{
-                    position: absolute;
+                    position:absolute;
                     content: '';
                     /* --c-height: 50%; */
                     /* --c-height: 3em; */
@@ -480,9 +480,12 @@ main{
                     background-color: rgba(var(--theme-dark-vals), 0.5);
                 }
             }
-            >.bubble{
+            >#status.bubble{
                 background: var(--theme-light-other);
                 text-align: center;
+                >p{
+                    text-wrap-mode: wrap;
+                }
                 &::before, &::after {
                     position: absolute;
                     /* z-index: -1; */
