@@ -79,6 +79,17 @@
             <label for="clear">
                 <button id="clear" onclick="clr()">clear</button>
             </label>
+            <label for="norm-vis">
+                show norms:
+                <input type="checkbox" id="norm-vis" oninput="setnormvis()">
+            </label>
+            <label for="peg-vis">
+                show pegs:
+                <input type="checkbox" id="peg-vis" oninput="setpegvis()">
+            </label>
+            <label for="extend-lines">
+                extend lines:
+                <input type="checkbox" id="extend-lines" oninput="extendlines()">
             </label>
         </div>
         <div id="right-container" class="container">

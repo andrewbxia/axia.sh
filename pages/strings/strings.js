@@ -4,14 +4,16 @@ FpsMeter.init();
 
 const bgcolor = "black";
 let mode = "none", 
-    pointmode = "normal"; // normal, peg
+    pointmode = 0; // normal, peg
+let normvis = 1, pegvis = 1,
+    extlines = 0;
 const strokes = [[], []]; // norms, pegs
 const peg = 0, norm = 1;
 const strokeidxs = [0]; // indices of stroke ENDS
 const pointsize = 2;
 const pointhalf = pointsize / 2;
 const pointcolor = "white";
-const distthresh = 2, anglethresh = 15 * deg2rad, nodeconnections = 3;
+const distthresh = 5, anglethresh = 15 * deg2rad, nodeconnections = 3;
 const center = [0, 0];
 
 let cutoffidx = 0; // basic undo/redo functionality
@@ -48,8 +50,7 @@ const addpoint = (x, y) => {
     //     return;
     // }
     // strokeidxs[cutoffidx] = strokes.length;
-    const idx = pointmode === "peg" ? peg : norm;
-    strokes[idx].push([x - center[0], y - center[1], connectedto = -1]);
+    strokes[pointmode].push([x - center[0], y - center[1], []]);
 }
 const drawpoint = (x, y, ctx, size = pointsize) =>
     ctx.fillRect(x - size/2, y - size/2, size, size);
@@ -140,8 +141,9 @@ const redo = () => {
 }
 const clr = () => {
     cutoffidx = 0;
-    strokes[peg].length = 0;
-    strokes[norm].length = 0;
+    strokes[pointmode].length = 0;
+    // strokes[peg].length = 0;
+    // strokes[norm].length = 0;
     // resetstrings();
     // resetfft();
 }
@@ -158,36 +160,63 @@ const pointangles = []; // angle, fromidx, toidx
 const strmode = () => {
     const checkbox = eid("str-mode");
     const output = checkbox.parentElement.querySelector(".output");
-    pointmode = checkbox.checked ? "peg" : "normal";
-    output.textContent = pointmode;
+    pointmode = checkbox.checked ? peg : norm;
+    output.textContent = pointmode ? "peg" : "norm";
 }
+
 strmode();
+
+const setnormvis = () => {
+    const checkbox = eid("norm-vis");
+    normvis = checkbox.checked;
+}
+const setpegvis = () => {
+    const checkbox = eid("peg-vis");
+    pegvis = checkbox.checked;
+}
+const extendlines = () => {
+    const checkbox = eid("extend-lines");
+    extlines = checkbox.checked;
+}
+
+
+function calcangle(type, fromidx, toidx){
+    const p = strokes[type][toidx];
+    return atan2(p[0] - strokes[type][fromidx][0], (p[1] - strokes[type][fromidx][1]));
+}
+
+function dist(p1, p2){
+    return sqrt((p1[0] - p2[0]) ** 2 + (p1[1] - p2[1]) ** 2);
+}
+
+function ptlinedist(point, p1, p2){
+    const a = 1;
+    const b = -(p2[0] - p1[0]) / (p2[1] - p1[1]);
+    const c = -b * p1[1] - p1[0];
+    // -b/a*y - x
+
+    const distpts = min(dist(point, p1), dist(point, p2));
+
+    if(distpts < dist(p1, p2)) return abs(
+        a * point[0] + b * point[1] + c
+    ) / sqrt(a * a + b * b);
+    return distpts;
+
+
+    return max(abs(
+        a * point[0] + b * point[1] + c
+    ) / sqrt(a * a + b * b), distpts);
+}
 
 function resetstrings(){
     pointangles.length = 0; // arr of norm points angles
 
-    function calcangle(type, fromidx, toidx){
-        const p = strokes[type][toidx];
-        return atan2(p[0] - strokes[type][fromidx][0], (p[1] - strokes[type][fromidx][1]));
-    }
+    
     function addangle(fromidx, toidx){
         const p = strokes[norm][toidx];
         const angle = calcangle(norm, fromidx, toidx);
         pointangles.push([angle, fromidx, toidx]); // angle, fromidx, toidx
     }
-    
-    function dist(point, p1, p2){
-        const a = -(p2[1] - p1[1]) / (p2[0] - p1[0]);
-        const b = 1;
-        const c = a * p1[1] - p1[0];
-        return max(abs(
-            a * point[0] + b * point[1] + c
-        ) / sqrt(a * a + b * b), abs(
-            sqrt((point[0] - p1[0]) ** 2 + (point[1] - p1[1]) ** 2),
-            sqrt((point[0] - p2[0]) ** 2 + (point[1] - p2[1]) ** 2)
-        ));
-    }
-
 
     for(let i = 1; i < strokes[norm].length; i++){
         addangle(i - 1, i);
@@ -197,7 +226,7 @@ function resetstrings(){
     pointangles.sort((a, b) => a[0] - b[0]);
 
     
-    for(let i = 0; i < strokes[peg].length; i++) strokes[peg][i][2] = -1; // reset connections
+    for(let i = 0; i < strokes[peg].length; i++) strokes[peg][i][2] = []; // reset connections
 
     for(let i = 0; i < strokes[peg].length; i++){
         const pi = strokes[peg][i];
@@ -213,11 +242,13 @@ function resetstrings(){
             }
             while(la < pointangles.length && pointangles[la][0] < ang + anglethresh){
                 const normidx = pointangles[la][2];
-                const distance = dist(strokes[norm][normidx], pi, pj);
+                const distance = ptlinedist(strokes[norm][normidx], pi, pj);
                 if(distance < distthresh){
-                    // connect peg i and j with norm normidx
-                    // pi[2] = j;
-                    pj[2] = i;
+                        // connect peg i and j with norm normidx
+                    if(pi[2].length < nodeconnections)
+                        pi[2].push(j);
+                    break;
+                    // pj[2] = i;
                 }
                 la++;
             }
@@ -240,17 +271,39 @@ function draw(){
     ctx.fillRect(0, 0, rect.width, rect.height);
     ctx.fillStyle = pointcolor;
     for(let type = 0; type < strokes.length; type++){
+        if(type === peg && !pegvis) continue;
+        if(type === norm && !normvis) continue;
+
         for(let i = 0; i < strokes[type].length; i++){
             const p = strokes[type][i];
-            if(peg === type) {
-                if(p[2] !== -1){
+            if(type === peg) {
+                if(p[2].length > 0){
                     ctx.fillStyle = "blue";
                     ctx.strokeStyle = "blue";
-                    ctx.beginPath();
-                    ctx.moveTo(p[0] + center[0], p[1] + center[1]);
-                    const connectedP = strokes[peg][p[2]];
-                    ctx.lineTo(connectedP[0] + center[0], connectedP[1] + center[1]);
-                    ctx.stroke();
+                    for(let j = 0; j < p[2].length; j++){
+
+                        ctx.beginPath();
+                        let startpos = [p[0] + center[0], p[1] + center[1]];
+                        let endpos = [strokes[peg][p[2][j]][0] + center[0], strokes[peg][p[2][j]][1] + center[1]];
+                        if(extlines){
+                            // quick thing by chatgpt im gonna make this my own later since this is end of classperiod
+                            const dir = [endpos[0] - startpos[0], endpos[1] - startpos[1]];
+                            const len = sqrt(dir[0] ** 2 + dir[1] ** 2);
+                            dir[0] /= len;
+                            dir[1] /= len;
+                            startpos[0] -= dir[0] * 1000;
+                            startpos[1] -= dir[1] * 1000;
+
+                            endpos[0] += dir[0] * 1000;
+                            endpos[1] += dir[1] * 1000;
+                        }
+
+
+                        ctx.moveTo(startpos[0], startpos[1]);
+                        const connectedP = strokes[peg][p[2][j]];
+                        ctx.lineTo(endpos[0], endpos[1]);
+                        ctx.stroke();
+                    }
                 }
             
             
