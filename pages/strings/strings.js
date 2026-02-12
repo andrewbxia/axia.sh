@@ -13,7 +13,7 @@ const strokeidxs = [0]; // indices of stroke ENDS
 const pointsize = 2;
 const pointhalf = pointsize / 2;
 const pointcolor = "white";
-const distthresh = 40 / 2, anglethresh = 10 * deg2rad / 2;
+const distthresh = 4 / 2, anglethresh = 10 * deg2rad / 2;
 let nodeconnections = 30, currmaxconnect = 0;
 const stringalpha = 0.5;
 const center = [0, 0];
