@@ -13,7 +13,7 @@ const strokeidxs = [0]; // indices of stroke ENDS
 const pointsize = 2;
 const pointhalf = pointsize / 2;
 const pointcolor = "white";
-const distthresh = 4 / 2, anglethresh = 10 * deg2rad / 2;
+const distthresh = 40 / 2, anglethresh = 10 * deg2rad / 2;
 let nodeconnections = 30, currmaxconnect = 0;
 const stringalpha = 0.5;
 const center = [0, 0];
@@ -227,9 +227,9 @@ setpretty();
 
 function calcangle(type, fromidx, toidx){
     const p = strokes[type][toidx];
-    return atan2(p[0] - strokes[type][fromidx][0], (p[1] - strokes[type][fromidx][1]));
+    return atan((p[0] - strokes[type][fromidx][0]) / (p[1] - strokes[type][fromidx][1]));
 }
-
+// attachdebug(atan())
 function dist(p1, p2){
     return sqrt((p1[0] - p2[0]) ** 2 + (p1[1] - p2[1]) ** 2);
 }
@@ -303,15 +303,17 @@ function resetstrings(force = false){
                     if(pi[2].size < nodeconnections){
                         pi[2].add(j);
                         currmaxconnect = max(currmaxconnect, pi[2].size);
-                        // break;
+                        break;
                     }
                     else if(pj[2].size < nodeconnections){
                         pj[2].add(i);
                         currmaxconnect = max(currmaxconnect, pj[2].size);
-                        // break;
+                        break;
                     }
                     else{
-                        break; // temp thingy
+                        pj.remove(pj.values().next().value);
+                        pj.add(i);
+                        // break; // temp thingy
                     }
                     // pj[2] = i;
                 }
