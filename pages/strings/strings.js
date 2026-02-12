@@ -13,7 +13,7 @@ const strokeidxs = [0]; // indices of stroke ENDS
 const pointsize = 2;
 const pointhalf = pointsize / 2;
 const pointcolor = "white";
-const distthresh = 5, anglethresh = 15 * deg2rad, nodeconnections = 3;
+const distthresh = 5, anglethresh = 15 * deg2rad, nodeconnections = 100;
 const center = [0, 0];
 
 let cutoffidx = 0; // basic undo/redo functionality
