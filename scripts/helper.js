@@ -3,6 +3,7 @@ const baseurl = window.location.origin;
 const fullurl = baseurl + window.location.pathname;
 const siteurls = ["andrewb.xyz", "axia.sh", "axia.nekoweb.org"];
 const debug = !siteurls.includes(minurl);
+
 const helperjs = true;
 class ls{
     static set(key, value){
@@ -472,6 +473,11 @@ function attachdebug(...messages){
 
 
 // color/extra style funcs
+window.addEventListener("DOMContentLoaded", () => {
+    if(debug && eid("hello-me") != null){
+        eid("hello-me").innerText = "ello~";// hi weirdo
+    }
+});
 
 {
     // make 0.07s in css
