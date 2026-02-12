@@ -13,7 +13,8 @@ const strokeidxs = [0]; // indices of stroke ENDS
 const pointsize = 2;
 const pointhalf = pointsize / 2;
 const pointcolor = "white";
-const distthresh = 5, anglethresh = 15 * deg2rad, nodeconnections = 3;
+const distthresh = 5, anglethresh = 1 * deg2rad, nodeconnections = 30;
+const stringalpha = 0.5;
 const center = [0, 0];
 
 let cutoffidx = 0; // basic undo/redo functionality
@@ -160,8 +161,8 @@ const pointangles = []; // angle, fromidx, toidx
 const strmode = () => {
     const checkbox = eid("str-mode");
     const output = checkbox.parentElement.querySelector(".output");
-    pointmode = checkbox.checked ? peg : norm;
-    output.textContent = pointmode ? "peg" : "norm";
+    pointmode = checkbox.checked ? norm : peg;
+    output.textContent = pointmode ? "norm" : "peg";
 }
 
 strmode();
@@ -194,18 +195,19 @@ function ptlinedist(point, p1, p2){
     const b = -(p2[0] - p1[0]) / (p2[1] - p1[1]);
     const c = -b * p1[1] - p1[0];
     // -b/a*y - x
+    const d12 = dist(p1, p2);
+    const d1 = dist(point, p1), d2 = dist(point, p2);
+    const mindistpts = min(d1, d2), maxdistpts = max(d1, d2);
+    const btn = (d12 < d1 || d12 < d2) && maxdistpts > d12;
 
-    const distpts = min(dist(point, p1), dist(point, p2));
-
-    if(distpts < dist(p1, p2)) return abs(
+    if(maxdistpts < d12 || btn) return abs(
         a * point[0] + b * point[1] + c
     ) / sqrt(a * a + b * b);
-    return distpts;
-
+    return mindistpts;
 
     return max(abs(
         a * point[0] + b * point[1] + c
-    ) / sqrt(a * a + b * b), distpts);
+    ) / sqrt(a * a + b * b), mindistpts);
 }
 
 function resetstrings(){
@@ -222,7 +224,7 @@ function resetstrings(){
         addangle(i - 1, i);
     }
 
-    if(strokes[norm].length > 1) addangle(strokes[norm].length - 1, 0);
+    // if(strokes[norm].length > 1) addangle(strokes[norm].length - 1, 0); // loop back tob egining
     pointangles.sort((a, b) => a[0] - b[0]);
 
     
@@ -245,9 +247,10 @@ function resetstrings(){
                 const distance = ptlinedist(strokes[norm][normidx], pi, pj);
                 if(distance < distthresh){
                         // connect peg i and j with norm normidx
-                    if(pi[2].length < nodeconnections)
+                    if(pi[2].length < nodeconnections){
                         pi[2].push(j);
-                    break;
+                        break;
+                    }
                     // pj[2] = i;
                 }
                 la++;
@@ -271,15 +274,15 @@ function draw(){
     ctx.fillRect(0, 0, rect.width, rect.height);
     ctx.fillStyle = pointcolor;
     for(let type = 0; type < strokes.length; type++){
-        if(type === peg && !pegvis) continue;
-        if(type === norm && !normvis) continue;
 
+        // ctx.fillStyle = "red";
         for(let i = 0; i < strokes[type].length; i++){
             const p = strokes[type][i];
             if(type === peg) {
                 if(p[2].length > 0){
-                    ctx.fillStyle = "blue";
-                    ctx.strokeStyle = "blue";
+
+                    // ctx.strokeStyle = `rgba(0, 0, 255, ${(nodeconnections - p[2].length) / nodeconnections * stringalpha})`;
+                    ctx.strokeStyle = `rgba(0, 0, 255, ${1})`;
                     for(let j = 0; j < p[2].length; j++){
 
                         ctx.beginPath();
@@ -307,9 +310,12 @@ function draw(){
                 }
             
             
-                ctx.fillStyle = "red";
             }
-                else ctx.fillStyle = pointcolor;
+
+            if(type === peg && !pegvis) continue;
+            if(type === norm && !normvis) continue;
+            if(type === peg) ctx.fillStyle = "red";
+            else ctx.fillStyle = pointcolor;
             drawpoint(p[0] + center[0], p[1] + center[1], ctx);
         }
     }
