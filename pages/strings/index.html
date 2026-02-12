@@ -26,8 +26,8 @@
             margin: 0;
             padding: 0;
         }
-        div{
-            outline: 2px dashed red;
+        div, label{
+            outline: 1px dashed red;
         }
         main{
             width: 100%;
@@ -58,7 +58,7 @@
             }
         }
         #top-menu{
-            height: 150px;
+            /* height: 150px; */
         }
         canvas#str{
             flex-grow: 1;
@@ -73,24 +73,49 @@
         <div id="left-menu">
             <label for="str-mode">
                 input mode:
-                <input type="checkbox" id="str-mode" oninput="strmode()">
+                <input type="checkbox" id="str-mode" oninput="strmode()" checked>
                 <div class="output"></div>
+            </label>
+            <label for="strings-start">
+                <button id="strings-start" onclick="resetstrings(true)">let 'er rip</button>
             </label>
             <label for="clear">
                 <button id="clear" onclick="clr()">clear</button>
             </label>
             <label for="norm-vis">
                 show norms:
-                <input type="checkbox" id="norm-vis" oninput="setnormvis()">
+                <input type="checkbox" id="norm-vis" oninput="setnormvis()" checked>
             </label>
             <label for="peg-vis">
                 show pegs:
-                <input type="checkbox" id="peg-vis" oninput="setpegvis()">
+                <input type="checkbox" id="peg-vis" oninput="setpegvis()" checked>
             </label>
             <label for="extend-lines">
                 extend lines:
                 <input type="checkbox" id="extend-lines" oninput="extendlines()">
             </label>
+            <label for="max-node-connect">
+                max node connections:
+                <input type="range" id="max-node-connect" oninput="setnodeconnections()" value="15" min="1" max="100">
+                <div class="output"></div>
+            </label>
+            <div id="max-connections">
+                curr max connections: <span class="output">0</span>
+            </div>
+            <label for="auto-restring">
+                auto-restring when the poingt place is sus:
+                <input type="checkbox" id="auto-restring" oninput="setautorestring()" checked>
+            </label>
+            <label for="pretty-mode">
+                pretty mode (Infinity rendering style):
+                <input type="checkbox" id="pretty-mode" oninput="setpretty()">
+            </label>
+            <div id="msps">
+                ms per restring: <span class="output">0</span>
+            </div>
+            <div>
+                this recalcs ALL points every time rn, so will be slow &colon;p
+            </div>
         </div>
         <div id="right-container" class="container">
             <canvas id="str">

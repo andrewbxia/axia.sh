@@ -157,6 +157,10 @@ class RollingAvg{
         return this.#sum / Math.max(1, this.#q.length);
     }
 
+    get avg(){
+        return this.get();
+    }
+
     #shift(){
         while(this.#q.length > this.#cnt){
             this.#sum -= this.#q.shift();

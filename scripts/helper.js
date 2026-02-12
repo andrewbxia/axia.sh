@@ -3,6 +3,7 @@ const baseurl = window.location.origin;
 const fullurl = baseurl + window.location.pathname;
 const siteurls = ["andrewb.xyz", "axia.sh", "axia.nekoweb.org"];
 const debug = !siteurls.includes(minurl);
+
 const helperjs = true;
 class ls{
     static set(key, value){
@@ -20,8 +21,8 @@ class ls{
     }
 }
 class perf{
-    static defname = "chich";
-    static mark(name = perf.defname){
+    static #defname = "chich";
+    static mark(name = perf.#defname){
         performance.mark(name);
     }
     static get now(){
@@ -32,7 +33,7 @@ class perf{
         attachdebug(`${measurename}: ${m.duration}ms`);
         return m.duration;
     }
-    static diff(markname = perf.defname, markidx = -1){
+    static diff(markname = perf.#defname, markidx = -1){
         const mark = performance.getEntriesByName(markname);
         if(markidx < 0) markidx += mark.length; // wrap to last idx
         markidx = max(markidx, mark.length - 1);
@@ -41,7 +42,7 @@ class perf{
         }
         return 0;
     }
-    static bump(markname = perf.defname){
+    static bump(markname = perf.#defname){
         const diff = perf.diff(markname);
         perf.mark(markname);
         return diff;
@@ -162,14 +163,18 @@ function min(...args){
     }
     return minn;
 }
-function absmax(a, mini = a){
+function absmax(mag, mini = mag){
+    mag = abs(mag);
     const absmin = abs(mini);
-    const absmax = abs(a);
-    return absmax > absmin ? a : mini;
+    const sign = mini >= 0 ? 1 : -1;
+    return (mag > absmin ? mag * sign: mini) ;
 }
+const den = (denominator, prec = 10) => absmax(pow(10, -prec), denominator);
 const clamp = (val, mini = val, maxi = val) => min(max(val, mini), maxi);
 const floor = (a) => Math.floor(a);
+const intfloor = (a) => a | 0; // only works for 32-bitty ints
 const ceil = (a) => Math.ceil(a);
+const sign = (a) => a >= 0 ? 1 : -1; // 0 is pos
 const rand = (mult = 1, add = 0) => Math.random() * mult + add;
 const randint = (mult = 1, add = 0) => Math.floor(Math.random() * (mult + 1)) + add;
 const randarridx = arr => Math.floor(Math.random() * arr.length);
@@ -468,6 +473,11 @@ function attachdebug(...messages){
 
 
 // color/extra style funcs
+window.addEventListener("DOMContentLoaded", () => {
+    if(debug && eid("hello-me") != null){
+        eid("hello-me").innerText = "ello~";// hi weirdo
+    }
+});
 
 {
     // make 0.07s in css
