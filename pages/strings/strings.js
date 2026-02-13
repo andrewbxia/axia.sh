@@ -13,7 +13,7 @@ const strokeidxs = [0]; // indices of stroke ENDS
 const pointsize = 2;
 const pointhalf = pointsize / 2;
 const pointcolor = "white";
-const distthresh = 4 / 2, anglethresh = 10 * deg2rad / 2;
+const distthresh = 4 / 2, anglethresh = 5 * deg2rad / 2;
 let nodeconnections = 30, currmaxconnect = 0;
 const stringalpha = 0.5;
 const center = [0, 0];
@@ -144,7 +144,6 @@ window.addEventListener("resize", () => {
     strings.height = strings.clientHeight
     center[0] = strings.width / 2;
     center[1] = strings.height / 2;
-    attachdebug(strings.height, strings.clientHeight);
     resetstrings();
 });
 
@@ -311,8 +310,8 @@ function resetstrings(force = false){
                         break;
                     }
                     else{
-                        pj.remove(pj.values().next().value);
-                        pj.add(i);
+                        pj[2].delete(pj[2].values().next().value);
+                        pj[2].add(i);
                         // break; // temp thingy
                     }
                     // pj[2] = i;
