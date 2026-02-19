@@ -458,9 +458,9 @@ main{
                 position: absolute;
                 bottom: calc(-0.7 * var(--height));
                 left: calc(0.5 * var(--width));
-                padding: 1em 1.5em;
+                padding: 1em 1.25em;
                 padding-bottom: .5em;
-                min-width: var(--bubble-w);
+                width: clamp(var(--bubble-w), var(--bubble-w), 20em);
                 height: var(--bubble-h);
                 transform: rotate(-4deg) rotateY(-15deg);
                 z-index: 1;
@@ -483,9 +483,6 @@ main{
             >#status.bubble{
                 background: var(--theme-light-other);
                 text-align: center;
-                >p{
-                    text-wrap-mode: wrap;
-                }
                 &::before, &::after {
                     position: absolute;
                     /* z-index: -1; */
@@ -494,6 +491,9 @@ main{
 
             }
             >.bubble, >.bubble-shade{
+                >p{
+                    text-wrap-mode: wrap;
+                }
                 &::before{
                     /* spiky part */
                     z-index: -1;
@@ -508,6 +508,7 @@ main{
                 }
             }
             >.bubble-shade{
+                left: calc((.5 + .05) * var(--width));
                 color: transparent;
                 &::before, &::after {
                     position: absolute;

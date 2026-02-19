@@ -233,6 +233,7 @@ class ThemeSwitch{
         width: 100vw;
         height: 100vh;
         pointer-events: none;
+        z-index: 0;
         /* transition: background-color .5s ease; */
         /* outline: solid 10px red; */
         &.l-d{
