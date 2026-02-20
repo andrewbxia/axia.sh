@@ -169,7 +169,15 @@ function absmax(mag, mini = mag){
     const sign = mini >= 0 ? 1 : -1;
     return (mag > absmin ? mag * sign: mini) ;
 }
-const den = (denominator, prec = 10) => absmax(pow(10, -prec), denominator);
+function asc(...args){ // strict
+    for(let i = 1; i < args.length; i++)
+        if(args[i - 1] >= args[i]) return false;
+    return true;
+}
+function desc(...args){
+    return asc(...args.toReversed());
+}
+const den = (denominator, prec = 10) => absmax(pow(10, -prec), denominator); // for 1/0 cases
 const clamp = (val, mini = val, maxi = val) => min(max(val, mini), maxi);
 const floor = (a) => Math.floor(a);
 const intfloor = (a) => a | 0; // only works for 32-bitty ints

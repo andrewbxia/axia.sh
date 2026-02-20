@@ -131,17 +131,18 @@ async function setstatus(){
     const daysago = dateago(new Date(status.date), "day", 2);
     const info = div({id: "status-info", style: "margin-bottom: 1rem;"});
 
-    const title = h3(`___ ${status.title} ___`);
+    let titlestr = status.title;
+    if(asc(0, status.title.length, 16)){
+        titlestr = `__${status.title}__`;
+    }
+    
+    const title = h3(titlestr, {style: "margin-bottom: .125rem;"});
     const statustxt = p(status.status);
     const ago = h6(`${fix2num(daysago[0], 1)} ${daysago[1]}s ago...`);
 
     isay.innerHTML = "";
 
-    if(title.innerText.length > 15 || status.title.length === 0)
-        title.innerText = status.title; // remove underscres
-
     appmany(info, [title, ago]);
-
 
     if(status.title.length > 0)
         appmany(isay, [info, statustxt]);
