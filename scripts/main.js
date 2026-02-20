@@ -129,16 +129,24 @@ function statusshade(){
 async function setstatus(){
     const status = await getstatus();
     const daysago = dateago(new Date(status.date), "day", 2);
-    const info = div();
-    const title = h3(`___ ${status.title} ___`);
-    if(title.innerText.length > 15)title.innerText = status.title;
-    app(info, title);
-    app(info, p(`${fix2num(daysago[0], 1)} ${daysago[1]}s ago...`));
+    const info = div({id: "status-info", style: "margin-bottom: 1rem;"});
 
+    const title = h3(`___ ${status.title} ___`);
     const statustxt = p(status.status);
+    const ago = h6(`${fix2num(daysago[0], 1)} ${daysago[1]}s ago...`);
 
     isay.innerHTML = "";
-    appmany(isay, [info, statustxt]);
+
+    if(title.innerText.length > 15 || status.title.length === 0)
+        title.innerText = status.title; // remove underscres
+
+    appmany(info, [title, ago]);
+
+
+    if(status.title.length > 0)
+        appmany(isay, [info, statustxt]);
+    else
+        appmany(isay, [statustxt, info]);
     statusshade();
 }
 statusshade();
