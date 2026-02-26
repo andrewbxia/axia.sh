@@ -142,13 +142,11 @@
         pointer-events: none;
         overflow: visible;
         max-width: 100%;
-        position: absolute;
         inset: 0;
-
-        /* top: 0;
-        left: 50%;
-        transform: translate(-50%, 0) rotate(10deg); */
         height: 1000px;
+        &.yay{
+            position: absolute;
+        }
         
         --b-load-3-time: 2.2s;
         >div.container{

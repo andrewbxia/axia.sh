@@ -52,7 +52,7 @@ function generatepost(post){
     const hasedited = (created.getTime() + dayms / 2) < edited.getTime();
     const dates = appmany(span(), [
         p(created.toDateString(), {title: "written date"}),
-        hasedited ? p(` (${edited.toDateString()})`, {title: "edited date"}) : null,
+        hasedited ? p(` (${edited.toDateString()})`, {title: "edited date"}) : p(),
     ]);
     appmany(misc, [
         dates, p(tags.join(" · "))]
@@ -391,33 +391,6 @@ const blid = "blog-loading";
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // i hate this code its so bad lol
 
 const bloadimgs = ["loading.webp", "confident.webp", "grabbingfull.webp"];
@@ -476,13 +449,15 @@ function dispblogload(){
     if(!eid("blog-loading"))
         app(eid("blog"), app(mk("div", {id: "blog-loading"}), mktxt("h3", "loading posts...", {id: "blog-loading-txt"})));
 
+    // set first img
     addblogloadimg(blogstate, true);
-    const cnt = blogloadcnt;
+    const cnt = blogloadcnt; // if user loads multiple times
 
     const int = setInterval(() => {
         if(blogstate === 3 || cnt !== blogloadcnt){
             clearInterval(int);
             // attachdebug("detected stopping", blogstate, cnt, blogloadcnt);
+            // initiate yay anims & cleanup
             setTimeout(() => {
                 if(cnt !== blogloadcnt) return;
                 eid("blog-loading")?.remove();
@@ -493,6 +468,7 @@ function dispblogload(){
         addblogloadimg(blogstate);
     }, blogimglifetime);
 
+    // loadings taking pretty long
     setTimeout(() => {
         if(cnt !== blogloadcnt) return;
         if(blogstate === 3) return;
@@ -501,7 +477,6 @@ function dispblogload(){
         blogstate = 2;
         eid("blog-loading-txt").innerText = "loading is taking longer than usual...try reloading?";
         document.dispatchEvent(new Event("blogloaded")); // preemptively do it to init pretty bg bars
-        // add fail img
     }, blogttl);
 }
 

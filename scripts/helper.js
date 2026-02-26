@@ -87,7 +87,7 @@ const compst = (el) => window.getComputedStyle(el);
 const brect = (el) => el.getBoundingClientRect();
 const pint = (el, rad = 10) => parseInt(el, rad);
 const poat = (el) => parseFloat(el);
-const log = (...message) => console.log(...message);
+const log = (...message) => debug ? console.trace(...message) : console.log(...message);
 const dlog = (...message) => {if(debug) console.trace(perf.now, ...message)}; // debug log
 const dlert = (...message) => {if(debug) alert(...message)};
 const warn = (...message) => console.warn(...message);

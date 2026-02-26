@@ -133,6 +133,11 @@ function editdraft(draftid){
 
 function enterpage(){
     const responses = [];
+    if(params.has("post")){
+        const postid = pint(params.get("post"));
+        editpost(postid);
+        return;
+    }
     if(savedata.lastsave !== null){
         responses.push(prompt(
             `${savedata.lastsave} \n load last save? 
