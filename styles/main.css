@@ -380,7 +380,7 @@ a{
 }
 #wcb_p{
     width: fit-content;
-    margin: 5px 15px 0 15px;
+    margin: 5px 0px 0 15px;
 }
 #wcb #wcb_2, #wcb #wcb_a, #wcb #wcb_g{
     font-family: inherit !important;

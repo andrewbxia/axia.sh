@@ -25,7 +25,6 @@ async function getstatus(){
         }
     });
     const data = await response.json();
-    attachdebug("status", JSON.stringify(data[0]));
     return data[0];
 }
 

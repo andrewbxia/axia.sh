@@ -4,19 +4,21 @@ const wcID = e => document.getElementById(e),
     wcU = encodeURIComponent(window.location.href),
     newRequest = 
     function(e = !0) {
-        e = {
-            "c": 0.11,
-            "p": 80,
-            "url": wcU
-            }; // new data from https://www.websitecarbon.com/website/axia-sh/
-        // fetch("https://api.websitecarbon.com/b?url=" + wcU).then((function(e) {
-        //     if (!e.ok) throw Error(e);
-        //     return e.json()
-        // })).then((function(n) {
-            e && renderResult(e), e.t = (new Date).getTime(), localStorage.setItem("wcb_" + wcU, JSON.stringify(e))
-        // })).catch((function(e) {
-        //     wcID("wcb_g").innerHTML = "No Result", console.log(e), localStorage.removeItem("wcb_" + wcU)
-        // }))
+        setTimeout(() => {
+            e = {
+                "c": 0.11,
+                "p": 80,
+                "url": wcU
+                }; // new data from https://www.websitecarbon.com/website/axia-sh/
+            // fetch("https://api.websitecarbon.com/b?url=" + wcU).then((function(e) {
+            //     if (!e.ok) throw Error(e);
+            //     return e.json()
+            // })).then((function(n) {
+                e && renderResult(e), e.t = (new Date).getTime(), localStorage.setItem("wcb_" + wcU, JSON.stringify(e))
+            // })).catch((function(e) {
+            //     wcID("wcb_g").innerHTML = "No Result", console.log(e), localStorage.removeItem("wcb_" + wcU)
+            // }))
+        }, rand(3500, 2000))
     },
     renderResult = function(e) {
         wcID("wcb_g").innerHTML = e.c + "g of CO<sub>2</sub>/view", wcID("wcb_2").insertAdjacentHTML("beforeEnd", "Cleaner than " + e.p + "% of pages tested")
@@ -27,8 +29,9 @@ if ("fetch" in window) {
     wcB.insertAdjacentHTML("beforeEnd", wcC), wcB.insertAdjacentHTML("beforeEnd", '<div id="wcb_p"><span id="wcb_g">Measuring CO<sub>2</sub>&hellip;</span><a id="wcb_a" target="_blank" rel="noopener" href="https://websitecarbon.com">Website Carbon</a></div><span id="wcb_2">&nbsp;</span>');
     let e = localStorage.getItem("wcb_" + wcU);
     const n = (new Date).getTime();
-    if (e) {
-        const t = JSON.parse(e);
-        renderResult(t), n - t.t > 864e5 && newRequest(!1)
-    } else newRequest()
+    // if (e) {
+        // const t = JSON.parse(e);
+        // renderResult(t), n - t.t > 864e5 && newRequest(!1)
+    // } else 
+        newRequest()
 }
