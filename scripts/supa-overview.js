@@ -13,7 +13,8 @@ const overviewparameters = [
 const postparameters = [ "id", "created_at", "edited_at", "content", 
     "cover_url", "title", "tags", "description" ];
 const qlimit = 5;
-const pagelimit = debug ? 2: 5;
+const normpagelimit = 5, debugpagelimit = 2;
+const pagelimit = debug ? debugpagelimit: normpagelimit;
 
 async function getstatus(){
     const response = await fetch(`${supaurl}/rest/v1/rpc/get_status`, {
