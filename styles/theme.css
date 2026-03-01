@@ -164,13 +164,29 @@ a{
     color: var(--theme-dark);
     transition: 0.75s ease;
     transition-property: color, text-shadow, outline-color;
-    outline: 5px solid rgba(var(--theme-dark-vals), 0.1);
+    outline: 5px solid rgba(var(--theme-dark-vals), 0.2);
     text-shadow: 0 0 0.05em var(--theme-dark);
+
+    &.prominent{
+        outline-color: rgba(var(--theme-dark-vals), 0.4);
+    }
+    
     &:hover{
         text-shadow: 0 0 0.25em var(--theme-dark);
-        outline-color: rgba(var(--theme-dark-vals), 0.25);
+        outline-color: rgba(var(--theme-dark-vals), 0.4);
         text-decoration-thickness: 0.1em;
+        &.prominent{
+            outline-color: rgba(var(--theme-dark-vals), 0.6);
+        }
     }
+}
+.opp-txt{
+    color: var(--theme-dark-other);
+    --theme-dark: var(--theme-dark-other);
+    --theme-light: var(--theme-light-other);
+    --theme-dark-vals: var(--theme-dark-other-vals);
+    --theme-light-vals: var(--theme-light-other-vals);
+    text-shadow: .05em .05em 0px var(--theme-light); /* firefox doesn't change var for this idk why*/
 }
 span{
     >*{

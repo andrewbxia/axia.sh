@@ -136,6 +136,9 @@
                         <span>❤️<a href="https://axia.atabook.org/">guestbook!</a></span>
                         
                     </div>
+                    <div data-name="github">
+                        <span>open-source!</span>
+                    </div>
                     <div data-name="test2">
                         <span>test2 🐛🎷</span>
                     </div>
@@ -148,13 +151,16 @@
                             <p><a href="https://anthropocenereviewedbook.com">John Green</a> for inspiring my own writing style</p>
                             <p>hosted on <a href="https://pages.github.com/">github pages</a></p>
                         </div>
-                        <p class="content about-me">
+                        <div class="content about-me">
                             // <a href="/work">about me thing wowow</a>
-                        </p>
-                        <p class="content guestbook">
-                            come <a class="prominent" href="https://axia.atabook.org/">sign my guestbook!</a> it would be awesome to see who's visiting my abomination of a website :eyes:
-                        </p>
-                        <p class="content test2">
+                        </div>
+                        <div class="content guestbook">
+                            come &raquo;&raquo; <a class="prominent" href="https://axia.atabook.org/">sign my guestbook!</a> &laquo;&laquo; it would be awesome to see who's visiting my abomination of a website :eyes:
+                        </div>
+                        <div class="content github">
+                            <a href="https://github.com/andrewbxia/axia.sh/">github repo for this website!</a>
+                        </div>
+                        <div class="content test2">
                             test content thing fsdf s
                             🎷🐛🎷🐛🎷🐛🎷🐛🎷🐛🎷🐛🎷🐛🎷🐛🎷🐛🎷🐛🎷🐛
                             df ds
@@ -165,8 +171,7 @@
                               fsd🎷🐛🎷🐛 fsd f fds fds
                                dsfs df sdf
                                s df <a href="/pages/login.html">soupr secret login no lookie</a>
-                        </p>
-
+                        </div>
                     </div>
             </div>
             <div id="visitor-stats">
@@ -223,7 +228,7 @@
                 <iframe src="//incr.easrng.net/badge?key=changeme" style="background: url(//incr.easrng.net/bg.gif)" title="increment badge" width="88" height="31" frameborder="0"></iframe>
             </marquee>
             <script>
-                eid("track-88x31").childNodes.forEach(e => {
+                document.getElementById("track-88x31").childNodes.forEach(e => {
                     if(e.nodeType === Node.TEXT_NODE)e.remove();
                 });
             </script>
@@ -291,7 +296,7 @@
                         <div class="bubble-shade"></div>
                     </div>
                     <div class="speech-bubble">
-                        <div class="bubble" id="status">
+                        <div class="bubble opp-txt" id="status">
                             <span style="display: inline-block">
                                 <h3>loading...</h3>
                                 <p>-3.14159 seconds ago...</p>

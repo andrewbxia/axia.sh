@@ -318,12 +318,15 @@ function trackitem(idx, transition = "none"){
         );
 }
 
+const artztransitions = new WeightedChoices([
+    ["0.75s var(--ease-doublebacktrack);", 3],
+    ["0.75s var(--ease-backtrack);", 2.5],
+    ["none", 1]
+]);
+
 function addtotrack(track, classadd = 0){
     for(let i = 0; i < dirs.length; i++){
-        const transition = randarrchoose([
-            "0.75s var(--ease-doublebacktrack);",
-            "0.75s var(--ease-backtrack);",
-            "none"]);
+        const transition = artztransitions.spinthelottery();
         // overflow cat for indices out of range
         const titem = trackitem(i + classadd, transition);
         app(track, titem);
@@ -401,45 +404,41 @@ lmenu.onmouseout = lmenuops.onmouseout = () => {
         lmenuvis.fire();
 }
 
-eqa("#left-menu-options>div").forEach(e => {
-    const option = e;
+eqa("#left-menu-options>div").forEach(option => {
     const name = option.dataset.name;
     const menuitem = eq(`#left-menu>.${name}`);
     
-    const rotation = 35;
+    const rotation = elprop(eid("left-menu"), "--rotate");
     const rotationr = rotation * deg2rad;
     option.classList.add(name);
 
     option.onmouseover = () => {
         menuitem.classList.add("active");
 
-        // Get the perspective value from #left-menu (chatgpt)
-        const perspective = 1000;
-        const realheight = brect(eid("left-menu")).height;
-        // ((menuitem.clientHeight + menuitem.offsetTop) / eid("left-menu").clientHeight);
-        // log(perspective);
+        // Get the perspective value from #left-menu css
+        const perspective = elprop(eid("left-menu-outer"), "perspective");
 
-        // perspective scaling code from chatgpt
-        // Calculate the offset considering the perspective and rotation
-        // Project the offsetTop into the transformed space
-        // Approximate: scale offset by perspective / (perspective - z)
-        // where z = menuitem.clientHeight * sin(rotationr)
-        const z = menuitem.clientHeight * sin(rotationr);
+        const z = (option.offsetTop + menuitem.clientHeight) * cos(rotationr);
         const scale = perspective / (perspective - z);
 
-        const offset = (
-            (menuitem.offsetTop * scale - option.offsetTop / cos(rotationr) 
-                - (2 * menuitem.clientHeight * sin(rotationr / 2) * sin(rotationr / 2)) /
-                sin((90 - rotation) * deg2rad) 
-            ) 
-        );
+        const desiredlevel = option.offsetTop / cos(rotationr);
+        const currheight = menuitem.offsetTop;
+        // const foldheight = menuitem.clientHeight / cos(rotationr) - menuitem.clientHeight;
+        const foldheight = menuitem.clientHeight - menuitem.clientHeight * cos(pi/2 - rotationr);
+        const midheight = (menuitem.clientHeight - option.clientHeight) / 2;
 
+        const offset = desiredlevel - currheight + foldheight / scale - midheight * 0;
+        
         lmenu.style.transform = `
             rotateX(${rotation}deg) 
-            translateY(${-offset}px)
+            translateY(${offset}px)
         `;
-        // eid("left-menu-outer").style.perspective = `${perspective}px`;
-        // log(scale, offset);
+        // lmenu.style.transform = `
+        //     rotateX(${rotation}deg) 
+        //     translateY(${0}px)
+        // `;
+        eid("left-menu-outer").style.perspective = `${perspective}px`;
+        // log(menuitem.offsetTop, option.offsetTop, menuitem.clientHeight, scale);
     };
     menuitem.onmouseover = option.onmouseover; // hacky fix i think
     option.onmouseout = () => {

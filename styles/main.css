@@ -9,12 +9,6 @@ html{
     scroll-padding-bottom: 2em;
 }
 
-a{
-    &.prominent{
-        outline-color: rgba(var(--theme-dark-vals), 0.2);
-    }
-}
-
 #page{
     /* margin-top: var(--header-height); */
     padding: var(--header-height) 0 0 0;
@@ -195,12 +189,15 @@ a{
         left: 100%;
         display: flex;
         flex-direction: column;
+        text-indent: 2ch;
         width: 600px;
+        --rotate: 35deg;
         /* background-color: var(--theme-light); */
         >*{
             text-align: left;
             width: 100%;
-            border: 5px var(--border-dark);
+            padding: 4px;
+            border: 2px solid var(--theme-dark);
             transform-origin: 50% 100%;
             background-color: var(--theme-light);
             transition: ease;
@@ -226,8 +223,8 @@ a{
             }
         }
         >.active{
-            transform: rotateX(-35deg);
-            filter: brightness(1.05);
+            transform: rotateX(calc(-1 * var(--rotate)));
+            filter: brightness(1.1);
             /* text-shadow: 0 0 2px var(--theme-dark); */
             /* &::before{
                 height: 0;
