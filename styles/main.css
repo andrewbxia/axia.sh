@@ -423,6 +423,7 @@ main{
 }
 
 #abt-me{
+    transform-style: preserve-3d;
     #i-say{
         /* z-index: 1; */
         position: relative;
@@ -516,6 +517,7 @@ main{
                     top: 0; right: 0; bottom: 0; left: 0;
                     transform: rotate(-2deg) translate(.35em, -.45em) scale(1.05);
                     background: var(--theme-dark-other);
+
                 }
                 &::before {
                     /* spiky part */

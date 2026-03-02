@@ -125,7 +125,11 @@ const statspeed = 50;
 
 function statusshade(){
     statshade.innerHTML = statbubble.innerHTML;
+    statshade.innerHTML = statbubble.innerHTML;
+    statshade.querySelectorAll("[id]").forEach(el => el.removeAttribute("id"));
+
     statcover.style.setProperty("--c-height", `${statbubble.offsetHeight * .5}px`);
+
 }
 
 function statusiter(stattxt, ref, idx){
@@ -162,7 +166,6 @@ async function setstatus(){
     const title = h3(titlestr, {style: "margin-bottom: .125rem;"});
     const stattxt = p(status.status);
     const ago = h6(`${fix2num(daysago[0], 1)} ${daysago[1]}s ago...`);
-
     // status effect
     const walker = document.createTreeWalker(
         stattxt , 
@@ -171,8 +174,16 @@ async function setstatus(){
         false
     );
 
-    const txtnodes = [];
+    // appending things
+    isay.innerHTML = "";
+    appmany(info, [title, ago]);
 
+    if(status.title.length > 0)
+        appmany(isay, [info, stattxt]);
+    else
+        appmany(isay, [stattxt, info]);
+
+    const txtnodes = [];
     while(walker.nextNode()) {
         txtnodes.push(walker.currentNode);
     }
@@ -188,15 +199,6 @@ async function setstatus(){
 
     }
 
-    // appending things
-    isay.innerHTML = "";
-    appmany(info, [title, ago]);
-
-    if(status.title.length > 0)
-        appmany(isay, [info, stattxt]);
-    else
-        appmany(isay, [stattxt, info]);
-    statusshade();
 }
 
 statusshade();
