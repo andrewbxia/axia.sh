@@ -139,12 +139,13 @@ function statusiter(stattxt, ref, idx){
 
     ref.textContent = statstr;
     statusshade();
-    
-    if(idx > stattxt.length) return;
-    // attachdebug(idx, stattxt.length, stattxt.substring(0, idx), stattxt);
-    setTimeout(() => {
-        statusiter(stattxt, ref, idx + round(rand() + 0.3));
-    }, statspeed);
+
+    if(!(idx > stattxt.length))
+        setTimeout(() => {
+            statusiter(stattxt, ref, idx + round(rand() + 0.3));
+        }, statspeed);
+        // attachdebug(idx, stattxt.length, stattxt.substring(0, idx), stattxt);
+    // return perf.now;
 
 }
 
@@ -179,11 +180,11 @@ async function setstatus(){
     for(const txtnode of txtnodes){
         const txtfart = txtnode.textContent;
         const txt = txtfart; // copy
-        txtnode.textContent = "";
+        txtnode.textContent = "a";
         setTimeout(() => {
             statusiter(txt, txtnode, 0);
         }, currtime);
-        currtime += txt.length * statspeed - randint(50, 50);
+        currtime += txt.length * statspeed + randint(50, 50);
 
     }
 
