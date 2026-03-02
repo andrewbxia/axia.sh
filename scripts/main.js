@@ -180,7 +180,7 @@ async function setstatus(){
     for(const txtnode of txtnodes){
         const txtfart = txtnode.textContent;
         const txt = txtfart; // copy
-        txtnode.textContent = "a";
+        txtnode.textContent = "";
         setTimeout(() => {
             statusiter(txt, txtnode, 0);
         }, currtime);
