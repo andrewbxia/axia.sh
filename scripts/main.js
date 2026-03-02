@@ -131,7 +131,10 @@ function statusshade(){
 function statusiter(stattxt, ref, idx){
     let statstr = stattxt.substring(0, idx);
     while(statstr.length < stattxt.length){
-        statstr += String.fromCharCode(randint(126-33, 33));
+        if(stattxt[statstr.length] === " ")
+            statstr += " ";
+        else
+            statstr += String.fromCharCode(randint(126-33, 33));
     }
 
     ref.textContent = statstr;
