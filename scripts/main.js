@@ -118,22 +118,30 @@ setTimeout(() => {
 }, randint(7000,3000));
 
 const isay = eid("status");
+const statshade = eq(".speech-bubble > .bubble-shade");
+const statbubble = eq(".speech-bubble > .bubble");
+const statcover = eq(".delay-cover > .bubble-cover");
+const statspeed = 50;
+
 function statusshade(){
-    const shade = eq(".speech-bubble>.bubble-shade");
-    const bubble = eq(".speech-bubble>.bubble");
-    const cover = eq(" .delay-cover > .bubble-cover");
-    shade.innerHTML = bubble.innerHTML;
-    cover.style.setProperty("--c-height", `${bubble.offsetHeight * .5}px`);
+    statshade.innerHTML = statbubble.innerHTML;
+    statcover.style.setProperty("--c-height", `${statbubble.offsetHeight * .5}px`);
 }
 
-function statusiter(status, idx = 0){
+function statusiter(stattxt, ref, idx){
+    let statstr = stattxt.substring(0, idx);
+    while(statstr.length < stattxt.length){
+        statstr += String.fromCharCode(randint(126-33, 33));
+    }
 
-
-
-
+    ref.textContent = statstr;
+    statusshade();
+    
+    if(idx > stattxt.length) return;
+    // attachdebug(idx, stattxt.length, stattxt.substring(0, idx), stattxt);
     setTimeout(() => {
-        statusiter(status, idx + floor(rand()));
-    }, 50);
+        statusiter(stattxt, ref, idx + round(rand() + 0.3));
+    }, statspeed);
 
 }
 
@@ -148,22 +156,43 @@ async function setstatus(){
     }
     
     const title = h3(titlestr, {style: "margin-bottom: .125rem;"});
-    // const statustxt = p();
-    const statustxt = p(status.status);
+    const stattxt = p(status.status);
     const ago = h6(`${fix2num(daysago[0], 1)} ${daysago[1]}s ago...`);
 
-    isay.innerHTML = "";
+    // status effect
+    const walker = document.createTreeWalker(
+        stattxt , 
+        NodeFilter.SHOW_TEXT, 
+        null, 
+        false
+    );
 
+    const txtnodes = [];
+
+    while(walker.nextNode()) {
+        txtnodes.push(walker.currentNode);
+    }
+    let currtime = 0;
+    for(const txtnode of txtnodes){
+        const txtfart = txtnode.textContent;
+        const txt = txtfart; // copy
+        txtnode.textContent = "";
+        setTimeout(() => {
+            statusiter(txt, txtnode, 0);
+        }, currtime);
+        currtime += txt.length * statspeed - randint(50, 50);
+
+    }
+
+    // appending things
+    isay.innerHTML = "";
     appmany(info, [title, ago]);
 
     if(status.title.length > 0)
-        appmany(isay, [info, statustxt]);
+        appmany(isay, [info, stattxt]);
     else
-        appmany(isay, [statustxt, info]);
+        appmany(isay, [stattxt, info]);
     statusshade();
-    return;
-    statusiter(status.status);
-
 }
 
 statusshade();
