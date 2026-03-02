@@ -126,6 +126,17 @@ function statusshade(){
     cover.style.setProperty("--c-height", `${bubble.offsetHeight * .5}px`);
 }
 
+function statusiter(status, idx = 0){
+
+
+
+
+    setTimeout(() => {
+        statusiter(status, idx + floor(rand()));
+    }, 50);
+
+}
+
 async function setstatus(){
     const status = await getstatus();
     const daysago = dateago(new Date(status.date), "day", 2);
@@ -137,6 +148,7 @@ async function setstatus(){
     }
     
     const title = h3(titlestr, {style: "margin-bottom: .125rem;"});
+    // const statustxt = p();
     const statustxt = p(status.status);
     const ago = h6(`${fix2num(daysago[0], 1)} ${daysago[1]}s ago...`);
 
@@ -149,7 +161,11 @@ async function setstatus(){
     else
         appmany(isay, [statustxt, info]);
     statusshade();
+    return;
+    statusiter(status.status);
+
 }
+
 statusshade();
 setstatus();
 
