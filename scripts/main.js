@@ -465,6 +465,7 @@ eqa("#left-menu-options>div").forEach(option => {
 
     option.onmouseover = () => {
         menuitem.classList.add("active");
+        option.classList.add("active");
 
         // Get the perspective value from #left-menu css
         const perspective = elprop(eid("left-menu-outer"), "perspective");
@@ -494,6 +495,7 @@ eqa("#left-menu-options>div").forEach(option => {
     menuitem.onmouseover = option.onmouseover; // hacky fix i think
     option.onmouseout = () => {
         menuitem.classList.remove("active");
+        option.classList.remove("active");
     };
     menuitem.onmouseout = option.onmouseout;
 });

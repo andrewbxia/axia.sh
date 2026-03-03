@@ -152,7 +152,7 @@ html{
                 height: 0px;
                 background-color: var(--theme-dark);
                 mix-blend-mode: plus-lighter;
-                /* pointer-events: none; */
+                pointer-events: none;
                 transition: height 0.45s var(--ease-more-out);
                 width: 100%;
             }
@@ -168,7 +168,7 @@ html{
                 transition: color .35s, font-variation-settings .75s;
             }
             
-            &:hover{
+            &:hover, &.active{
                 >span, >span>a{
                     font-variation-settings: var(--fw-bold);
                     color: var(--theme-light);
