@@ -501,7 +501,6 @@ eqa("#left-menu-options>div").forEach(option => {
     menuitem.onmouseout = option.onmouseout;
 });
 
-
 // https://www.npmjs.com/package/ani-cursor/v/0.0.5
 // const ani2css = (selector, data) => window.AniCursor.convertAniBinaryToCSS(selector, data);
 // async function appcursor(selector, url) {

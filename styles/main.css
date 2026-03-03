@@ -204,6 +204,7 @@ html{
             transition: ease, ease;
             transition-property: transform, filter;
             transition-duration: 0.5s, 1s;
+            transform: rotateX(0deg);
             filter: brightness(0.75);
             /* transition: opacity 0.15s ease-out; */
             &::before, &::after{
@@ -231,7 +232,7 @@ html{
                 height: 0;
             } */
             &::after{
-                /* animation: border-anim-lr 5s var(--ease-more-in) infinite; */
+                animation: border-anim-lr 5s var(--ease-more-in) infinite;
             }
         }
         /* opacity: 0; */
