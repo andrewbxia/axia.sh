@@ -190,6 +190,7 @@ html{
         display: flex;
         flex-direction: column;
         text-indent: 2ch;
+        max-height: fit-content;
         width: 600px;
         --rotate: 35deg;
         /* background-color: var(--theme-light); */
@@ -200,7 +201,7 @@ html{
             border: 2px solid var(--theme-dark);
             transform-origin: 50% 100%;
             background-color: var(--theme-light);
-            transition: ease;
+            transition: ease, ease;
             transition-property: transform, filter;
             transition-duration: 0.5s, 1s;
             filter: brightness(0.75);
@@ -230,7 +231,7 @@ html{
                 height: 0;
             } */
             &::after{
-                animation: border-anim-lr 5s var(--ease-more-in) infinite;
+                /* animation: border-anim-lr 5s var(--ease-more-in) infinite; */
             }
         }
         /* opacity: 0; */
@@ -239,7 +240,7 @@ html{
         transition: var(--ease-backtrack);
         transition-property: transform, top;
         transition-duration: 0.5s, 0.5s;
-        opacity: 0;
+        /* opacity: 0; */
         /* animation: perspective-shift 2s infinite alternate; */
         >div.credits{
             p{

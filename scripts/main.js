@@ -259,6 +259,7 @@ document.addEventListener("blogloaded", () => {
 const baseartzlink = "../assets/imgs/artz/";
 
 // have fun seeing the art i commented out
+// todo: maybe make this handle n images instead of 4 with programatic css
 const artzinfo = [
     // ["IMG_1106.jpg", `old ahh 60 second portrait of me`],
     ["IMG_1366.webp", `old doodle for irl friend madeleine !!`],
@@ -370,7 +371,7 @@ function trackitem(idx, transition = "none"){
 }
 
 const artztransitions = new WeightedChoices([
-    ["0.75s var(--ease-doublebacktrack);", 3],
+    ["0.75s var(--ease-doublebacktrack);", 4],
     ["0.75s var(--ease-backtrack);", 2.5],
     ["none", 1]
 ]);
@@ -424,26 +425,26 @@ for(const track of track3){
     track.addEventListener("scroll", scrolltrack3);
 }
 
-//todo: maybe make this handle n images instead of 4 with programatic css
+// left menu 
+
 const lmenu = eid("left-menu");
 const lmenuops = eid("left-menu-options");
 const lmenutime = 750;
-const lmenulife = 600;
+const lmenuttl = 600;
 const lmenuhover = () => lmenu.matches(":hover") || lmenuops.matches(":hover");
 
 const lmenuvis = new MeteredPatientTrigger(lmenutime, () => {
     setTimeout(() => {
         if(lmenuhover()) return;
-        log("ok")
         lmenu.style.opacity = "0";
     }, lmenutime);
 });
 
-const lmenuretract = new MeteredPatientTrigger(lmenulife, () => {
+const lmenuretract = new MeteredPatientTrigger(lmenuttl, () => {
     setTimeout(() => {
         if(lmenuhover()) return;
         lmenuvis.fire();
-    }, lmenulife);
+    }, lmenuttl);
 });
 
 lmenu.onmouseover = lmenuops.onmouseover = () => {
@@ -451,8 +452,9 @@ lmenu.onmouseover = lmenuops.onmouseover = () => {
 }
 lmenu.onmouseout = lmenuops.onmouseout = () => {
     if(lmenuhover()) return;
-        lmenu.style.transform = "";
-        lmenuvis.fire();
+    
+    lmenu.style.transform = "";
+    lmenuvis.fire();
 }
 
 eqa("#left-menu-options>div").forEach(option => {
@@ -482,21 +484,20 @@ eqa("#left-menu-options>div").forEach(option => {
         const offset = desiredlevel - currheight + foldheight / scale - midheight * 0;
         
         lmenu.style.transform = `
-            rotateX(${rotation}deg) 
+            rotateX(${rotation}deg)
             translateY(${offset}px)
         `;
         // lmenu.style.transform = `
         //     rotateX(${rotation}deg) 
         //     translateY(${0}px)
         // `;
-        eid("left-menu-outer").style.perspective = `${perspective}px`;
         // log(menuitem.offsetTop, option.offsetTop, menuitem.clientHeight, scale);
     };
-    menuitem.onmouseover = option.onmouseover; // hacky fix i think
     option.onmouseout = () => {
         menuitem.classList.remove("active");
         option.classList.remove("active");
     };
+    menuitem.onmouseover = option.onmouseover; // hacky fix i think
     menuitem.onmouseout = option.onmouseout;
 });
 
