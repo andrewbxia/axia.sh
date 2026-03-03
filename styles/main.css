@@ -536,6 +536,7 @@ main{
                 left: calc(-1 * var(--offset));
                 bottom: 0;
                 width: var(--width);
+                animation: infinite ease-in-out alternate;
                 &.postit{
                     filter: drop-shadow(0 0 2px rgba(var(--theme-dark-vals), 0.5))
                 }
@@ -547,15 +548,14 @@ main{
         }
         >.base>img{
             transform-origin: 0% 100%;
-            animation: infinite ease-in-out alternate;
-            animation-name: base-anim-rot;
-            animation-duration: 4s;
+            animation-name: base-anim-rot, base-anim-shift;
+            animation-duration: 5.5s, 5.5s;
+            animation-delay: -7s, 0s;
         }
         >.excl>img{
             /* z-index: 1; */
             --offset: calc(2 * 0.08 * var(--width));
             transform-origin: 100% 100%;
-            animation: infinite ease-in-out alternate;
             animation-name: excl-anim-rot, excl-anim-pop;
             animation-duration: 2.5s, 1s;
             animation-timing-function: ease-in-out, steps(1);
@@ -579,13 +579,22 @@ main{
         perspective: 12em;
     }
 }
-@keyframes base-anim-rot {
+@keyframes base-anim-rot{
     0%{
-        rotate: .5deg;
+        rotate: 1.5deg;
     }
     100%{
-        rotate: -1deg;
+        rotate: -2deg;
     }
+}
+@keyframes base-anim-shift{
+    0%{
+        transform: translateY(0px);
+    }
+    100%{
+        transform: translateY(-4px);
+    }
+    
 }
 @keyframes excl-anim-rot{
     0%{
