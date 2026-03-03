@@ -397,7 +397,7 @@ const bloadimgs = ["loading.webp", "confident.webp", "grabbingfull.webp"];
 const byayimg = "success.webp";
 const blongimgs = ["uhoh.webp"];
 const bfailimg = "help.webp";
-[byayimg, ...bloadimgs].forEach(src => { // preload imgs
+[byayimg, /*...bloadimgs*/].forEach(src => { // preload imgs
     const img = new Image();
     img.src = blogimgpath + src;
 });

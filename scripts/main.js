@@ -349,6 +349,8 @@ async function artzurl(idx){
         };
         // log(bimgurl);
         img.src = bimgurl;
+        // img.opacity = "0";
+        
     });
 })();
 
@@ -365,7 +367,8 @@ function trackitem(idx, transition = "none"){
             }),
             app(
                 div({style: `transition: ${transition}`}), 
-                p(desc, {class: "t-img-desc"})
+                p(desc, {class: "t-img-desc"}),
+                // img(artzurl(idx), {style: "opacity: 0;"}),
             ))
         );
 }
