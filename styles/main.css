@@ -426,6 +426,8 @@ main{
 
 #abt-me{
     transform-style: preserve-3d;
+    perspective: 5em;
+
     #i-say{
         /* z-index: 1; */
         position: relative;
@@ -434,7 +436,6 @@ main{
         --width: 525px;
         --height: calc(var(--width) * var(--ratio));
         height: var(--height);
-        perspective: 25em;
         --offset: calc(0.08 * var(--width));
         --bubble-w: 17em;
         /* --bubble-h: 4.5em; */
@@ -442,10 +443,10 @@ main{
         /* modified ver. of https://codepen.io/thebabydino/pen/DmVqBM */
         >.speech-bubble{
             transform-origin: 0% 500px;
-            perspective: 16em;
             --speed: 5.75s;
             animation: ease-in-out infinite alternate;
             animation-name: sb-rot, sb-pop;
+            perspective-origin:  50% 150%;
             animation-duration: var(--speed), calc(var(--speed) * 2.1416);
             &.delay-shade{
                 animation-delay: calc(-2 * var(--speed) + 1.75s);
@@ -462,7 +463,7 @@ main{
                 padding-bottom: .5em;
                 width: clamp(var(--bubble-w), var(--bubble-w), 20em);
                 height: var(--bubble-h);
-                transform: rotate(-4deg) rotateY(-15deg);
+                transform: rotateZ(-4deg) rotateY(-10deg);
                 z-index: 1;
             }
             >div.bubble-cover{
@@ -550,7 +551,7 @@ main{
             transform-origin: 0% 100%;
             animation-name: base-anim-rot, base-anim-shift;
             animation-duration: 5.5s, 5.5s;
-            animation-delay: -7s, 0s;
+            animation-delay: -8s, 0s;
         }
         >.excl>img{
             /* z-index: 1; */
@@ -573,23 +574,24 @@ main{
 }
 @keyframes sb-pop{
     0%, 100%{
-        perspective: 16em;
+        perspective: 10em;
     }
     50%{
-        perspective: 12em;
+        perspective: 6em;
     }
 }
 @keyframes base-anim-rot{
     0%{
-        rotate: 1.5deg;
+
+        rotate: .5deg;
     }
     100%{
-        rotate: -2deg;
+        rotate: -3deg;
     }
 }
 @keyframes base-anim-shift{
     0%{
-        transform: translateY(0px);
+        transform: translateY(2px);
     }
     100%{
         transform: translateY(-4px);
