@@ -42,7 +42,7 @@ function generatepost(post){
     
     const postel = mk("article", {class: "post", "data-id": id, id: `post-${id}`});
     const posth = mk("center", {class: "post-header", title: title});
-    const postc = mktxt("p", content, {class: "post-content"});
+    const postc = mktxt("div", content, {class: "post-content"});
     const postt = app(mk("h2", {class: "post-title"}), link(`?post=${id}`, title, "_self"));
     app(posth, postt);
     app(posth, mktxt("h3", desc, {class: "post-subtitle"}));

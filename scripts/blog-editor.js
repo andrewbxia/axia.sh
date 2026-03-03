@@ -116,6 +116,7 @@ function editpost(fetchid){
             eid(mainid).dispatchEvent(new Event("loadpost"));
         }
         eid(`post-${writingid}`).innerHTML = preload;
+        // eid(`post-${writingid}`).innerHTML = preload;
     });
 }
 
@@ -418,8 +419,9 @@ function initediting() {
             log(el, article)
             const id = pint(article.dataset.id);
             if(confirm(`load this post (${id})?`)){
-                editor.setValue(article.innerHTML);
                 writingid = article.dataset.id;
+                editor.setValue(article.innerHTML);
+                window.location.href = `#post-${writingid}`;
                 editpost(writingid);
                 beaut();
             }

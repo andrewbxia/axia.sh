@@ -83,6 +83,9 @@
                 text-indent: 0;
             }
         }
+        >div.post-content{
+            font-size: 0.85em;
+        }
         .post-wordcount{
             text-align: right; 
             margin-right: 1em; 
