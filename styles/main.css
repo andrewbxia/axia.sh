@@ -627,7 +627,7 @@ main{
     user-select: none;
     margin-left: -10px;
     transform-style: preserve-3d;
-    transform: translateZ(var(--z-offset));
+    /* transform: translateZ(var(--z-offset)); */
 
     width: 100%;
     width: calc(100% + 20px);
@@ -748,7 +748,7 @@ main{
     &.last::before{
         content: 'artz';
         position: absolute;
-        top: 2.5em;
+        top: 3.5em;
         left: 50%;
         transform: translateX(-50%) rotateY(-45deg);
         font-weight: bold;

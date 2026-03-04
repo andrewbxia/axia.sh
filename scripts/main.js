@@ -359,7 +359,7 @@ function trackitem(idx, transition = "none"){
     // if(idx >= artzinfo.length) desc = "index overflow cat!!";
     // else 
     desc = artzinfo[idx % artzinfo.length][1];
-    return app(div({class: `${dirs[idx % dirs.length]}` }), 
+    return app(div({class: `${dirs[idx % dirs.length]} opp-txt` }), 
         app(
             div(
                 {class: `${imgprefix}${(idx)} t-img`,
