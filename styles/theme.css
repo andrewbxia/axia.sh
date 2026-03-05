@@ -76,6 +76,10 @@
     --fw-normal: 'wght' var(--nor-fw);
     --fw-bold: 'wght' var(--max-fw);
 
+    --pi: 3.141592;
+    --pi-2: calc(var(--pi) - 1);
+    --pi-1: calc(var(--pi) - 2);
+    --pi-0: calc(var(--pi) - 3);
     --flicker: flickering 0.07s;
 
     &.dark{

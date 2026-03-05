@@ -48,18 +48,21 @@ html{
             /* width: 100%; */
             #abt-me{
                 #i-say{
-
-                    
-                    margin-top: 5.5em;
                     --width: 325px;
-                    font-size: 0.8em;
-                    >.speech-bubble{
-                    perspective-origin:  50% 4.5em;
-                        >div{
-                            padding: 1em .25em;
-                            padding-bottom: .25em;
+                    --bubble-rot: -3deg;
+
+                    margin-top: 5.5em;
+                    font-size: 0.55em;
+                    
+                    >.sb-container{
+                        >.speech-bubble{
+                            --speed: 5s;
+                            >div{
+                                padding: 1em .25em;
+                                padding-bottom: .25em;
+                            }
+                            /* --bubble-h: 5em; */
                         }
-                        /* --bubble-h: 5em; */
                     }
                 }
             }
@@ -426,38 +429,41 @@ main{
 }
 
 #abt-me{
-    /* transform-style: preserve-3d; */
+    transform-style: preserve-3d;
     perspective: 5em;
     #i-say{
-        /* transform-style: preserve-3d; */
+        transform-style: preserve-3d;
         position: relative;
+        font-size: .75em;
         width: 100%;
         --ratio: calc(275 / 525);
         --width: 525px;
         --height: calc(var(--width) * var(--ratio));
         height: var(--height);
+        
         --offset: calc(0.08 * var(--width));
         --bubble-w: 17em;
         /* --bubble-h: 4.5em; */
         --bubble-h: auto;
+        --bubble-rot: -6deg;
         /* modified ver. of https://codepen.io/thebabydino/pen/DmVqBM */
         >.sb-container{
+            transform-style: preserve-3d;
             z-index: 1;
             position: absolute;
             perspective: 100px;
-            transform-style: preserve-3d;
             width: 100%;
             height: 100%;
+            perspective-origin: -50px calc(100% - 3em); /* from spiky part */
             >.speech-bubble{
+                transform-origin: 0% 100%;
                 /* transform-style: preserve-3d; */
-                transform-origin: 0% 500px;
                 --speed: 5.75s;
                 animation: ease-in-out infinite;
                 animation-direction: alternate, normal;
-                animation-name: sb-pop;
-                perspective-origin: -20% 70%;
+                animation-name: sb-rot, sb-pop;
 
-                animation-duration: var(--speed), calc(2 * var(--speed))/*, calc(var(--speed) * 2.1416)*/   ;
+                animation-duration: var(--speed), calc(var(--pi-2) * var(--speed))/*, calc(var(--speed) * 2.1416)*/   ;
                 &.delay-shade{
                     animation-delay: calc(-2 * var(--speed) + 1.75s);
                 }
@@ -467,14 +473,16 @@ main{
 
                 >div{
                     position: absolute;
-                    transform: rotateZ(-10deg) rotateY(-50deg);
-                    --left-mult: 0.4;
-                    --bottom-mult: -0.8;
+
+                    transform-origin: 0% 100%;
+                    transform: rotateZ(var(--bubble-rot)) rotateY(-20deg);
+                    --left-mult: 0.5;
+                    --bottom-mult: -0.7;
                     bottom: calc(var(--bottom-mult) * var(--height));
                     left: calc(var(--left-mult) * var(--width));
                     padding: 1em 1.25em;
                     padding-bottom: .5em;
-                    width: clamp(var(--bubble-w), var(--bubble-w), 20em);
+                    width: var(--bubble-w);
                     height: var(--bubble-h);
                     z-index: 1;
                 }
@@ -489,7 +497,7 @@ main{
                         width: var(--c-width);
                         height: var(--c-height);
                         bottom: calc(-0.33 * var(--c-height));
-                        right: calc(-0.4 * var(--c-width));
+                        right: calc(-0.2 * var(--c-width));
                         background-color: rgba(var(--theme-dark-vals), 0.5);
                     }
                 }
@@ -514,7 +522,7 @@ main{
                         border-left: solid 5.5em var(--theme-light-other); /* vertical size */
                         border-top: solid .75em transparent; /* horiz size */
                         bottom: 3em; left: calc(-0.1 * var(--width));
-                        width: 2em; height: 1em;
+                        width: 4em; height: 1em;
                         transform: rotate(-35deg) /* direction */
                             skewX(70deg); /* sharpness */
 
@@ -522,6 +530,10 @@ main{
                 }
                 >.bubble-shade{
                     left: calc((var(--left-mult) + .075) * var(--width));
+                    opacity: 0.9;
+                    scale: 1.0;
+                    --left-mult: 0.45;
+                    --bottom-mult: -0.67;
                     color: transparent;
                     &::before, &::after {
                         position: absolute;
@@ -564,8 +576,8 @@ main{
         >.base>img{
             transform-origin: 0% 100%;
             animation-name: base-anim-rot, base-anim-shift;
-            animation-duration: 5.5s, 5.5s;
-            animation-delay: -8s, 0s;
+            animation-duration: 6s, 6s;
+            animation-delay: -7.5s, 0s;
         }
         >.excl>img{
             /* z-index: 1; */
@@ -580,18 +592,18 @@ main{
 }
 @keyframes sb-rot{
     0%{
-        rotate: 1deg;
+        rotate: -2deg;
     }
     100%{
-        rotate: -1.5deg;
+        rotate: 1deg;
     }
 }
 @keyframes sb-pop{
     0%, 100%{
-        perspective: 20em;
+        perspective: 15em;
     }
     50%{
-        perspective: 25em;
+        perspective: 12em;
     }
 }
 @keyframes base-anim-rot{
@@ -608,7 +620,7 @@ main{
         transform: translateY(2px);
     }
     100%{
-        transform: translateY(-4px);
+        transform: translateY(-2px);
     }
     
 }
