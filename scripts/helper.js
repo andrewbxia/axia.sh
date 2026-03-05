@@ -276,8 +276,9 @@ if ((!ls.get("theme") || thememode === "dark") && window.matchMedia && window.ma
 ls.set("theme", thememode);
 document.documentElement.setAttribute("data-theme", thememode);
 
-const elprop = (element, property) => poat(compst(element).getPropertyValue(property));
 const elpropstr = (element, property) => compst(element).getPropertyValue(property);
+const elprop = (element, property) => poat(elpropstr(element, property));
+const elvar = (element, variable) => elpropstr(element, "--" + variable);
 const docprop = (property) => elpropstr(document.documentElement, property);
 const setprop = (element = document.documentElement, property, value = null) => element.style.setProperty(property, value);
 
