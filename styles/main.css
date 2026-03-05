@@ -427,8 +427,8 @@ main{
 #abt-me{
     transform-style: preserve-3d;
     perspective: 5em;
-
     #i-say{
+        transform-style: preserve-3d;
         /* z-index: 1; */
         position: relative;
         width: 100%;
@@ -446,7 +446,8 @@ main{
             --speed: 5.75s;
             animation: ease-in-out infinite alternate;
             animation-name: sb-rot, sb-pop;
-            perspective-origin:  50% 150%;
+            perspective-origin:  50% 7.5em;
+
             animation-duration: var(--speed), calc(var(--speed) * 2.1416);
             &.delay-shade{
                 animation-delay: calc(-2 * var(--speed) + 1.75s);
@@ -457,13 +458,15 @@ main{
 
             >div{
                 position: absolute;
-                bottom: calc(-0.7 * var(--height));
-                left: calc(0.5 * var(--width));
+                transform: rotateZ(4deg) rotateY(-10deg);
+                --left-mult: 0.4;
+                --bottom-mult: -0.8;
+                bottom: calc(var(--bottom-mult) * var(--height));
+                left: calc(var(--left-mult) * var(--width));
                 padding: 1em 1.25em;
                 padding-bottom: .5em;
                 width: clamp(var(--bubble-w), var(--bubble-w), 20em);
                 height: var(--bubble-h);
-                transform: rotateZ(-4deg) rotateY(-10deg);
                 z-index: 1;
             }
             >div.bubble-cover{
@@ -501,7 +504,7 @@ main{
                     border: solid 0 transparent;
                     border-left: solid 5.5em var(--theme-light-other); /* vertical size */
                     border-top: solid .75em transparent; /* horiz size */
-                    top: 2.25em; left: calc(-0.1 * var(--width));
+                    bottom: 3em; left: calc(-0.1 * var(--width));
                     width: 2em; height: 1em;
                     transform: rotate(-35deg) /* direction */
                         skewX(70deg); /* sharpness */
@@ -509,7 +512,7 @@ main{
                 }
             }
             >.bubble-shade{
-                left: calc((.5 + .05) * var(--width));
+                left: calc((var(--left-mult) + .075) * var(--width));
                 color: transparent;
                 &::before, &::after {
                     position: absolute;
@@ -574,10 +577,10 @@ main{
 }
 @keyframes sb-pop{
     0%, 100%{
-        perspective: 10em;
+        perspective: 4.5em;
     }
     50%{
-        perspective: 6em;
+        perspective: 4em;
     }
 }
 @keyframes base-anim-rot{
