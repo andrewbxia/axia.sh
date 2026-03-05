@@ -162,8 +162,8 @@ p{
 }
 a{
     color: var(--theme-dark);
-    transition: 0.75s ease;
-    transition-property: color, text-shadow, outline-color;
+    /* transition: 0.75s ease; */
+    /* transition-property: color, text-shadow, outline-color; */
     outline: 5px solid rgba(var(--theme-dark-vals), 0.2);
     text-shadow: 0 0 0.05em var(--theme-dark);
 

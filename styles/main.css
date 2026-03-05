@@ -54,6 +54,7 @@ html{
                     --width: 325px;
                     font-size: 0.8em;
                     >.speech-bubble{
+                    perspective-origin:  50% 4.5em;
                         >div{
                             padding: 1em .25em;
                             padding-bottom: .25em;
@@ -395,7 +396,7 @@ main{
     background-color: rgba(var(--theme-light-vals), var(--bg-opacity));
     color: inherit;
     text-shadow: .05em .05em 0px var(--theme-light);
-    transition: var(--toggle-timing);
+    transition: 0.75s ease-out;
     transition-property: background-color, color;
     /* box-shadow: 0px 5px 10px 5px var(--theme-light); */
     border: var(--border-dark);
@@ -442,11 +443,11 @@ main{
         --bubble-h: auto;
         /* modified ver. of https://codepen.io/thebabydino/pen/DmVqBM */
         >.speech-bubble{
-            transform-origin: 0% 500px;
+            transform-origin: -20% 500px;
             --speed: 5.75s;
             animation: ease-in-out infinite alternate;
             animation-name: sb-rot, sb-pop;
-            perspective-origin:  50% 7.5em;
+            perspective-origin:  50% 10.5em;
 
             animation-duration: var(--speed), calc(var(--speed) * 2.1416);
             &.delay-shade{
