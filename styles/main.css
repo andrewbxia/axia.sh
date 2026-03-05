@@ -426,11 +426,10 @@ main{
 }
 
 #abt-me{
-    transform-style: preserve-3d;
+    /* transform-style: preserve-3d; */
     perspective: 5em;
     #i-say{
-        transform-style: preserve-3d;
-        /* z-index: 1; */
+        /* transform-style: preserve-3d; */
         position: relative;
         width: 100%;
         --ratio: calc(275 / 525);
@@ -442,99 +441,110 @@ main{
         /* --bubble-h: 4.5em; */
         --bubble-h: auto;
         /* modified ver. of https://codepen.io/thebabydino/pen/DmVqBM */
-        >.speech-bubble{
-            transform-origin: -20% 500px;
-            --speed: 5.75s;
-            animation: ease-in-out infinite alternate;
-            animation-name: sb-rot, sb-pop;
-            perspective-origin:  50% 10.5em;
+        >.sb-container{
+            z-index: 1;
+            position: absolute;
+            perspective: 100px;
+            transform-style: preserve-3d;
+            width: 100%;
+            height: 100%;
+            >.speech-bubble{
+                /* transform-style: preserve-3d; */
+                transform-origin: 0% 500px;
+                --speed: 5.75s;
+                animation: ease-in-out infinite;
+                animation-direction: alternate, normal;
+                animation-name: sb-pop;
+                perspective-origin: -20% 70%;
 
-            animation-duration: var(--speed), calc(var(--speed) * 2.1416);
-            &.delay-shade{
-                animation-delay: calc(-2 * var(--speed) + 1.75s);
-            }
-            &.delay-cover{
-                animation-delay: calc(-2 * var(--speed) + 1s);
-            }
-
-            >div{
-                position: absolute;
-                transform: rotateZ(4deg) rotateY(-10deg);
-                --left-mult: 0.4;
-                --bottom-mult: -0.8;
-                bottom: calc(var(--bottom-mult) * var(--height));
-                left: calc(var(--left-mult) * var(--width));
-                padding: 1em 1.25em;
-                padding-bottom: .5em;
-                width: clamp(var(--bubble-w), var(--bubble-w), 20em);
-                height: var(--bubble-h);
-                z-index: 1;
-            }
-            >div.bubble-cover{
-                --c-width: 33%;
-                --c-height: 3em;
-                &::before{
-                    position:absolute;
-                    content: '';
-                    /* --c-height: 50%; */
-                    /* --c-height: 3em; */
-                    width: var(--c-width);
-                    height: var(--c-height);
-                    bottom: calc(-0.33 * var(--c-height));
-                    right: calc(-0.4 * var(--c-width));
-                    background-color: rgba(var(--theme-dark-vals), 0.5);
+                animation-duration: var(--speed), calc(2 * var(--speed))/*, calc(var(--speed) * 2.1416)*/   ;
+                &.delay-shade{
+                    animation-delay: calc(-2 * var(--speed) + 1.75s);
                 }
-            }
-            >#status.bubble{
-                background: var(--theme-light-other);
-                text-align: center;
-                &::before, &::after {
+                &.delay-cover{
+                    animation-delay: calc(-2 * var(--speed) + 1s);
+                }
+
+                >div{
                     position: absolute;
-                    /* z-index: -1; */
-                    content: '';
+                    transform: rotateZ(-10deg) rotateY(-50deg);
+                    --left-mult: 0.4;
+                    --bottom-mult: -0.8;
+                    bottom: calc(var(--bottom-mult) * var(--height));
+                    left: calc(var(--left-mult) * var(--width));
+                    padding: 1em 1.25em;
+                    padding-bottom: .5em;
+                    width: clamp(var(--bubble-w), var(--bubble-w), 20em);
+                    height: var(--bubble-h);
+                    z-index: 1;
                 }
+                >div.bubble-cover{
+                    --c-width: 33%;
+                    --c-height: 3em;
+                    &::before{
+                        position:absolute;
+                        content: '';
+                        /* --c-height: 50%; */
+                        /* --c-height: 3em; */
+                        width: var(--c-width);
+                        height: var(--c-height);
+                        bottom: calc(-0.33 * var(--c-height));
+                        right: calc(-0.4 * var(--c-width));
+                        background-color: rgba(var(--theme-dark-vals), 0.5);
+                    }
+                }
+                >#status.bubble{
+                    background: var(--theme-light-other);
+                    text-align: center;
+                    &::before, &::after {
+                        position: absolute;
+                        /* z-index: -1; */
+                        content: '';
+                    }
 
-            }
-            >.bubble, >.bubble-shade{
-                >p{
-                    text-wrap-mode: wrap;
                 }
-                &::before{
-                    /* spiky part */
-                    z-index: -1;
-                    border: solid 0 transparent;
-                    border-left: solid 5.5em var(--theme-light-other); /* vertical size */
-                    border-top: solid .75em transparent; /* horiz size */
-                    bottom: 3em; left: calc(-0.1 * var(--width));
-                    width: 2em; height: 1em;
-                    transform: rotate(-35deg) /* direction */
-                        skewX(70deg); /* sharpness */
+                >.bubble, >.bubble-shade{
+                    >p{
+                        text-wrap-mode: wrap;
+                    }
+                    &::before{
+                        /* spiky part */
+                        z-index: -1;
+                        border: solid 0 transparent;
+                        border-left: solid 5.5em var(--theme-light-other); /* vertical size */
+                        border-top: solid .75em transparent; /* horiz size */
+                        bottom: 3em; left: calc(-0.1 * var(--width));
+                        width: 2em; height: 1em;
+                        transform: rotate(-35deg) /* direction */
+                            skewX(70deg); /* sharpness */
 
+                    }
                 }
-            }
-            >.bubble-shade{
-                left: calc((var(--left-mult) + .075) * var(--width));
-                color: transparent;
-                &::before, &::after {
-                    position: absolute;
-                    /* z-index: -1; */
-                    content: '';
-                }
-                &::after {
-                    top: 0; right: 0; bottom: 0; left: 0;
-                    transform: rotate(-2deg) translate(.35em, -.45em) scale(1.05);
-                    background: var(--theme-dark-other);
+                >.bubble-shade{
+                    left: calc((var(--left-mult) + .075) * var(--width));
+                    color: transparent;
+                    &::before, &::after {
+                        position: absolute;
+                        /* z-index: -1; */
+                        content: '';
+                    }
+                    &::after {
+                        top: 0; right: 0; bottom: 0; left: 0;
+                        transform: rotate(-2deg) translate(.35em, -.45em) scale(1.05);
+                        background: var(--theme-dark-other);
 
-                }
-                &::before {
-                    /* spiky part */
-                    border-left: solid 4em var(--theme-dark-other);
-                    border-top-color: var(--theme-dark-other);
+                    }
+                    &::before {
+                        /* spiky part */
+                        border-left: solid 4em var(--theme-dark-other);
+                        border-top-color: var(--theme-dark-other);
+                    }
                 }
             }
         }
 
         >.excl, >.base{
+            user-select: none;
             >img{
                 user-select: none;
                 position: absolute;
@@ -573,15 +583,15 @@ main{
         rotate: 1deg;
     }
     100%{
-        rotate: -2deg;
+        rotate: -1.5deg;
     }
 }
 @keyframes sb-pop{
     0%, 100%{
-        perspective: 4.5em;
+        perspective: 20em;
     }
     50%{
-        perspective: 4em;
+        perspective: 25em;
     }
 }
 @keyframes base-anim-rot{
