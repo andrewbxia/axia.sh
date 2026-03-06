@@ -428,13 +428,13 @@ main{
 }
 
 #abt-me{
-
+    transform-style: preserve-3d;
     #desc{
         width: 100%;
     }
 
     #i-say{
-        /* transform-style: preserve-3d; */
+        transform-style: preserve-3d;
         /* position: relative; */
         font-size: .85em;
         width: 100%;
@@ -451,7 +451,7 @@ main{
         --bubble-rot: -6deg;
         /* modified ver. of https://codepen.io/thebabydino/pen/DmVqBM */
         >.sb-container{
-            transform-style: preserve-3d;
+            /* transform-style: preserve-3d; */
             z-index: 1;
             position: absolute;
             width: 100%;
@@ -459,7 +459,7 @@ main{
             perspective-origin: -50px calc(100% - 3em); /* from spiky part */
             >.speech-bubble{
                 /* transform-style: preserve-3d; */
-                /* position: relative; */
+                position: relative;
                 transform-origin: 0% 100%;
                 --speed: 5.75s;
                 animation: ease-in-out infinite;
@@ -472,15 +472,18 @@ main{
                 }
                 &.delay-cover{
                     animation-delay: calc(-2 * var(--speed) + 1s);
+                    --c-width: 33%;
+                    --c-height: 3em;
                 }
 
-                >div, >svg.bubble-retry{
+                >div{
                     position: absolute;
-
                     transform-origin: 0% 100%;
                     transform: rotateZ(var(--bubble-rot)) rotateY(-20deg);
+
                     --left-mult: 0.6;
                     --bottom-mult: -0.725;
+                    
                     bottom: calc(var(--bottom-mult) * var(--height));
                     left: calc(var(--left-mult) * var(--width));
                     padding: 1em 1.25em;
@@ -490,34 +493,34 @@ main{
                     z-index: 1;
                 }
                 >div.bubble-retry{
-                    --size: 5em;
-                    /* outline: 3px solid blue; */
-                    >svg{
-                        /* position: absolute; */
-                        bottom: calc(-0.5 * var(--size));
-                        right:  calc(-0.5 * var(--size));
+                    --size: 10em;
+                    --bottom-mult: -1.1;
+                    transform: rotateZ(var(--bubble-rot)) rotateY(-30deg);
+                    
+                    left: unset;
+                    right: calc(var(--left-mult) * var(--size));
+                    padding: 0;
 
+                    width: fit-content;
+                    outline: 3px solid blue;
+
+                    >svg{
                         width: var(--size);
                         aspect-ratio: 1 / 1;
                         --left-mult: 0.5;
                         --bottom-mult: -0.9;
-
-                        padding: 0;
                         outline: 3px red solid;
                         >#retry-shadow{
-                            fill: var(--theme-dark);
+                            fill: var(--theme-dark-other);
                         }
                         >#retry-outline{
-                            fill: var(--theme-dark-other);
+                            fill: var(--theme-light-other);
                         }
                     }
                     
                 }
                 >div.bubble-cover{
-                    --c-width:  33%;
-                    --c-height: 3em;
-                    bottom: calc(var(--bubble-ah) + var(--bottom-mult) * var(--height));
-                    outline: 3px solid blue;
+                    
                     &::before{
                         position:absolute;
                         content: '';
@@ -525,10 +528,26 @@ main{
                         /* --c-height: 3em; */
                         width: var(--c-width);
                         height: var(--c-height);
-                        top: calc(-0.25 * var(--c-height));
-                        left: calc(-0.5 * var(--c-width));
+                        bottom: calc(-0.5 * var(--c-height));
+                        right: calc(-0.2 * var(--c-width));
                         background-color: rgba(var(--theme-dark-vals), 0.5);
                     }
+                    /* --c-width:  33%;
+                    --c-height: 3em;
+                    /* bottom: calc(var(--bubble-ah) + var(--bottom-mult) * var(--height)); */
+                    /*
+                    &::before{
+                        position:absolute;
+                        content: '';
+                        /* --c-height: 50%; */
+                        /* --c-height: 3em; */
+                        /*
+                        width: var(--c-width);
+                        height: var(--c-height);
+                        top: calc(-0 * var(--c-height));
+                        right: calc(-0.25 * var(--c-width));
+                        background-color: rgba(var(--theme-dark-vals), 0.5);
+                    } */
                 }
                 >#status.bubble{
                     background: var(--theme-light-other);
