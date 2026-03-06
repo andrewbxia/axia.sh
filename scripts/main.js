@@ -38,7 +38,6 @@ ThemeSwitch.init(() => {
 }, "var(--header-height)");
 
 
-
 // branding visuals
 //document.title = baseurl; // later have this textanimate based on branding activeq
 const axia = eid("branding"), 
@@ -117,18 +116,28 @@ setTimeout(() => {
     playbsplash();
 }, randint(7000,3000));
 
-const isay = eid("status");
+const isay = eid("i-say");
+const status = eid("status");
 const statshade = eq(".speech-bubble > .bubble-shade");
 const statbubble = eq(".speech-bubble > .bubble");
 const statcover = eq(".delay-cover > .bubble-cover");
+const statretry = eq(".delay-cover > .bubble-retry");
 const statspeed = 50;
 
+
+
 function statusshade(){
-    statshade.innerHTML = statbubble.innerHTML;
-    statshade.innerHTML = statbubble.innerHTML;
-    statshade.querySelectorAll("[id]").forEach(el => el.removeAttribute("id"));
+    const temp = mktxt("template", statbubble.innerHTML);
+    temp.querySelectorAll("[id]").forEach(el => el.removeAttribute("id"));
+
+    statshade.innerHTML = temp.innerHTML;
+    // statcover.innerHTML = temp.innerHTML;
+    // statretry.innerHTML = temp.innerHTML;
+    
 
     statcover.style.setProperty("--c-height", `${statbubble.offsetHeight * .5}px`);
+    setvar(isay, "bubble-ah", `${status.offsetHeight}px`);
+    // attachdebug(status.offsetHeight)
 
 }
 
@@ -142,7 +151,7 @@ function statusiter(stattxt, ref, idx){
     }
 
     ref.textContent = statstr;
-    statusshade();
+    // statusshade();
 
     if(!(idx > stattxt.length))
         setTimeout(() => {
@@ -154,17 +163,17 @@ function statusiter(stattxt, ref, idx){
 }
 
 async function setstatus(){
-    const status = await getstatus();
-    const daysago = dateago(new Date(status.date), "day", 2);
+    const stat = await getstatus();
+    const daysago = dateago(new Date(stat.date), "day", 2);
     const info = div({id: "status-info", style: "margin-bottom: 1rem;"});
 
-    let titlestr = status.title;
-    if(asc(0, status.title.length, 16)){
-        titlestr = `__${status.title}__`;
+    let titlestr = stat.title;
+    if(asc(0, stat.title.length, 16)){
+        titlestr = `__${stat.title}__`;
     }
     
     const title = h3(titlestr, {style: "margin-bottom: .125rem;"});
-    const stattxt = p(status.status);
+    const stattxt = p(stat.status);
     const ago = h6(`${fix2num(daysago[0], 1)} ${daysago[1]}s ago...`);
     // status effect
     const walker = document.createTreeWalker(
@@ -175,13 +184,14 @@ async function setstatus(){
     );
 
     // appending things
-    isay.innerHTML = "";
+    status.innerHTML = "";
     appmany(info, [title, ago]);
 
-    if(status.title.length > 0)
-        appmany(isay, [info, stattxt]);
+    if(stat.title.length > 0)
+        appmany(status, [info, stattxt]);
     else
-        appmany(isay, [stattxt, info]);
+        appmany(status, [stattxt, info]);
+    statusshade();
 
     const txtnodes = [];
     while(walker.nextNode()) {
@@ -203,6 +213,10 @@ async function setstatus(){
 
 statusshade();
 setstatus();
+
+document.addEventListener("click", (e) => {
+    attachdebug(e.target.tagName, e.target.cloneNode(false).outerHTML);
+});
 
 
 function togglewcb(){

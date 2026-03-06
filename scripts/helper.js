@@ -281,6 +281,7 @@ const elprop = (element, property) => poat(elpropstr(element, property));
 const elvar = (element, variable) => elpropstr(element, "--" + variable);
 const docprop = (property) => elpropstr(document.documentElement, property);
 const setprop = (element = document.documentElement, property, value = null) => element.style.setProperty(property, value);
+const setvar = (element = document.documentElement, property, value = null) => setprop(element, "--" + property, value);
 
 function isnum(num){
     if(typeof num === 'number') {
@@ -365,7 +366,7 @@ function prepdoc(child){
 }
 
 
-const fromhtml = (txt) => mktxt("template", txt).content.firstChild;
+const fromhtml = (htmltxt) => mktxt("template", htmltxt).content.firstChild;
 const tohtml = (el) => el.outerHTML;
 
 
@@ -413,6 +414,13 @@ const styling = (sty) => {
 // elements 
 const img = (src, attr = {}) => mk("img", {src, ...attr});
 const imghtml = (src) => `<img src="${src}" />`;
+const svghtml = async (src) => {
+    const response = await fetch(src);
+    const txt = await response.text();
+    return txt;
+}
+const svg = async (src) => fromhtml(await svghtml(src));
+
 // text & header elements
 const h_n = (n = 1, txt, attr = {}) => mktxt(`h${n}`, txt, attr); //, true);
 // i could do h1=(...args)=>h_n(1,...args) but i dont get parameter hints thta way

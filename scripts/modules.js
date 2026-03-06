@@ -533,8 +533,6 @@ class ThemeSwitch{
             fill: var(--theme-dark-other);
             height: 72px;
             width:  72px;
-            /* Ensure the SVG viewBox matches the aspect ratio and size in your HTML:
-            <svg viewBox="0 0 24 24" ...> for a 1:1 ratio */
         
             filter: drop-shadow(0px 0px 2px var(--theme-dark-other));
         }

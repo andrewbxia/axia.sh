@@ -261,7 +261,7 @@
                 
                 <br>
                 <div id="log"></div>
-                <div style="text-align: left;">
+                <div id="desc" style="text-align: left;">
                     <p id="hello-me">
                         ello!!
                     </p>
@@ -296,17 +296,25 @@
                             </div>
                         </div>
                         <div class="speech-bubble delay-cover">
+                            <div class="bubble-retry"></div>
                             <div class="bubble-cover"></div>
                         </div>
                     </div>
-                    
+                    <script defer>
+                        (async () => {
+                            const retry = await svg("/assets/imgs/i-say/retry.svg");
+                            app(eq(".speech-bubble > .bubble-retry"), 
+                                retry);
+                            // attachdebug(eid("i-say").outerHTML);
+                        })();
+                    </script>
                     <div class="base">
-                        <img src="/assets/imgs/yveltal-relaxed-base.webp" style="z-index: -1" class="postit">
-                        <img src="/assets/imgs/yveltal-relaxed-base.svg" class="svg">
+                        <img src="/assets/imgs/i-say/yveltal-relaxed-base.webp" style="z-index: -1" class="postit">
+                        <img src="/assets/imgs/i-say/yveltal-relaxed-base.svg" class="svg">
                     </div>
                     <div class="excl">
-                        <img src="/assets/imgs/yveltal-relaxed-excl.webp" class="postit">
-                        <img src="/assets/imgs/yveltal-relaxed-excl.svg" class="svg">
+                        <img src="/assets/imgs/i-say/yveltal-relaxed-excl.webp" class="postit">
+                        <img src="/assets/imgs/i-say/yveltal-relaxed-excl.svg" class="svg">
                     </div>
                 </div>
             </section>
