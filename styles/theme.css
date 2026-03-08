@@ -53,10 +53,12 @@
     --theme-yellow: rgb(255, 255, 119);
     --theme-red: rgb(255, 85, 85);
     --theme-shade: rgba(0, 0, 0, 0.5);
-    --ease-more-in: cubic-bezier(1, 0, 0.542, 1);
-    --ease-more-out: cubic-bezier(0, 1, 0.542, 1);
-    --ease-lessout: cubic-bezier(0.36, 1, 0.36, 1);
+    --ease-more-in: cubic-bezier(.5, 0, 1, .5);
+    --ease-more-out: cubic-bezier(.25,1,.5,1);
+    --ease-more-in-out: cubic-bezier(.55,0,.3,1);
+    --ease-lessout: cubic-bezier(.36, 1, .36, 1);
     --ease-backtrack: cubic-bezier(.5,1.5,.5,1);
+    --ease-backtrack-in-out: cubic-bezier(.6,0,.5,1.2);
     --ease-doublebacktrack: cubic-bezier(.75,-.4,.2,1.2);
     --ease-backtrack-test: cubic-bezier(.75,-.4,.2,1.); /* breaks the transition funny*/
     --border-dark: double var(--theme-dark);
@@ -367,7 +369,22 @@ iframe{
         height: 0%;
     }
 }
-
+@keyframes rot-r-full{
+    0%{
+        rotate: 0deg;
+    }
+    100%{
+        rotate: 360deg;
+    }
+}
+@keyframes rot-t-full {
+    0%{
+        transform: rotate(0deg);
+    }
+    100%{
+        transform: rotate(360deg);
+    }
+}
 @font-face {
     font-family: 'maniac-reg';
     src: url('../assets/fonts/manic-reg.woff') format('opentype');

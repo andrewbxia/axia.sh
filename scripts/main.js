@@ -121,7 +121,6 @@ const status = eid("status");
 const statshade = eq(".speech-bubble > .bubble-shade");
 const statbubble = eq(".speech-bubble > .bubble");
 const statcover = eq(".delay-cover > .bubble-cover");
-const statretry = eq(".delay-cover > .bubble-retry");
 const statspeed = 50;
 
 
@@ -132,7 +131,6 @@ function statusshade(){
 
     statshade.innerHTML = temp.innerHTML;
     // statcover.innerHTML = temp.innerHTML;
-    // statretry.innerHTML = temp.innerHTML;
     
 
     statcover.style.setProperty("--c-height", `${statbubble.offsetHeight * .5}px`);
@@ -142,6 +140,9 @@ function statusshade(){
 }
 
 function statusiter(stattxt, ref, idx){
+    if(!ref) {
+        return;
+    }
     let statstr = stattxt.substring(0, idx);
     while(statstr.length < stattxt.length){
         if(stattxt[statstr.length] === " ")
@@ -161,9 +162,17 @@ function statusiter(stattxt, ref, idx){
     // return perf.now;
 
 }
+const nonestat = {title: "", date: 0, status: ""};
+const loadstat = {title: "loading", date: new Date() - 3.14159 * 1000, status: "fetching status..."};
 
-async function setstatus(){
-    const stat = await getstatus();
+async function setstatus(sid = 0){
+    let stat = loadstat;
+    if(sid < 0)
+        stat = loadstat;
+    else{
+        setstatus(-1); // loading
+        stat = await getstatus(sid);
+    }
     const daysago = dateago(new Date(stat.date), "day", 2);
     const info = div({id: "status-info", style: "margin-bottom: 1rem;"});
 
@@ -175,13 +184,6 @@ async function setstatus(){
     const title = h3(titlestr, {style: "margin-bottom: .125rem;"});
     const stattxt = p(stat.status);
     const ago = h6(`${fix2num(daysago[0], 1)} ${daysago[1]}s ago...`);
-    // status effect
-    const walker = document.createTreeWalker(
-        stattxt , 
-        NodeFilter.SHOW_TEXT, 
-        null, 
-        false
-    );
 
     // appending things
     status.innerHTML = "";
@@ -193,6 +195,14 @@ async function setstatus(){
         appmany(status, [stattxt, info]);
     statusshade();
 
+    // status effect
+    if(sid === -1) return;
+    const walker = document.createTreeWalker(
+        stattxt , 
+        NodeFilter.SHOW_TEXT, 
+        null, 
+        false
+    );
     const txtnodes = [];
     while(walker.nextNode()) {
         txtnodes.push(walker.currentNode);
@@ -214,10 +224,51 @@ async function setstatus(){
 statusshade();
 setstatus();
 
+async function randstatus(){
+    setstatus(randint(pow(2, 16)));
+}
+
+let currretryani = new Animation();
+let currretryrot = 0, retryrotadd = 0;
+let retryrotok = true;
+
+statcover.addEventListener("click", (e) => {
+    const retrysvg = statcover.querySelector("svg");
+    if(retryrotok){ // animation ended
+        currretryrot = compst(retrysvg).rotate;
+        retryrotadd = 0;
+    }
+    retryrotadd += 360;
+    retryrotok = false;
+    const currrotate = compst(retrysvg).rotate;
+    const newrotate = `${poat(currrotate) + retryrotadd}deg`;
+    currretryani.cancel();
+    currretryani = retrysvg.animate(
+        [
+
+            {offset: 0, rotate: currrotate, easing: "ease-out"},
+            {offset: 0.4, rotate: newrotate, easing: docprop("--ease-more-in-out")},
+            {rotate: currretryrot, easing: "ease-in"}
+        ],
+
+        {
+            duration: 1500 * sqrt(retryrotadd / 360),
+        }
+    );
+
+    statcover.classList.add("active");
+
+    currretryani.finished.then(() => {
+        attachdebug(perf.now);
+        retryrotok = true;
+        statcover.classList.remove("active");
+    })
+    .catch(nofunc);
+});
+
 document.addEventListener("click", (e) => {
     attachdebug(e.target.tagName, e.target.cloneNode(false).outerHTML);
 });
-
 
 function togglewcb(){
     if(thememode === "dark")

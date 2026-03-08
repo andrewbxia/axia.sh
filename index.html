@@ -224,7 +224,6 @@
                 <a href="https://indieseas.net/" target="_blank">
                     <img src="https://team.indieseas.net/img/indiefellas.svg">
                 </a>
-                <iframe src="//incr.easrng.net/badge?key=changeme" style="background: url(//incr.easrng.net/bg.gif)" title="increment badge" width="88" height="31" frameborder="0"></iframe>
             </marquee>
             <script>
                 document.getElementById("track-88x31").childNodes.forEach(e => {
@@ -296,14 +295,15 @@
                             </div>
                         </div>
                         <div class="speech-bubble delay-cover">
-                            <div class="bubble-cover"></div>
-                            <div class="bubble-retry"></div>
+                            <div class="bubble-cover" onclick="randstatus();">
+                                <div class="bubble-retry-bg"></div>
+                            </div>
                         </div>
                     </div>
                     <script defer>
                         (async () => {
                             const retry = await svg("/assets/imgs/i-say/retry.svg");
-                            app(eq(".speech-bubble > .bubble-retry"), 
+                            app(eq(".speech-bubble > .bubble-cover"), 
                                 retry);
                             // attachdebug(eid("i-say").outerHTML);
                         })();

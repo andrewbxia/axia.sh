@@ -195,7 +195,7 @@ function displayblog(change = "none", delay = 0){
     else if(viewingmode === "page" && change !== "none")
         window.location.href = "#blog";
 
-    // setTimeout(() => {
+    setTimeout(() => {
         (viewingmode === "post" ? getpost(postid) : getpage(pageidx)).then(data => {
             posts.push(...data);
             dispposts();
@@ -231,7 +231,7 @@ function displayblog(change = "none", delay = 0){
                 editorinit = true;
             }
         });
-    // }, delay);
+    }, delay);
 }
 
 
@@ -447,7 +447,7 @@ function addblogloadimg(state = 1, first = false){
 function dispblogload(){
     // get fail later
     if(!eid("blog-loading"))
-        app(eid("blog"), app(mk("div", {id: "blog-loading"}), mktxt("h3", "loading posts...", {id: "blog-loading-txt"})));
+        eid("blog").before(app(mk("div", {id: "blog-loading"}), mktxt("h3", "loading posts...", {id: "blog-loading-txt"})));
 
     // set first img
     addblogloadimg(blogstate, true);

@@ -389,9 +389,10 @@ html{
     font-family: inherit !important;
 }
 
-main{
+#main{
     --bg-opacity: 0.7;
     --border-width: 5px;
+    min-height: 100vh;
     width: var(--main-width);
     min-width: var(--main-width);
     background-color: rgba(var(--theme-light-vals), var(--bg-opacity));
@@ -433,6 +434,7 @@ main{
         width: 100%;
     }
 
+            z-index: 1;
     #i-say{
         transform-style: preserve-3d;
         /* position: relative; */
@@ -492,24 +494,72 @@ main{
                     height: var(--bubble-h);
                     z-index: 1;
                 }
-                >div.bubble-retry{
-                    --size: 10em;
-                    --bottom-mult: -1.1;
-                    transform: rotateZ(var(--bubble-rot)) rotateY(-30deg);
-                    
-                    left: unset;
-                    right: calc(var(--left-mult) * var(--size));
-                    padding: 0;
 
-                    width: fit-content;
-                    outline: 3px solid blue;
+                >div.bubble-cover{
+                    --speed: 15s;
+                    pointer-events: none;
+                    >*{
+                        pointer-events: all;
+                    }
+                    &.active{
+                        >svg{
+                            animation-play-state: paused;
+                        }
+                    }
+                    &:hover{
+                        cursor: pointer;
+                        >svg{
+                            animation-play-state: paused;
+                        }
+                        >.bubble-retry-bg::before, >.bubble-retry-bg::after, >svg{
+                            /* animation-play-state: paused; */
+                            /* animation-duration: calc(5 * var(--speed)); */
+                            transform: rotate(var(--hover-rotate));
+                        }
+                    }
+                    >.bubble-retry-bg::before, >.bubble-retry-bg::after, >svg{
+                        transform: rotate(0deg);
+                        position:absolute;
+                        bottom: calc(-0.5 * var(--c-height));
+                        right:  calc(-0.2 * var(--c-width));
+                        animation: infinite rot-r-full var(--speed) linear;
+                        transition: var(--ease-backtrack);
+                        transition-property: height, width, transform, right, bottom;
 
+                    }
+                    >.bubble-retry-bg::before, >.bubble-retry-bg::after{
+                        content: '';
+                        height: var(--c-height);
+                        width: var(--c-width);
+                        background-color: rgba(var(--theme-dark-vals), 0.5);
+                        animation-direction: reverse;
+                        transition-timing-function: var(--ease-more-out);
+                        --hover-rotate: -90deg;
+                        transition-duration: 2.5s;
+                    }
+                    >.bubble-retry-bg::after{
+                        background-color: transparent;
+                        transform: rotate(90deg);
+                        outline: rgba(var(--theme-dark-vals), 0.5) 5px solid;
+                        animation-direction: normal;
+                        --speed: 75s;
+                        animation-duration: calc(var(--speed));
+                        --hover-rotate: 540deg;
+                        transition-duration: 4s;
+                    }
                     >svg{
-                        width: var(--size);
-                        aspect-ratio: 1 / 1;
-                        --left-mult: 0.5;
-                        --bottom-mult: -0.9;
-                        outline: 3px red solid;
+                        --scale: 2; /* browsers like to make svgs enlarged by scaling or perspective all blurry so this is my workaround that acutally works! */
+                        --size: calc(1.5 * var(--c-height));
+                        --hover-rotate: 180deg;
+                        transition-duration: 1.5s;
+
+                        right:  calc((-0.2 + 0.5) * var(--c-width) 
+                            - 0.5 * var(--scale) * var(--size));
+                        bottom: calc(-0.75 * var(--scale) * var(--c-height));
+
+                        scale: calc(1 / var(--scale));
+                        height: calc(var(--scale) * var(--size));
+                        width: calc(var(--scale) * var(--size)); 
                         >#retry-shadow{
                             fill: var(--theme-dark-other);
                         }
@@ -517,37 +567,6 @@ main{
                             fill: var(--theme-light-other);
                         }
                     }
-                    
-                }
-                >div.bubble-cover{
-                    
-                    &::before{
-                        position:absolute;
-                        content: '';
-                        /* --c-height: 50%; */
-                        /* --c-height: 3em; */
-                        width: var(--c-width);
-                        height: var(--c-height);
-                        bottom: calc(-0.5 * var(--c-height));
-                        right: calc(-0.2 * var(--c-width));
-                        background-color: rgba(var(--theme-dark-vals), 0.5);
-                    }
-                    /* --c-width:  33%;
-                    --c-height: 3em;
-                    /* bottom: calc(var(--bubble-ah) + var(--bottom-mult) * var(--height)); */
-                    /*
-                    &::before{
-                        position:absolute;
-                        content: '';
-                        /* --c-height: 50%; */
-                        /* --c-height: 3em; */
-                        /*
-                        width: var(--c-width);
-                        height: var(--c-height);
-                        top: calc(-0 * var(--c-height));
-                        right: calc(-0.25 * var(--c-width));
-                        background-color: rgba(var(--theme-dark-vals), 0.5);
-                    } */
                 }
                 >#status.bubble{
                     background: var(--theme-light-other);
@@ -897,6 +916,7 @@ main{
             user-select: none;
             width: 100%;
             height: 100%;
+            /* later have this as img element instead of bg image */
             background-image: var(--bg-url);
             background-position: center;
             background-size: cover;

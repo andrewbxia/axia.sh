@@ -630,7 +630,7 @@ class Ani{
                 else props[prop] = Ani.#defaultvalues[prop];
             }
             document.querySelectorAll(this.#query).forEach((el) => {
-                console.log(el.animate(props, { duration: 0, fill: "forwards" }));
+                el.animate(props, { duration: 0, fill: "none" });
             });
             this.#changedproperties.clear();
         });
@@ -660,12 +660,12 @@ class Ani{
         }
         const duration = (obj.duration >= 0) ? obj.duration: 1000;
         const easing = obj.easing || "linear";
-        const forwards = obj.forwards || true;
+        const forwards = obj.forwards && true;
         const additive = obj.additive || [false, false];
         const iterations = obj.iterations || 1;
         const from = obj.from || {};
         const to = obj.to || {};
-        const otherignore = obj.otherignore || false;
+        const otherignore = obj.otherignore && false;
         const elements = document.querySelectorAll(this.#query);
         // const id = this.#increment(); // do this in the loop
         this.#updatecurr(duration * iterations);
@@ -730,10 +730,12 @@ class Ani{
                         easing,
                         iterations,
                         fill: forwards ? "forwards" : "none"
-                    })
+                    }),
                 );
                 // console.log(this.#query, Ani.#animations.get(key));
-                Ani.#animations.get(key).onfinish = () => Ani.#animations.delete(key);
+                Ani.#animations.get(key).onfinish = () => {
+                    Ani.#animations.delete(key);
+                }
             }
         }, duration);
         

@@ -10,26 +10,29 @@ const overviewparameters = [
     "edited_at",
     "cover_url"
 ].join(",");
-const postparameters = [ "id", "created_at", "edited_at", "content", 
-    "cover_url", "title", "tags", "description" ];
+const postparameters = ["id", "created_at", "edited_at", "content",
+    "cover_url", "title", "tags", "description"];
 const qlimit = 5;
 const normpagelimit = 5, debugpagelimit = 2;
-const pagelimit = debug ? debugpagelimit: normpagelimit;
+const pagelimit = debug ? debugpagelimit : normpagelimit;
 
-async function getstatus(){
-    const response = await fetch(`${supaurl}/rest/v1/rpc/get_status`, {
+async function getstatus(p_offset = 0){
+    const response = await fetch(`${supaurl}/rest/v1/rpc/get_status`,{
         method: "POST",
-            headers: {
+        headers: {
             apikey: publicanonkey,
             "Authorization": `Bearer ${publicanonkey}`,
-            "Content-Type": "application/json"
-        }
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            p_offset: p_offset
+        }),
     });
     const data = await response.json();
     return data[0];
 }
 
-async function getpostsoverview(){
+async function getpostsoverview() {
     const response = await fetch(`${supaurl}/rest/v1/posts?select=${overviewparameters}&order=id.desc&limit=${qlimit}`, {
         headers: {
             apikey: publicanonkey,
@@ -42,7 +45,7 @@ async function getpostsoverview(){
     return data;
 }
 
-async function getpage(pageidx){
+async function getpage(pageidx) {
     const response = await fetch(`${supaurl}/rest/v1/posts?order=id.desc&limit=${pagelimit}&offset=${pageidx * pagelimit}`, {
         headers: {
             apikey: publicanonkey,
@@ -55,7 +58,7 @@ async function getpage(pageidx){
     return data;
 }
 
-async function getpost(id){
+async function getpost(id) {
     const response = await fetch(`${supaurl}/rest/v1/posts?id=eq.${id}`, {
         headers: {
             apikey: publicanonkey,
@@ -71,7 +74,7 @@ async function getpost(id){
 const minpostid = 1;
 let lastpostid = null;
 
-async function numposts(){
+async function numposts() {
     const response = await fetch(`${supaurl}/rest/v1/posts?select=id&order=id.desc&limit=1`, {
         headers: {
             apikey: publicanonkey,
@@ -94,36 +97,36 @@ const visitorstats = {
 
 const visitintlimit = 1000 * 60 * 60; // 1 hour
 let newvisit = false;
-async function checkvisit(){
-    if(checkvisited) return;
+async function checkvisit() {
+    if (checkvisited) return;
     checkvisited = true;
-    
+
     const lastvisit = localStorage.getItem('lastvisit');
     const now = Date.now();
     let repeat = false;
-    if(lastvisit !== null && 
+    if (lastvisit !== null &&
         now - lastvisit < visitintlimit) {
-            console.log("helo repeat customer :p");
-            repeat = true
+        console.log("helo repeat customer :p");
+        repeat = true
     }
     newvisit = lastvisit === null;
-    if(!debug){
-        if(newvisit){
+    if (!debug) {
+        if (newvisit) {
             console.log("omg hihihihihihi");
             fetch(`${supaurl}/rest/v1/rpc/inc_u`, {
                 method: "POST",
-                    headers: {
+                headers: {
                     apikey: publicanonkey,
                     "Authorization": `Bearer ${publicanonkey}`,
                     "Content-Type": "application/json"
                 }
             });
         }
-        if(!repeat){ // new visit
+        if (!repeat) { // new visit
             localStorage.setItem('lastvisit', now);
             fetch(`${supaurl}/rest/v1/rpc/inc`, {
                 method: "POST",
-                    headers: {
+                headers: {
                     apikey: publicanonkey,
                     "Authorization": `Bearer ${publicanonkey}`,
                     "Content-Type": "application/json"
@@ -135,7 +138,7 @@ async function checkvisit(){
 
     const resp = await fetch(`${supaurl}/rest/v1/rpc/get_visitors`, {
         method: "POST",
-            headers: {
+        headers: {
             apikey: publicanonkey,
             "Authorization": `Bearer ${publicanonkey}`,
             "Content-Type": "application/json"
@@ -143,15 +146,15 @@ async function checkvisit(){
     });
 
     const json = await resp.json();
-    if(json.error){
+    if (json.error) {
         console.error("uh oh", json.error);
         console.error(json);
     }
-    else{
+    else {
         visitorstats.visitor_count = json[0].visitor_count;
         visitorstats.visitor_unique = json[0].visitor_unique;
 
-        if(newvisit && localStorage.getItem("visitorid") === null)
+        if (newvisit && localStorage.getItem("visitorid") === null)
             localStorage.setItem("visitorid", json[0].visitor_unique);
         document.dispatchEvent(new Event("visitorstats"));
     }
@@ -159,10 +162,10 @@ async function checkvisit(){
 }
 
 setTimeout(() => {
-    if(!checkvisited){
+    if (!checkvisited) {
         console.error("checkvisit not called yett");
     }
-    else{
+    else {
         console.log("woah");
     }
 }, 5000);

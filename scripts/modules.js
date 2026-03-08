@@ -525,7 +525,7 @@ class ThemeSwitch{
         justify-content: center;
         transform: skew(calc(-1 * var(--slant)));
         >svg{
-            animation: rotate-full 2s ease-in-out infinite;
+            animation: rot-t-full 2s ease-in-out infinite;
             transform-origin: 50% 50%;
             transition: 1.6s var(--ease-backtrack);
             transition-property: rotate, filter;
@@ -552,15 +552,6 @@ class ThemeSwitch{
     100%{
         filter: drop-shadow(0px 0px 1px var(--theme-dark-other));
     }
-}
-@keyframes rotate-full{
-    0%{
-        transform: rotate(0deg);
-    }
-    100%{
-        transform: rotate(360deg);
-    }
-    
 }`);
         }
         ThemeSwitch.#switcher = eid("theme-switch");
