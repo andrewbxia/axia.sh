@@ -433,7 +433,7 @@ const h6 = (txt, attr = {}) => h_n(6, txt, attr);
 
 const p = (txt, attr = {}, explicit) => mktxt("p", txt, attr, explicit);
 const li = (txt, attr = {}) => mktxt("li", txt, attr);
-const span = (txt, attr = {style: "display: inline"}) => mktxt("span", txt, attr);
+const span = (txt, attr = {}) => mktxt("span", txt, attr);
 
 const fieldset = (txt, legend, attr = {}) => appmany(mk("fieldset", attr), [
     mktxt("legend", legend, 
