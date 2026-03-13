@@ -96,6 +96,9 @@
         --white-black: black;
     }
 }
+*{
+    box-sizing: border-box;
+}
 html{
     height: 100%;
     font-size: 1rem;
