@@ -61,7 +61,7 @@ html{
                                 padding: 1em .25em;
                                 padding-bottom: .25em;
                             }
-                            /* --bubble-h: 5em; */
+                            /* --bubble-height: 5em; */
                         }
                     }
                 }
@@ -433,230 +433,234 @@ html{
     #desc{
         width: 100%;
     }
-
-            z-index: 1;
-    #i-say{
-        transform-style: preserve-3d;
-        /* position: relative; */
-        font-size: .85em;
+    z-index: 1;
+}
+#i-say{
+    transform-style: preserve-3d;
+    /* position: relative; */
+    font-size: .85em;
+    width: 100%;
+    --ratio: calc(275 / 525);
+    --width: 525px;
+    --height: calc(var(--width) * var(--ratio));
+    height: var(--height);
+    
+    --offset: calc(0.08 * var(--width));
+    --bubble-width: 17em;
+    /* --bubble-height: 4.5em; */
+    --bubble-height: auto;
+    --bubble-rot: -6deg;
+    /* modified ver. of https://codepen.io/thebabydino/pen/DmVqBM */
+    >.sb-container{
+        /* transform-style: preserve-3d; */
+        z-index: 1;
+        position: absolute;
         width: 100%;
-        --ratio: calc(275 / 525);
-        --width: 525px;
-        --height: calc(var(--width) * var(--ratio));
-        height: var(--height);
-        
-        --offset: calc(0.08 * var(--width));
-        --bubble-w: 17em;
-        /* --bubble-h: 4.5em; */
-        --bubble-h: auto;
-        --bubble-ah: 1em;
-        --bubble-rot: -6deg;
-        /* modified ver. of https://codepen.io/thebabydino/pen/DmVqBM */
-        >.sb-container{
+        height: 100%;
+        perspective-origin: -50px calc(100% - 3em); /* from spiky part */
+        >.speech-bubble{
             /* transform-style: preserve-3d; */
-            z-index: 1;
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            perspective-origin: -50px calc(100% - 3em); /* from spiky part */
-            >.speech-bubble{
-                /* transform-style: preserve-3d; */
-                position: relative;
+            position: relative;
+            transform-origin: 0% 100%;
+            --speed: 5.75s;
+            animation: ease-in-out infinite;
+            animation-direction: alternate, normal;
+            animation-name: sb-rot, sb-pop;
+
+            animation-duration: var(--speed), calc(var(--pi-2) * var(--speed))/*, calc(var(--speed) * 2.1416)*/   ;
+            &.delay-shade{
+                animation-delay: calc(-2 * var(--speed) + 1.75s);
+            }
+            &.delay-cover{
+                animation-delay: calc(-2 * var(--speed) + 1s);
+                --cover-width: 33%;
+                --cover-height: 3em;
+            }
+
+            >div{
+                position: absolute;
                 transform-origin: 0% 100%;
-                --speed: 5.75s;
-                animation: ease-in-out infinite;
-                animation-direction: alternate, normal;
-                animation-name: sb-rot, sb-pop;
+                transform: rotateZ(var(--bubble-rot)) rotateY(-20deg);
 
-                animation-duration: var(--speed), calc(var(--pi-2) * var(--speed))/*, calc(var(--speed) * 2.1416)*/   ;
-                &.delay-shade{
-                    animation-delay: calc(-2 * var(--speed) + 1.75s);
+                --left-mult: 0.6;
+                --bottom-mult: -0.725;
+                
+                bottom: calc(var(--bottom-mult) * var(--height));
+                left: calc(var(--left-mult) * var(--width));
+                padding: 1em 1.25em;
+                padding-bottom: .5em;
+                width: var(--bubble-width);
+                height: var(--bubble-height);
+                z-index: 1;
+            }
+
+            >div.bubble-cover{
+                --speed: 15s;
+                pointer-events: none;
+                >*{
+                    pointer-events: all;
                 }
-                &.delay-cover{
-                    animation-delay: calc(-2 * var(--speed) + 1s);
-                    --c-width: 33%;
-                    --c-height: 3em;
-                }
-
-                >div{
-                    position: absolute;
-                    transform-origin: 0% 100%;
-                    transform: rotateZ(var(--bubble-rot)) rotateY(-20deg);
-
-                    --left-mult: 0.6;
-                    --bottom-mult: -0.725;
-                    
-                    bottom: calc(var(--bottom-mult) * var(--height));
-                    left: calc(var(--left-mult) * var(--width));
-                    padding: 1em 1.25em;
-                    padding-bottom: .5em;
-                    width: var(--bubble-w);
-                    height: var(--bubble-h);
-                    z-index: 1;
-                }
-
-                >div.bubble-cover{
-                    --speed: 15s;
-                    pointer-events: none;
-                    >*{
-                        pointer-events: all;
+                &.active{
+                    >svg{
+                        animation-play-state: paused;
                     }
-                    &.active{
-                        >svg{
-                            animation-play-state: paused;
-                        }
-                    }
-                    &:hover{
-                        cursor: pointer;
-                        >svg{
-                            animation-play-state: paused;
-                        }
-                        >.bubble-retry-bg::before, >.bubble-retry-bg::after, >svg{
-                            /* animation-play-state: paused; */
-                            /* animation-duration: calc(5 * var(--speed)); */
-                            transform: rotate(var(--hover-rotate));
-                        }
+                }
+                &:hover{
+                    cursor: pointer;
+                    >svg{
+                        animation-play-state: paused;
                     }
                     >.bubble-retry-bg::before, >.bubble-retry-bg::after, >svg{
-                        transform: rotate(0deg);
-                        position:absolute;
-                        bottom: calc(-0.5 * var(--c-height));
-                        right:  calc(-0.2 * var(--c-width));
-                        animation: infinite rot-r-full var(--speed) linear;
-                        transition: var(--ease-backtrack);
-                        transition-property: height, width, transform, right, bottom;
-
-                    }
-                    >.bubble-retry-bg::before, >.bubble-retry-bg::after{
-                        content: '';
-                        height: var(--c-height);
-                        width: var(--c-width);
-                        background-color: rgba(var(--theme-dark-vals), 0.5);
-                        animation-direction: reverse;
-                        transition-timing-function: var(--ease-more-out);
-                        --hover-rotate: -90deg;
-                        transition-duration: 2.5s;
-                    }
-                    >.bubble-retry-bg::after{
-                        background-color: transparent;
-                        transform: rotate(90deg);
-                        outline: rgba(var(--theme-dark-vals), 0.5) 5px solid;
-                        animation-direction: normal;
-                        --speed: 75s;
-                        animation-duration: calc(var(--speed));
-                        --hover-rotate: 540deg;
-                        transition-duration: 4s;
-                    }
-                    >svg{
-                        --scale: 2; /* browsers like to make svgs enlarged by scaling or perspective all blurry so this is my workaround that acutally works! */
-                        --size: calc(1.5 * var(--c-height));
-                        --hover-rotate: 180deg;
-                        transition-duration: 1.5s;
-
-                        right:  calc((-0.2 + 0.5) * var(--c-width) 
-                            - 0.5 * var(--scale) * var(--size));
-                        bottom: calc(-0.75 * var(--scale) * var(--c-height));
-
-                        scale: calc(1 / var(--scale));
-                        height: calc(var(--scale) * var(--size));
-                        width: calc(var(--scale) * var(--size)); 
-                        >#retry-shadow{
-                            fill: var(--theme-dark-other);
-                        }
-                        >#retry-outline{
-                            fill: var(--theme-light-other);
-                        }
+                        /* animation-play-state: paused; */
+                        /* animation-duration: calc(5 * var(--speed)); */
+                        transform: rotate(var(--hover-rotate));
                     }
                 }
-                >#status.bubble{
-                    background: var(--theme-light-other);
-                    text-align: center;
-                    &::before, &::after {
-                        position: absolute;
-                        /* z-index: -1; */
-                        content: '';
-                    }
+                >.bubble-retry-bg::before, >.bubble-retry-bg::after, >svg{
+                    transform: rotate(0deg);
+                    position:absolute;
+                    bottom: calc(-0.5 * var(--cover-height));
+                    right:  calc(-0.2 * var(--cover-width));
+                    animation: infinite rot-r-full var(--speed) linear;
+                    transition: var(--ease-backtrack);
+                    transition-property: height, width, transform, right, bottom;
 
                 }
-                >.bubble, >.bubble-shade{
-                    >p{
-                        text-wrap-mode: wrap;
-                    }
-                    &::before{
-                        /* spiky part */
-                        z-index: -1;
-                        border: solid 0 transparent;
-                        border-left: solid 5.5em var(--theme-light-other); /* vertical size */
-                        border-top: solid .75em transparent; /* horiz size */
-                        bottom: 3em; left: calc(-0.1 * var(--width));
-                        width: 4em; height: 1em;
-                        transform: rotate(-35deg) /* direction */
-                            skewX(70deg); /* sharpness */
-
-                    }
+                >.bubble-retry-bg::before, >.bubble-retry-bg::after{
+                    content: '';
+                    height: var(--cover-height);
+                    width: var(--cover-width);
+                    background-color: rgba(var(--theme-dark-vals), 0.5);
+                    animation-direction: reverse;
+                    transition-timing-function: var(--ease-more-out);
+                    --hover-rotate: -90deg;
+                    transition-duration: 2.5s;
                 }
-                >.bubble-shade{
-                    left: calc((var(--left-mult) + .075) * var(--width));
-                    opacity: 0.9;
-                    scale: 1.0;
-                    --left-mult: 0.55;
-                    --bottom-mult: -0.7;
-                    color: transparent;
-                    &::before, &::after {
-                        position: absolute;
-                        /* z-index: -1; */
-                        content: '';
-                    }
-                    &::after {
-                        top: 0; right: 0; bottom: 0; left: 0;
-                        transform: rotate(-2deg) translate(.35em, -.45em) scale(1.05);
-                        background: var(--theme-dark-other);
+                >.bubble-retry-bg::after{
+                    background-color: transparent;
+                    transform: rotate(90deg);
+                    outline: rgba(var(--theme-dark-vals), 0.5) 5px solid;
+                    animation-direction: normal;
+                    --speed: 75s;
+                    animation-duration: calc(var(--speed));
+                    --hover-rotate: 540deg;
+                    transition-duration: 4s;
+                }
+                >svg{
+                    --scale: 2; /* browsers like FF make svgs that are enlarged by scaling or perspective all blurry so this is my workaround that acutally works (mostly)! */
+                    --size: calc(1.5 * var(--cover-height));
+                    --hover-rotate: 180deg;
+                    transition-duration: 1.5s;
 
+                    right:  calc((-0.2 + 0.5) * var(--cover-width) 
+                        - 0.5 * var(--scale) * var(--size));
+                    bottom: calc(-0.75 * var(--scale) * var(--cover-height));
+
+                    scale: calc(1 / var(--scale));
+                    height: calc(var(--scale) * var(--size));
+                    width: calc(var(--scale) * var(--size)); 
+                    >#retry-shadow{
+                        fill: var(--theme-dark-other);
                     }
-                    &::before {
-                        /* spiky part */
-                        border-left: solid 4em var(--theme-dark-other);
-                        border-top-color: var(--theme-dark-other);
+                    >#retry-outline{
+                        fill: var(--theme-light-other);
                     }
                 }
             }
-        }
-
-        >.excl, >.base{
-            user-select: none;
-            >img{
-                user-select: none;
-                position: absolute;
-                left: calc(-1 * var(--offset));
-                bottom: 0;
-                width: var(--width);
-                animation: infinite ease-in-out alternate;
-                &.postit{
-                    filter: drop-shadow(0 0 2px rgba(var(--theme-dark-vals), 0.5))
+            >.status.bubble{
+                background: var(--theme-light-other);
+                text-align: center;
+                &::before, &::after {
+                    position: absolute;
+                    /* z-index: -1; */
+                    content: '';
                 }
-                &.svg{
-                    left: calc(0.08 * var(--width) - var(--offset));
-                    width: calc(0.875 * var(--width));
+
+            }
+            >.bubble, >.bubble-shade{
+                >p{
+                    text-wrap-mode: wrap;
+                }
+                &::before{
+                    /* spiky part */
+                    z-index: -1;
+                    border: solid 0 transparent;
+                    border-left: solid 5.5em var(--theme-light-other); /* vertical size */
+                    border-top: solid .75em transparent; /* horiz size */
+                    bottom: 3em; left: calc(-0.1 * var(--width));
+                    width: 4em; height: 1em;
+                    transform: rotate(-35deg) /* direction */
+                        skewX(70deg); /* sharpness */
+
+                }
+                >*:not(.status-info){
+                    display: inline;
+                }
+                >.status-info{
+                    margin-bottom: 1rem;
                 }
             }
-        }
-        >.base>img{
-            transform-origin: 0% 100%;
-            animation-name: base-anim-rot, base-anim-shift;
-            animation-duration: 6s, 6s;
-            animation-delay: -7.5s, 0s;
-        }
-        >.excl>img{
-            /* z-index: 1; */
-            --offset: calc(2 * 0.08 * var(--width));
-            transform-origin: 100% 100%;
-            animation-name: excl-anim-rot, excl-anim-pop;
-            animation-duration: 2.5s, 1s;
-            animation-timing-function: ease-in-out, steps(1);
+            >.bubble-shade{
+                left: calc((var(--left-mult) + .075) * var(--width));
+                opacity: 0.9;
+                scale: 1.0;
+                --left-mult: 0.55;
+                --bottom-mult: -0.7;
+                color: transparent;
+                &::before, &::after {
+                    position: absolute;
+                    /* z-index: -1; */
+                    content: '';
+                }
+                &::after {
+                    top: 0; right: 0; bottom: 0; left: 0;
+                    transform: rotate(-2deg) translate(.35em, -.45em) scale(1.05);
+                    background: var(--theme-dark-other);
+
+                }
+                &::before {
+                    /* spiky part */
+                    border-left: solid 4em var(--theme-dark-other);
+                    border-top-color: var(--theme-dark-other);
+                }
+            }
         }
     }
-    
+
+    >.excl, >.base{
+        user-select: none;
+        >img{
+            user-select: none;
+            position: absolute;
+            left: calc(-1 * var(--offset));
+            bottom: 0;
+            width: var(--width);
+            animation: infinite ease-in-out alternate;
+            &.postit{
+                filter: drop-shadow(0 0 2px rgba(var(--theme-dark-vals), 0.5))
+            }
+            &.svg{
+                left: calc(0.08 * var(--width) - var(--offset));
+                width: calc(0.875 * var(--width));
+            }
+        }
+    }
+    >.base>img{
+        transform-origin: 0% 100%;
+        animation-name: base-anim-rot, base-anim-shift;
+        animation-duration: 6s, 6s;
+        animation-delay: -7.5s, 0s;
+    }
+    >.excl>img{
+        /* z-index: 1; */
+        --offset: calc(2 * 0.08 * var(--width));
+        transform-origin: 100% 100%;
+        animation-name: excl-anim-rot, excl-anim-pop;
+        animation-duration: 2.5s, 1s;
+        animation-timing-function: ease-in-out, steps(1);
+    }
 }
+
 @keyframes sb-rot{
     0%{
         rotate: -2.5deg;

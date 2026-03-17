@@ -117,24 +117,16 @@ setTimeout(() => {
 }, randint(7000,3000));
 
 const isay = eid("i-say");
-const status = eid("status");
-const statshade = eq(".speech-bubble > .bubble-shade");
-const statbubble = eq(".speech-bubble > .bubble");
+const statshade = eq(".speech-bubble > .status.bubble-shade");
+const statbubble = eq(".speech-bubble > .status.bubble");
 const statcover = eq(".delay-cover > .bubble-cover");
 const statspeed = 50;
 
 
 
 function statusshade(){
-    const temp = mktxt("template", statbubble.innerHTML);
-    temp.querySelectorAll("[id]").forEach(el => el.removeAttribute("id"));
-
-    statshade.innerHTML = temp.innerHTML;
-    // statcover.innerHTML = temp.innerHTML;
-    
-
-    statcover.style.setProperty("--c-height", `${statbubble.offsetHeight * .5}px`);
-    setvar(isay, "bubble-ah", `${status.offsetHeight}px`);
+    statshade.innerHTML = statbubble.innerHTML;
+    statcover.style.setProperty("--cover-height", `${statbubble.offsetHeight * .5}px`);
     // attachdebug(status.offsetHeight)
 
 }
@@ -174,7 +166,7 @@ async function setstatus(sid = 0){
         stat = await getstatus(sid);
     }
     const daysago = dateago(new Date(stat.date), "day", 2);
-    const info = div({id: "status-info", style: "margin-bottom: 1rem;"});
+    const info = div({class: "status-info"});
 
     let titlestr = stat.title;
     if(asc(0, stat.title.length, 16)){
@@ -186,19 +178,19 @@ async function setstatus(sid = 0){
     const ago = h6(`${fix2num(daysago[0], 1)} ${daysago[1]}s ago...`);
 
     // appending things
-    status.innerHTML = "";
+    statbubble.innerHTML = "";
     appmany(info, [title, ago]);
 
     if(stat.title.length > 0)
-        appmany(status, [info, stattxt]);
+        appmany(statbubble, [info, stattxt]);
     else
-        appmany(status, [stattxt, info]);
+        appmany(statbubble, [stattxt, info]);
     statusshade();
 
     // status effect
     if(sid === -1) return;
     const walker = document.createTreeWalker(
-        stattxt , 
+        stattxt, 
         NodeFilter.SHOW_TEXT, 
         null, 
         false
@@ -210,7 +202,7 @@ async function setstatus(sid = 0){
     let currtime = 0;
     for(const txtnode of txtnodes){
         const txtfart = txtnode.textContent;
-        const txt = txtfart; // copy
+        const txt = txtfart; // copy val
         txtnode.textContent = "";
         setTimeout(() => {
             statusiter(txt, txtnode, 0);
