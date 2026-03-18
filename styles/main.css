@@ -569,7 +569,6 @@ html{
             }
             >.status.bubble{
                 background: var(--theme-light-other);
-                text-align: center;
                 &::before, &::after {
                     position: absolute;
                     /* z-index: -1; */
@@ -578,6 +577,7 @@ html{
 
             }
             >.bubble, >.bubble-shade{
+                text-align: center;
                 >p{
                     text-wrap-mode: wrap;
                 }

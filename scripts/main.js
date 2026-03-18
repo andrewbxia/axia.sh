@@ -174,7 +174,7 @@ async function setstatus(sid = 0){
     }
     
     const title = h3(titlestr, {style: "margin-bottom: .125rem;"});
-    const stattxt = p(stat.status);
+    const stattxt = mktxt("div", stat.status, {class: "p"});
     const ago = h6(`${fix2num(daysago[0], 1)} ${daysago[1]}s ago...`);
 
     // appending things
@@ -259,7 +259,7 @@ statcover.addEventListener("click", (e) => {
 });
 
 document.addEventListener("click", (e) => {
-    attachdebug(e.target.tagName, e.target.cloneNode(false).outerHTML);
+    attachdebug(e.target.tagName, e.target.outerHTML);//e.target.cloneNode(false).outerHTML);
 });
 
 function togglewcb(){
