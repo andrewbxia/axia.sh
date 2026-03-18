@@ -55,6 +55,7 @@
     --theme-shade: rgba(0, 0, 0, 0.5);
     --ease-more-in: cubic-bezier(.5, 0, 1, .5);
     --ease-more-out: cubic-bezier(.25,1,.5,1);
+    --ease-in-more-out: cubic-bezier(1,0,.54,1);
     --ease-more-in-out: cubic-bezier(.55,0,.3,1);
     --ease-lessout: cubic-bezier(.36, 1, .36, 1);
     --ease-backtrack: cubic-bezier(.5,1.5,.5,1);

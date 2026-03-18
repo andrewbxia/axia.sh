@@ -259,7 +259,7 @@ statcover.addEventListener("click", (e) => {
 });
 
 document.addEventListener("click", (e) => {
-    attachdebug(e.target.tagName, e.target.outerHTML);//e.target.cloneNode(false).outerHTML);
+    attachdebug(e.target.tagName, e.target.cloneNode(false).outerHTML);
 });
 
 function togglewcb(){
