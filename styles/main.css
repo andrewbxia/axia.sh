@@ -309,12 +309,26 @@ html{
     }
 }
 
-#track-88x31, .self-88x31{
+#self-88x31, #track-88x31{
     max-width: 250px;
+    user-select: none;
     img{
         image-rendering: pixelated;
         /* width: 88px; */
         height: 31px;
+    }
+}
+#self-88x31{
+    >textarea.output{
+        font-size: 1.1em;
+        resize: none;
+        max-width: 100%;
+    }
+    >p.hotlink{
+        width:fit-content;
+        margin-left:auto;
+        border:dotted 2px var(--theme-dark);
+        border-width:0 0 2px 2px;
     }
 }
 #track-88x31{
