@@ -170,6 +170,17 @@ ol, ul{
 p, div.p{
     font-size: 0.85em;
 }
+/* easily manipulate these classes in javascript w/o embedding elements in tags */
+.u{
+    text-decoration: underline;
+}
+.b{
+    font-variation-settings: var(--fw-bold);
+}
+.i{
+    font-style: italic;
+}
+
 a{
     color: var(--theme-dark);
     transition: 0.75s ease;

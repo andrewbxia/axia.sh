@@ -172,6 +172,9 @@ async function setstatus(sid = 0){
     if(asc(0, stat.title.length, 16)){
         titlestr = `__${stat.title}__`;
     }
+    else{
+        titlestr = `<u>${stat.title}</u>`
+    }
     
     const title = h3(titlestr, {style: "margin-bottom: .125rem;"});
     const stattxt = mktxt("div", stat.status, {class: "p"});
