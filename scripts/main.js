@@ -403,7 +403,6 @@ async function artzurl(idx){
         const bimgurl = bimg.substring(5, bimg.length - 2);
     
         const img = new Image();
-        imglazy(img);
         img.onload = () => {
             e.style.aspectRatio = `${img.width} / ${img.height}`;
         };

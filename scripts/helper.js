@@ -281,7 +281,7 @@ const elprop = (element, property) => poat(elpropstr(element, property));
 const elvar = (element, variable) => elpropstr(element, "--" + variable);
 const docprop = (property) => elpropstr(document.documentElement, property);
 const setprop = (element = document.documentElement, property, value = null) => element.style.setProperty(property, value);
-const setvar = (element = document.documentElement, property, value = null) => setprop(element, "--" + property, value);
+const setvar = (element = document.documentElement, variable, value = null) => setprop(element, "--" + property, value);
 
 function isnum(num){
     if(typeof num === 'number') {
