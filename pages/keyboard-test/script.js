@@ -3,6 +3,7 @@ const fpsElement = document.getElementById("fps");
 const droppedFramesElement = document.getElementById("dropped-frames");
 const fpsValue = document.getElementById("fps-adjust");
 const kpsValue = document.getElementById("kps-time-adjust");
+const volumeValue = document.getElementById("volume");
 const keytrailAppearanceValue = document.getElementById("keytrail-appearance");
 const keyTrailSpeedElement = document.getElementById("keytrail-speed");
 const kpsElement = document.getElementById("kps");
@@ -307,5 +308,10 @@ keytrailAppearanceValue.addEventListener("input", (e) => {
     keytrailAppearanceValue.nextElementSibling.textContent = Math.floor(appearenceValue * 100) + "%";
     if(keytrailStyleInd)
         document.styleSheets[0].cssRules[keytrailStyleInd].style.background = `linear-gradient(to top, white 0%, white ${appearenceValue * 100}%, transparent 100%)`
+});
+volumeValue.addEventListener("input", (e) => {
+    const volume = parseFloat(e.target.value);
+    volumeValue.nextElementSibling.textContent = Math.floor(volume * 100) + "%";
+    gain.gain.value = volume;
 });
 incrementTotalKeys(false);

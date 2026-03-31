@@ -10,6 +10,7 @@ let defaultKeysound = 0;
 // let wantCustomKeysound = false;
 
 const audioContext = new AudioContext();
+const gain = audioContext.createGain();
 const analyser = audioContext.createAnalyser();
 analyser.fftSize = Math.pow(2,6);
 let dataArray = new Uint8Array(analyser.frequencyBinCount);
@@ -463,8 +464,9 @@ function playKeysound({element = null, manualKeysound = null}) {
     if (keysound === "none" || !audioBuffers[keysound]) return;
     const source = audioContext.createBufferSource();
     source.buffer = audioBuffers[keysound];
-    source.connect(analyser);
-    analyser.connect(audioContext.destination);
+    source.connect(gain);
+    gain.connect(analyser);
+    gain.connect(audioContext.destination);
 
     source.start();
 }
