@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>le carton</title>
+    <link rel="stylesheet" href="/styles/theme.css">
+    <link rel="stylesheet" href="../coop-theme.css"> 
+    <link rel="stylesheet" href="./carton.css">
+    <script src="/scripts/helper.js"></script>
+    <script src="/scripts/helper-classes.js"></script>
+    <script src="/scripts/modules.js"></script>
+    <script src="./carton.js" defer></script>
+</head>
+<body>
+    <div id="timer"></div>
+    <div id="streak"></div>
+    <div id="carton"></div>
+    
+    <script defer>
+        // populate carton
+        for(let i = 0; i < 12; i++){
+            app(eid("carton"), mk("button", {class: "egg"}));
+        }
+    </script>
+</body>
+</html>

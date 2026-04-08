@@ -1,0 +1,7 @@
+:root{
+    --theme-dark-vals: 255, 237, 216; /* light brown */
+    --theme-light-vals: 167, 94, 3; /* brown */
+    /* override dark mode */
+    --comp-orange-vals: var(--theme-dark-vals);
+    --comp-purple-vals: var(--theme-light-vals);
+}

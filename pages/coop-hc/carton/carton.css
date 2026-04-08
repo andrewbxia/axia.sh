@@ -1,0 +1,49 @@
+#carton{
+    /* table for eggs? */
+    width: fit-content;
+
+
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+
+    --egg-w: 200px;
+
+    .egg{
+        background-image: url("../assets/egg.png");
+        background-size: cover;
+        width: var(--egg-w);
+        height: var(--egg-w);
+        border: none;
+        
+        &:not(.active):not(.complete){
+            opacity: 0.75;
+/* eggs yet to be collected (not current) */
+        }
+        >div.inner{
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: none;
+            flex-direction: column;
+            
+            background-color: var(--theme-light);
+
+            >.journal{
+                display: flex;
+                flex-direction: column;
+            }
+        }
+
+        &:focus-within{
+            outline: 3px solid blue;
+                z-index: 1;
+            >div.inner{
+                display: flex;
+                color: red;
+                outline: 3px solid red;
+            }
+        }
+    }
+}
