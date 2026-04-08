@@ -85,12 +85,18 @@ class Egg{
 
     static complete(id){
         if(id !== Egg.currid) return;
-        eq(`button.egg.${id}`).classList.add("complete");
-        // eq(`button.egg.${id}`).classList.remove("active");
+        const egg = Egg.get(id);
+        egg.classList.add("complete");
+        
+        
+        // eq(`button.egg.egg-${id}`).classList.remove("active");
         // Egg.currid++;
-        // eq(`button.egg.${Egg.currid}`).classList.add("active");
+        // eq(`button.egg.egg-${Egg.currid}`).classList.add("active");
     }
 
+    static get(id){
+        return eq(`button.egg.egg-${id}`);
+    }
 
     constructor(egg, id, content){
         this.el = egg;
@@ -107,9 +113,10 @@ class Egg{
             egg.classList.add("todo"); // future eggs
         }
 
-        egg.onclick = () => {
+        egg.onmousedown = (event) => {
             if(id > Egg.currid) {
-                egg.blur();
+                event.preventDefault();
+                // egg.blur();
                 return alert("you havent unlocked this egg yet!");
             }
         }
@@ -162,7 +169,7 @@ const journals = [
         10,
         "feat 1"
     ),
-
+ 
     // 11 -> feat 2
     makejournal(
         11,
@@ -179,9 +186,9 @@ const journals = [
 attachdebug(journals.length);
 
 EggTracker.init();
-for(let i = 1; i <= eggelements.length; i++){
+for(let i = 1; i < eggelements.length; i++){
     const egg = eggelements[i];
     egg.dataset.id = i;
-    egg.innerText = `egg ${i}`;
+    egg.innerText = i;
     eggs.push(new Egg(egg, i, `egg ${i} content`));
 }

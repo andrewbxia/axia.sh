@@ -1,4 +1,4 @@
-:root{
+:root, :root.dark{
     --theme-dark-vals: 255, 237, 216; /* light brown */
     --theme-light-vals: 167, 94, 3; /* brown */
     /* override dark mode */
