@@ -9,11 +9,12 @@
 
     --egg-w: 200px;
 
-    .egg{
+    button.egg{
         background-image: url("../assets/egg.png");
         background-size: cover;
         width: var(--egg-w);
         height: var(--egg-w);
+        background-color: transparent;
         border: none;
         
         &:not(.active):not(.complete){
