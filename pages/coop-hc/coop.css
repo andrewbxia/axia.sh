@@ -1,4 +1,47 @@
-:root{
+body{
+    background-image: url(./assets/coop.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: rgb(33, 206, 49);
+    padding-top: 300%;
+}
 
-    
+a#carton-link{
+    position: absolute;
+    width: 33%;
+    height: 180%;
+    top: 130%;
+    left: calc(50% - 18.5%);
+    outline: 2px solid red;
+}
+
+.mate{
+    font-family: "Matemasie", sans-serif !important;
+    font-weight: 400;
+    font-style: normal;
+}
+.wendy {
+  font-family: "Wendy One", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+.cap{
+    font-family: "Caprasimo", cursive;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.b{
+    font-weight: 700;
+}
+.big{
+    font-size: 3.5em;
+}
+#content{
+    width: 70%;
+    margin: auto;
+    text-align: center;
+    font-size: 1.5em;
+    padding-bottom: 1000px;
+
 }
