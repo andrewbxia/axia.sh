@@ -5,3 +5,14 @@
     --comp-orange-vals: var(--theme-dark-vals);
     --comp-purple-vals: var(--theme-light-vals);
 }
+a{
+    text-shadow: inherit;
+}
+li{
+    &::marker{
+        content: '*';
+    }
+}
+br{
+    line-height: 0.25em;
+}

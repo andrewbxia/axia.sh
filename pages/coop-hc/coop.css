@@ -1,3 +1,7 @@
+html{
+    position: relative;
+    scroll-padding-top: 2em;
+}
 body{
     background-image: url(./assets/coop.png);
     background-size: cover;
@@ -6,11 +10,11 @@ body{
     padding-top: 300%;
 }
 
-a#carton-link{
+a#carton{
     position: absolute;
     width: 33%;
-    height: 180%;
-    top: 130%;
+    height: 90vw;
+    top: 65vw;
     left: calc(50% - 18.5%);
     outline: 2px solid red;
 }
@@ -30,18 +34,56 @@ a#carton-link{
     font-weight: 400;
     font-style: normal;
 }
-
+h1, h2, h3, h4, h5, h6{
+    margin-bottom: 0.25em;  
+}
+.right{
+    text-align: right;
+    margin-left: auto;
+}
+.left{
+    text-align: left;
+}
 .b{
     font-weight: 700;
 }
 .big{
     font-size: 3.5em;
 }
+p{
+    text-shadow: .05em .05em 0 rgba(var(--theme-light-vals), 0.5);
+}
+.ts{
+    text-shadow: .05em .05em 0 var(--theme-light);
+}
+.dent{
+    text-indent: 2em;
+    &.right{
+        text-indent: 0;
+        margin-right: 1em;
+    }
+}
+.txt{
+    max-width: 80%;
+}
+.em{
+    background-color: rgba(61, 175, 51, 0.75);
+    width: fit-content;
+    padding: 0.2em;
+    padding-top: 0.1em;
+    border-radius: 0.5em;;
+    margin: auto;
+    &.light{
+        background-color: rgba(106, 224, 155, 0.5);
+    }
+}
 #content{
     width: 70%;
-    margin: auto;
+    margin: 0 auto;
     text-align: center;
     font-size: 1.5em;
+    border-radius: 60px;
+    padding: 60px;
     padding-bottom: 1000px;
-
+    margin-bottom: 200px;
 }
