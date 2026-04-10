@@ -7,7 +7,7 @@ body{
     background-size: cover;
     background-repeat: no-repeat;
     background-color: rgb(33, 206, 49);
-    padding-top: 300%;
+    padding-top: 305%;
 }
 
 a#carton{
@@ -43,6 +43,12 @@ h1, h2, h3, h4, h5, h6{
 }
 .left{
     text-align: left;
+    margin-right: auto;
+    margin-left: 0;
+}
+.center{
+    text-align: center;
+    margin: 0 auto;
 }
 .b{
     font-weight: 700;
@@ -72,9 +78,22 @@ p{
     padding: 0.2em;
     padding-top: 0.1em;
     border-radius: 0.5em;;
-    margin: auto;
     &.light{
         background-color: rgba(106, 224, 155, 0.5);
+    }
+}
+.stickers-r{
+    position: relative;
+    >img{
+        z-index: -1;
+        position: absolute;
+        width: 10em;
+        height: unset;
+        max-height: unset;
+        left: 95%;
+        bottom: -10px;
+        rotate: 15deg;
+        transform-origin: bottom right;
     }
 }
 #content{
