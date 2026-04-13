@@ -547,7 +547,7 @@ ondozen((eggel, id) => {
     Tracker.quests[eggquestnames[id]].assign(eggel);
 });
 tracker.init();
-
-
+//preload w/ idea
+eid('idea').innerText = `new idea: ${randfeature(1)}`;
 
 
