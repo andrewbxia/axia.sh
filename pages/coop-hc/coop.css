@@ -10,6 +10,17 @@ body{
     padding-top: 305%;
 }
 
+img#hc-flag{
+    position: absolute;
+    width: 20%;
+    left: 0%;
+    top: 0%;
+    transform-origin: 0% 0%;
+    transition: rotate 1s var(--ease-backtrack);
+    &:hover{
+        rotate: -7deg;
+    }
+}
 a#carton{
     position: absolute;
     width: 33%;
@@ -225,6 +236,18 @@ p{
         transform-origin: bottom right;
     }
 }
+#content, #content>section{
+    position: relative;
+}
+img#orpheus{
+    position: absolute;
+    width: 20em;
+    height: unset;
+    max-height: unset;
+    left: -20%;
+    top: -7em;
+    filter: invert(1);
+}
 .egg-l{
     position: relative;
     width: 100%;
@@ -258,6 +281,36 @@ p{
     font-size: 1.5em;
     border-radius: 60px;
     padding: 60px;
-    /* padding-bottom: 500px; */
+    padding-bottom: 500px;
     /* margin-bottom: 200px; */
+}
+#gallery{
+    >div.gallery{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: left;
+        gap: 1em;
+        margin-top: .5em;
+        >a{
+            width: 14em;
+            text-decoration: none;
+            color: unset;
+                transition: rotate 0.3s var(--ease-backtrack);
+                backdrop-filter: brightness(0.8);
+            >img{
+                width: 100%;
+                height: unset;
+                max-height: unset;
+                border-radius: 5px;
+            }
+            &:hover{
+                rotate: 5deg;
+            }
+            >p{
+                margin-top: 0.5em;
+                font-size: 1.2em;
+            }
+        }
+    }
+    
 }

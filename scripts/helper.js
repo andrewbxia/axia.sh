@@ -128,7 +128,15 @@ const atan2 = (x, y) => {
     }
     return approx;
 }
-
+const times = {
+    year: 365 * 24 * 60 * 60 * 1000,
+    month: 30 * 24 * 60 * 60 * 1000,
+    week: 7 * 24 * 60 * 60 * 1000,
+    day: 24 * 60 * 60 * 1000,
+    hour: 60 * 60 * 1000,
+    minute: 60 * 1000,
+    second: 1000
+};
 const round = (a) => floor(a + 0.5);
 const snap = (num, to = 2) => round(num / to) * to; // snaps to nearest multiple of 'to'
 
@@ -597,33 +605,42 @@ EX:
 
 function dateago(date, minlimit = "year", multlimit = 1, comp = new Date()){
     if(!(date instanceof Date)){
-        err("arg 1 is not a date");
-        return [-1, "year"];
+        if(isnum(date)){
+            date = new Date(date);
+        }
+        else{
+            err("arg 1 is not a date");
+            return [-1, minlimit];
+        }
     }
-    if(!(comp instanceof Date)) comp = new Date();
-    if(date > comp){
-        darn("dates in the future, swapping");
-        [date, comp] = [comp, date];
+    if(!(comp instanceof Date)){
+        if(isnum(comp)){
+            comp = new Date(comp);
+        }
+        else{
+            comp = new Date();
+        }
     }
-    const units = {
-        year: 365 * 24 * 60 * 60 * 1000,
-        month: 30 * 24 * 60 * 60 * 1000,
-        week: 7 * 24 * 60 * 60 * 1000,
-        day: 24 * 60 * 60 * 1000,
-        hour: 60 * 60 * 1000,
-        minute: 60 * 1000,
-        second: 1000
-    };
-    const unitidxs = Object.keys(units);
-    if(!units[minlimit]){
+    // if(date > comp){
+    //     darn("dates in the future, swapping");
+    //     [date, comp] = [comp, date];
+    // }
+    const unitidxs = Object.keys(times);
+    if(!times[minlimit]){
         minlimit = "year";
     }
     const diff = comp - date;
     let idx = 0, passedlimit = unitidxs[0] === minlimit;
-    while(idx < unitidxs.length - 1 && (!passedlimit || diff < multlimit * units[unitidxs[idx]])){
+    while(idx < unitidxs.length - 1 && (!passedlimit || abs(diff) < multlimit * times[unitidxs[idx]])){
         idx++;
         if(unitidxs[idx] === minlimit) passedlimit = true;
         // i swear someones gonna counsel me on binary search
     }
-    return [diff / units[unitidxs[idx]], unitidxs[idx]];
+    return [diff / times[unitidxs[idx]], unitidxs[idx]];
+}
+function dateto(date, minlimit = "year", multlimit = 1, comp = new Date()){
+    return dateago(comp, minlimit, multlimit, date);
+}
+function datestr(arr, prec = 1){
+    return `${fix2num(arr[0], prec)} ${arr[1]}s`;
 }

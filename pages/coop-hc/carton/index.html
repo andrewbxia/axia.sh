@@ -13,15 +13,40 @@
     <script src="./carton.js" defer></script>
 </head>
 <body>
-    <div id="timer"></div>
+    <div id="carton">
+        <img src="../assets/carton.png" style="width: 100%; pointer-events: none;">
+        <div class="back">
+            <div class="eggs"></div>
+        </div>
+        <img src="../assets/knobs.png" class="carton">
+        <div class="mid">
+            <div class="eggs"></div>
+        </div>
+        <img src="../assets/lip.png" class="carton">
+        <div class="front"></div>
+    </div>
     <div id="streak"></div>
-    <div id="carton"></div>
-    
-    <script defer>
-        // populate carton
-        for(let i = 0; i < 12; i++){
-            app(eid("carton"), mk("button", {class: "egg"}));
-        }
-    </script>
+    <div id="timer"></div>
+    <button onclick="tracker.skiptime(24*times.hour)">skip a day</button>
+    <button onclick="tracker.clearprogress()">clear progress</button>
+    <br>
+    <button onclick="eid('idea').innerText = `new idea: ${randfeature(1)}`">generate random feature idea!</button>
+    <div id="idea"></div>
+    <div id="info">
+        <fieldset id="guidelines" tabindex="0">
+            <legend><h2>guidelines</h2></legend>
+            <p>to qualify a journal as <u>meaningful work,</u> it should be:</p>
+            <ul>
+                <li>express something about you!</li>
+                <li>either be <u>different</u> from the rest of the site, or a significant <u>update to an existing feature!</u></li>
+                <li>If you're not following tutorials, have <u>thought/creativity behind it!
+                    <ul>
+                        <li>if you followed a tutorial, you still need to add a feature to your homepage; we just won't hold it to the same standards. Make sure to mention it in your journal!</li>
+                    </ul>
+
+                </u></li>
+            </ul>
+        </fieldset>
+    </div>
 </body>
 </html>

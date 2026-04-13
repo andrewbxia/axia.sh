@@ -1,50 +1,194 @@
+:root{
+    --theme-light-accent: rgb(114, 66, 3);
+}
+body{
+    padding: 20px;
+}
+button:not(.egg){
+    color: var(--theme-light);
+}
 #carton{
     /* table for eggs? */
-    width: fit-content;
+    --wp: 0.8;
+    --w: calc(var(--wp) * 100%);
+    width: var(--w);
+    margin: 0 auto 0 auto;
+    position: relative;
+    backdrop-filter: brightness(.8);
+    border-radius: 2em;;
 
+    >img.carton{
+        position: absolute;
+        top: 0;
+        left: 0;
+        /* z-index: -1; */
 
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    grid-template-rows: repeat(2, 1fr);
+        pointer-events: none;
+        user-select: none;
+        width: 100%;
+        height: unset;
+        max-height: unset;
+    }
 
-    --egg-w: 200px;
+    --egg-w: calc(var(--w) / 6);
+    --egg-h: calc(var(--wp) * 100vw / 6);
+        --egg-spacing: .25%;
+    >div{
+        pointer-events: none;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 8%;
+        top: 35%;
+        transform-origin: center center;
+
+        >.eggs>.egg{
+            margin-right: var(--egg-spacing);
+        }
+        &.mid{
+            top: 48%;
+            left: 3%;
+            --egg-w: calc(var(--w) / 5.25);
+            --egg-h: calc(var(--wp) * 100vw / 5.25);
+            --egg-spacing: .75%;
+        }
+    }
 
     button.egg{
-        background-image: url("../assets/egg.png");
-        background-size: cover;
+        pointer-events: all;
+        position: relative;
+        &::before{
+            content: '';
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+
+            position: absolute;
+            left: 0;
+            top: 0;
+
+            background-image: var(--egg-url);
+            background-size: 100%;
+            background-repeat: no-repeat;
+            transition: transform .25s var(--ease-backtrack);
+        }
+        &.white{
+            --egg-url: url(../assets/eggs/white.png);
+        }
+        &.brown{
+            --egg-url: url(../assets/eggs/brown.png);
+        }
+        &.blue{
+            --egg-url: url(../assets/eggs/blue.png);
+        }
+
+
         width: var(--egg-w);
-        height: var(--egg-w);
+        height: var(--egg-h);
+        max-height: unset;
         background-color: transparent;
         border: none;
+        --completed-txt: ':>';
         
+        &::after{
+            content: attr(data-todo);
+        color: var(--theme-light);
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: transform .25s var(--ease-backtrack);
+        }
+        &.brown::after{
+            color: var(--theme-dark);
+        }
+
         &:not(.active):not(.complete){
-            opacity: 0.75;
-/* eggs yet to be collected (not current) */
+            &::before{
+                opacity: 0.5;
+            }
+        }
+        &.active{
+            &::before{
+                /* filter: saturate(2); */
+            }
+        }
+        &.complete{
+            &::after{
+                content: var(--completed-txt) !important;
+            }
         }
         >div.inner{
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
+            z-index: 1;
             display: none;
             flex-direction: column;
+            padding: 1em .5em;
+            outline: 5px solid var(--theme-light-accent);
             
             background-color: var(--theme-light);
+            .h1, h2, h3{
+                text-decoration: underline;
+            }
+            .journal{
+                width: 80%;
+                margin: 1em auto 0 auto;
+            outline: 5px solid var(--theme-light-accent);
 
-            >.journal{
                 display: flex;
                 flex-direction: column;
             }
         }
 
-        &:focus-within{
-            outline: 3px solid blue;
-                z-index: 1;
-            >div.inner{
+        &.active, &:hover{
+            &::before{
+                animation: egg-bob .25s infinite alternate ease-in-out;
+
+            }
+            
+        }
+        &:hover{
+            &::before{
+                transform: translateY(-5%);
+            }
+            &::after{
+                transform: translate(-50%, -100%);
+            }
+        }
+
+        &:focus-within, &:has(input[type="file"]:active){
+            /* outline: 3px solid blue; */
+            &:not(.complete)>div.inner{
                 display: flex;
-                color: red;
-                outline: 3px solid red;
             }
         }
     }
+}
+#timer{
+    &.overdue{
+        color: rgb(255, 115, 115);
+    }
+}
+
+@keyframes egg-bob{
+    0%{
+        rotate: 0deg; 
+    }
+    100%{
+        rotate: 5deg;
+    }
+}
+
+#info{
+    padding: 50px;
+}
+#guidelines{
+
+    padding: 5px;
+}
+#guidelines:focus{
+    outline: 3px solid var(--theme-light-accent);
 }
