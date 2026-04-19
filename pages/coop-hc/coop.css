@@ -40,7 +40,6 @@ a#carton{
         top: 0;
         left: 0;
     }
-    transform-style: preserve-3d;
     >.door{
         /* outline: 2px dashed red; */
         height: 100%;
@@ -48,32 +47,38 @@ a#carton{
         transform-origin: 5% 50%;
         transition: transform 1s var(--ease-backtrack);
         transform: rotateY(var(--door-close-angle));
+        transform-style: preserve-3d;
+        backface-visibility: hidden;
         
-        perspective: 50vw;
-        perspective-origin: 150% 50%;
-        
-        >.n{
-            width: 40%;
-            transform: rotateY(var(--door-close-angle));
-            backface-visibility: hidden !important;
-        }
-        >.n3{
-            rotate: 40deg;
-            left: 6%;
-            top: 5%;
-            /* width: 25%; */
+        >.stickers{
+            width: 100%;
+            height: 100%;
+            perspective: 50vw;
+            perspective-origin: 150% 50%;
 
+            >.n{
+                width: 40%;
+                transform: rotateY(var(--door-close-angle));
+            }
+            >.n3{
+                rotate: 40deg;
+                left: 6%;
+                top: 5%;
+                /* width: 25%; */
+
+            }
+            >.n1{
+                rotate: -40deg;
+                left: 55%;
+                top: 50%;
+            }
+            >.n2{
+                rotate: 30deg;
+                left: 3%;
+                bottom: 10%;
+            }
         }
-        >.n1{
-            rotate: -40deg;
-            left: 55%;
-            top: 50%;
-        }
-        >.n2{
-            rotate: 30deg;
-            left: 3%;
-            bottom: 10%;
-        }
+        
 
         
         >img.door-img{
@@ -82,6 +87,7 @@ a#carton{
             width: unset;
             top: 50%;
             left: 0%;
+            backface-visibility: visible;
             transform: translate(0, -50%);
         }
     }
