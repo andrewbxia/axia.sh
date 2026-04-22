@@ -55,6 +55,7 @@ a#carton{
             height: 100%;
             perspective: 50vw;
             perspective-origin: 150% 50%;
+            backface-visibility: hidden;
 
             >.n{
                 width: 40%;
