@@ -360,14 +360,32 @@ const artzinfo = [
 ];
 
 artzinfo.sort(() => chance(2)); // big brain
-const dirs = ["front", "back", "left", "right"];
-const poss = [0, 4, 6, 2, 1, 5, 7, 3];
-const imgprefix = "chich";
 
+// Configuration: number of images per track (can be changed to any value)
+const numImages = 4;
+
+// Generate direction names dynamically
+const dirs = Array.from({length: numImages}, (_, i) => `side-${i}`);
+
+// Generate position offsets for animation delay
+// Creates a pattern that staggers the animation timing
+// For cnt=8: produces [0, 4, 1, 5, 2, 6, 3, 7] - alternates between first and second half
 function generateposs(cnt){
     const poss = [];
+    const half = Math.floor(cnt / 2);
+    for(let i = 0; i < cnt; i++){
+        // Alternate pattern: 0, half, half+1, 1, half+2, 2, etc.
+        if(i % 2 === 0){
+            poss.push(i / 2);
+        } else {
+            poss.push(half + Math.floor(i / 2));
+        }
+    }
     return poss;
 }
+
+const poss = generateposs(numImages * 2);
+const imgprefix = "chich";
 
 let trackimgcss = "", bgurlloaded = 0;
 async function artzurl(idx){
@@ -398,6 +416,26 @@ async function artzurl(idx){
         bgurlloaded++;
     }
     styling(trackimgcss);
+    
+    // Generate dynamic CSS for positioning based on number of images
+    let positionCSS = "";
+    const angleStep = 360 / numImages;
+    // Keep as CSS variable string so it can be dynamically adjusted by the stylesheet
+    const radius = "var(--size)"; 
+    
+    for(let i = 0; i < numImages; i++){
+        const angle = i * angleStep;
+        
+        // Calculate position using polar coordinates
+        // For a regular polygon, we rotate around Y axis and translate in Z
+        positionCSS += `
+        .track > div.side-${i} {
+            transform: rotateY(${angle}deg) translateZ(${radius});
+        }\n`;
+    }
+    
+    styling(positionCSS);
+    
     eqa(".t-img").forEach((e) => {
         const bimg = compst(e).backgroundImage;
         const bimgurl = bimg.substring(5, bimg.length - 2);
