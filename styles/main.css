@@ -970,8 +970,8 @@ html{
                 &::before, &::after,
                 >.t-img-desc::before,
                 >.t-img-desc::after{
-                    /* content: ':3'; hmm*/
-                    content: ':o';
+                    content: ':3';
+                    /* content: ':o'; */
                     opacity: 0.55;
                     white-space: nowrap;
                     position: absolute;
