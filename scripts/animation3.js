@@ -1,3 +1,18 @@
+/*
+hey github lurker!
+this is the animation library that handles the dark and light mode transition animations
+u see on my main page, and was the main product of my initial forway 'playing around' with 
+javascript if u read the description of this repostiroy.
+
+what i mean is, this is basically my first javascript project: it's really hacky, finicky, 
+works only 80% of the time, and this is NOT AT ALL how I would code this if I were to do 
+it again today.
+
+have fun working through the spaghetti code! :)
+you have been warned... 😱😱😱
+*/
+
+
 class Ani{
     #mode = "none";
     #next = Promise.resolve();
