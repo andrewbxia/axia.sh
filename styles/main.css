@@ -46,8 +46,11 @@ html{
         }
         #main{
             /* width: 100%; */
+            --border-width: .5em;
             #abt-me{
-
+                p{
+                    max-width: 100%;
+                }
                 img.i-sparkle{
                     width: 45%;
                     height: 45%;
