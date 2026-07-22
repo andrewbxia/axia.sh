@@ -101,10 +101,10 @@ function oneko(speed = 10, color = false, pointerevents = false) {
     nekoEl.style.zIndex = Number.MAX_VALUE;
 
     let nekoFile = "/assets/imgs/oneko.png";
-    const curScript = document.currentScript;
-    if (curScript && curScript.dataset.cat) {
-      nekoFile = curScript.dataset.cat
-    }
+    // const curScript = document.currentScript;
+    // if (curScript && curScript.dataset.cat) {
+    //   nekoFile = curScript.dataset.cat
+    // }
     nekoEl.style.backgroundImage = `url(${nekoFile})`;
     if(color){
       const nekoId = document.createElement("p");
@@ -116,14 +116,14 @@ function oneko(speed = 10, color = false, pointerevents = false) {
       nekoId.style.userSelect = "none";
       nekoEl.appendChild(nekoId);
     }
-    if(curScript.parentElement !== document.head){
+    // if(curScript.parentElement !== document.head){
 
-      curScript.parentElement.appendChild(nekoEl);
-    }
-    else{
+    //   curScript.parentElement.appendChild(nekoEl);
+    // }
+    // else{
 
     document.body.appendChild(nekoEl);
-    }
+    // }
 
     document.addEventListener("mousemove", function (event) {
       mousePosX = event.clientX;

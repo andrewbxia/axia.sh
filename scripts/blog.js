@@ -16,9 +16,9 @@ function clearblog(){
 function addpost(postsidx){
     // log(postsidx);
     const post = posts[postsidx];
-    const postel = generatepost(post);
+    const postelement = generatepost(post);
     
-    app(eid("blog"), postel);
+    app(eid("blog"), postelement);
 }
 
 function dispposts(){
@@ -40,16 +40,25 @@ function generatepost(post){
     const content = post.content || "AMAZING CONTENT";
     
     
-    const postel = mk("article", {class: "post", "data-id": id, id: `post-${id}`});
-    const posth = mk("center", {class: "post-header", title: title});
-    const postc = mktxt("div", content, {class: "post-content"});
+    const postelement = mk("article", {class: "post", "data-id": id, id: `post-${id}`});
+    const postheader = mk("center", {class: "post-header", title: title});
+    const postcontent = mktxt("div", content, {class: "post-content"});
+
+    // poop writing warning
+    if(Date.now() - created > times.month * 10){
+        const warning = p(`** this post is over ${floor(dateago(created, "month")[0])} months old; the tidbits here may be poorly written and/or not be what i think today. happy readings! **`, {class: "post-warn-old"});
+        postcontent.prepend(warning);
+    }
+    log(Date.now() - created, times.month * 10);
+
+
     const postt = app(mk("h2", {class: "post-title"}), link(`?post=${id}`, title, "_self"));
-    app(posth, postt);
-    app(posth, mktxt("h3", desc, {class: "post-subtitle"}));
+    app(postheader, postt);
+    app(postheader, mktxt("h3", desc, {class: "post-subtitle"}));
     const misc = div({class: "post-misc"});
 
-    const dayms = 1000*60*60*24;
-    const hasedited = (created.getTime() + dayms / 2) < edited.getTime();
+    const editedthresh = times.day / 2; // dont show if quick edits
+    const hasedited = (created.getTime() + editedthresh) < edited.getTime();
     const dates = appmany(span(), [
         p(created.toDateString(), {title: "written date"}),
         hasedited ? p(` (${edited.toDateString()})`, {title: "edited date"}) : p(),
@@ -58,21 +67,21 @@ function generatepost(post){
         dates, p(tags.join(" · "))]
     );
 
-    postc.querySelectorAll("img").forEach(img => {
+    postcontent.querySelectorAll("img").forEach(img => {
         imglazy(img);
     });
     
-    // app(posth, misc);
-    app(postel, posth);
-    app(postel, postc);
+    // app(postheader, misc);
+    app(postelement, postheader);
+    app(postelement, postcontent);
     
     
-    const wordcount = postel.innerText.split(" ").length; // lazy but gets the job done heheheheheh
+    const wordcount = postelement.innerText.split(" ").length; // lazy but gets the job done heheheheheh
     const postwc = mktxt("h6", `<<--|  ~${wordcount}±${(1 - abs(sin(wordcount)))
         .toFixed(randint(2, 2))}-ish words  |-->>`, {class: "post-wordcount"});
-    appnest(posth, misc, postwc)
+    appnest(postheader, misc, postwc)
     
-    return postel;
+    return postelement;
 }
 
 

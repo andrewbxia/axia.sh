@@ -47,12 +47,18 @@ html{
         #main{
             /* width: 100%; */
             #abt-me{
+
+                img.i-sparkle{
+                    width: 45%;
+                    height: 45%;
+                }
+
                 #i-say{
-                    --width: 325px;
+                    --width: 450px;
                     --bubble-rot: -3deg;
 
-                    margin-top: 5.5em;
-                    font-size: 0.55em;
+                    --space-above: 5.5em;
+                    font-size: 0.75em;
                     
                     >.sb-container{
                         >.speech-bubble{
@@ -87,6 +93,19 @@ html{
                 }
             }
         }
+        
+        #theme-switch {
+            --size: 150px !important;
+            >.ts-container{
+                >div >svg{
+                    height: 110px !important;
+                    width: 110px !important;
+                }
+
+            }
+
+        }
+
     }
 }
 
@@ -432,22 +451,34 @@ html{
     
     /* redo the borders */
 }
-
+@keyframes border-flash-i-sparkle{
+    from{
+        outline: 4px dashed var(--theme-dark);
+        outline-offset: 0px;
+    }
+    to {
+        outline: 8px dashed var(--theme-dark);
+        outline-offset: -4px;
+    }
+}
 #abt-me{
     position: relative;
     padding: 0 10px;
+    transform-style: preserve-3d;
+    z-index: 1;
     p{
         line-height: var(--line-height);
         margin-bottom: 1em;
+        max-width: 90%;
     }
-}
-
-#abt-me{
-    transform-style: preserve-3d;
+    img.i-sparkle{
+        float: right;
+        margin-left: 1em;
+        animation: border-flash-i-sparkle .7s infinite steps(2);
+    }
     #desc{
         width: 100%;
     }
-    z-index: 1;
 }
 #i-say{
     transform-style: preserve-3d;
@@ -457,8 +488,10 @@ html{
     --ratio: calc(275 / 525);
     --width: 525px;
     --height: calc(var(--width) * var(--ratio));
+    --space-above: 2.5em;
     height: var(--height);
-    
+    margin-top: var(--space-above);
+
     --offset: calc(0.08 * var(--width));
     --bubble-width: 17em;
     /* --bubble-height: 4.5em; */

@@ -433,7 +433,7 @@ class ThemeSwitch{
             document.body.prepend(ts);
             styling(`
 :root.dark #theme-switch, :root:not(.dark) #theme-switch.pre{
-    top: -50px;
+    top: calc(-1 / 2 * var(--size));
     rotate: 180deg;
 }
 
@@ -451,12 +451,13 @@ class ThemeSwitch{
     pointer-events: all;
     --slant: 15deg;
     --speed: .75s;
+    --size: 100px;
     position: fixed;
     z-index: 2;
 
     rotate: 0deg;
     /*top: calc(50px + var(--header-height)); 2em (h1) + 0.67em from margin-block-startend  user-stylesheet*/
-    top: calc(50px + ${top});
+    top: calc(var(--size) / 2 + ${top});
     right: 0px;
     transform-origin: -50vw 50svh; /* OH MY GOD THANK YOU LORD AND SAVIOR DVH CHROSIST OMG */
     /* nvm dvh is like really laggy lol */
@@ -518,8 +519,8 @@ class ThemeSwitch{
         
     }
     >.ts-container>.container{
-        height:100px;
-        width: 100px;
+        height:var(--size);
+        width: var(--size);
         display: flex;
         align-items: center;
         justify-content: center;

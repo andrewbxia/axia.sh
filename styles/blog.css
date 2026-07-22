@@ -96,6 +96,12 @@
             border-width: 2px 0;
             width: fit-content;
         }
+        .post-warn-old{
+            text-align: right;
+            font-size: 0.75em;
+            color: var(--theme-red);
+            text-decoration: underline;
+        }
     
         h1,h2,h3,h4,h5,h6{
             margin: 1em 0;
