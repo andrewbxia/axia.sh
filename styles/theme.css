@@ -13,6 +13,7 @@
     --theme-white: rgb(var(--theme-white-vals));
     --theme-black: rgb(var(--theme-black-vals));
 
+
     --black-white: black;
     --white-black: white;
     /* dark */
@@ -35,14 +36,29 @@
     --theme-d-l-filter-fart: brightness(0) saturate(100%) invert(83%) sepia(21%) saturate(236%) hue-rotate(176deg) brightness(104%) contrast(93%);
 
     --theme-light-test: rgb(220, 233, 248);
-    --theme-light-vals: var(--theme-white-vals);
+    --theme-light-curr-vals: var(--theme-white-vals); /* extra layer to allow swapping of light and dark */
+    --theme-light-vals: var(--theme-light-curr-vals);
     --theme-light: rgb(var(--theme-light-vals));
     --theme-dark-test: rgb(9, 29, 44);
-    --theme-dark-vals: var(--theme-black-vals);
+    --theme-dark-curr-vals: var(--theme-black-vals);
+    --theme-dark-vals: var(--theme-dark-curr-vals);
     --theme-dark: rgb(var(--theme-dark-vals));
+
+
+    /* opaque vals */
+    --theme-light-0-2: rgba(var(--theme-light-vals), 0.2);
+    --theme-light-0-4: rgba(var(--theme-light-vals), 0.4);
+    --theme-light-0-5: rgba(var(--theme-light-vals), 0.5);
+    --theme-light-0-6: rgba(var(--theme-light-vals), 0.6);
+    --theme-light-0-8: rgba(var(--theme-light-vals), 0.8);
+
+    --theme-dark-0-2: rgba(var(--theme-dark-vals), 0.2);
+    --theme-dark-0-4: rgba(var(--theme-dark-vals), 0.4);
+    --theme-dark-0-5: rgba(var(--theme-dark-vals), 0.5);
+    --theme-dark-0-6: rgba(var(--theme-dark-vals), 0.6);
+    --theme-dark-0-8: rgba(var(--theme-dark-vals), 0.8);
+
     --theme-tertiary: rgb(211, 211, 211);
-
-
     --theme-blue-vals: 85,153,255;
     --theme-green-vals: 54,224,153;
     --theme-blue: rgb(var(--theme-blue-vals));
@@ -67,8 +83,10 @@
     /* maybe do border sides like https://natu.moe/cool */
     --toggle-timing: 0.75s var(--ease-backtrack);
 
-    --theme-light-other-vals: var(--comp-purple-vals);
-    --theme-dark-other-vals: var(--comp-orange-vals);
+    --theme-light-other-curr-vals: var(--comp-purple-vals);
+    --theme-dark-other-curr-vals: var(--comp-orange-vals);
+    --theme-light-other-vals: var(--theme-light-other-curr-vals);
+    --theme-dark-other-vals: var(--theme-dark-other-curr-vals);
     --theme-light-other: rgb(var(--theme-light-other-vals));
     --theme-dark-other: rgb(var(--theme-dark-other-vals));
     --line-height: 1.3em;
@@ -88,12 +106,11 @@
     --flicker: flickering 0.07s;
 
     &.dark{
-        --theme-light-vals: var(--comp-purple-vals);
-        --theme-light: rgb(var(--theme-light-vals));
-        --theme-dark-vals: var(--comp-orange-vals);
-        --theme-dark: rgb(var(--theme-dark-vals));
-        --theme-light-other-vals: var(--theme-white-vals);
-        --theme-dark-other-vals: var(--theme-black-vals);
+        --theme-light-curr-vals: var(--comp-purple-vals);
+        --theme-dark-curr-vals: var(--comp-orange-vals);
+
+        --theme-light-other-curr-vals: var(--theme-white-vals);
+        --theme-dark-other-curr-vals: var(--theme-black-vals);
 
         --black-white: white;
         --white-black: black;
@@ -182,28 +199,9 @@ p, div.p{
 .i{
     font-style: italic;
 }
+/*  */
 
-a{
-    color: var(--theme-dark);
-    transition: 0.75s ease;
-    transition-property: color, text-shadow, outline-color;
-    outline: 5px solid rgba(var(--theme-dark-vals), 0.2);
-    text-shadow: 0 0 0.05em var(--theme-dark);
-
-    &.prominent{
-        outline-color: rgba(var(--theme-dark-vals), 0.4);
-    }
-    
-    &:hover, &:focus{
-        text-shadow: 0 0 0.25em var(--theme-dark);
-        outline-color: rgba(var(--theme-dark-vals), 0.4);
-        text-decoration-thickness: 0.1em;
-        &.prominent{
-            outline-color: rgba(var(--theme-dark-vals), 0.6);
-        }
-    }
-}
-.opp-txt{
+.opp-txt, .opp-txt *{
     color: var(--theme-dark-other);
     --theme-dark: var(--theme-dark-other);
     --theme-light: var(--theme-light-other);
@@ -211,6 +209,38 @@ a{
     --theme-light-vals: var(--theme-light-other-vals);
     text-shadow: .05em .05em 0px var(--theme-light); /* firefox doesn't change var for this idk why*/
 }
+.highlight-txt, .highlight-txt *{
+    background-color: var(--theme-dark);
+    color: var(--theme-light);
+    text-shadow: none;
+    &::selection{
+        background-color: var(--theme-light);
+        color: var(--theme-dark);
+    }
+}
+a{
+    color: var(--theme-dark);
+    transition: 0.75s ease;
+    transition-property: color, text-shadow, outline-color;
+    outline: 5px solid var(--theme-dark-0-2);
+    text-shadow: 0 0 0.05em var(--theme-dark);
+
+    &.prominent{
+        outline-color: var(--theme-dark-0-4);
+    }
+    
+    &:hover, &:focus{
+        text-shadow: 0 0 0.25em var(--theme-dark);
+        outline-color: var(--theme-dark-0-4);
+        text-decoration-thickness: 0.1em;
+        &.prominent{
+            outline-color: var(--theme-dark-0-6);
+        }
+    }
+}
+
+
+
 span{
     >*{
         display: inline;
