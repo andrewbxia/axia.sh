@@ -36,27 +36,11 @@
     --theme-d-l-filter-fart: brightness(0) saturate(100%) invert(83%) sepia(21%) saturate(236%) hue-rotate(176deg) brightness(104%) contrast(93%);
 
     --theme-light-test: rgb(220, 233, 248);
-    --theme-light-curr-vals: var(--theme-white-vals); /* extra layer to allow swapping of light and dark */
-    --theme-light-vals: var(--theme-light-curr-vals);
+    --theme-light-vals: var(--theme-white-vals);
     --theme-light: rgb(var(--theme-light-vals));
     --theme-dark-test: rgb(9, 29, 44);
-    --theme-dark-curr-vals: var(--theme-black-vals);
-    --theme-dark-vals: var(--theme-dark-curr-vals);
+    --theme-dark-vals: var(--theme-black-vals);
     --theme-dark: rgb(var(--theme-dark-vals));
-
-
-    /* opaque vals */
-    --theme-light-0-2: rgba(var(--theme-light-vals), 0.2);
-    --theme-light-0-4: rgba(var(--theme-light-vals), 0.4);
-    --theme-light-0-5: rgba(var(--theme-light-vals), 0.5);
-    --theme-light-0-6: rgba(var(--theme-light-vals), 0.6);
-    --theme-light-0-8: rgba(var(--theme-light-vals), 0.8);
-
-    --theme-dark-0-2: rgba(var(--theme-dark-vals), 0.2);
-    --theme-dark-0-4: rgba(var(--theme-dark-vals), 0.4);
-    --theme-dark-0-5: rgba(var(--theme-dark-vals), 0.5);
-    --theme-dark-0-6: rgba(var(--theme-dark-vals), 0.6);
-    --theme-dark-0-8: rgba(var(--theme-dark-vals), 0.8);
 
     --theme-tertiary: rgb(211, 211, 211);
     --theme-blue-vals: 85,153,255;
@@ -83,10 +67,8 @@
     /* maybe do border sides like https://natu.moe/cool */
     --toggle-timing: 0.75s var(--ease-backtrack);
 
-    --theme-light-other-curr-vals: var(--comp-purple-vals);
-    --theme-dark-other-curr-vals: var(--comp-orange-vals);
-    --theme-light-other-vals: var(--theme-light-other-curr-vals);
-    --theme-dark-other-vals: var(--theme-dark-other-curr-vals);
+    --theme-light-other-vals: var(--comp-purple-vals);
+    --theme-dark-other-vals: var(--comp-orange-vals);
     --theme-light-other: rgb(var(--theme-light-other-vals));
     --theme-dark-other: rgb(var(--theme-dark-other-vals));
     --line-height: 1.3em;
@@ -103,7 +85,6 @@
     --pi-2: calc(var(--pi) - 1);
     --pi-1: calc(var(--pi) - 2);
     --pi-0: calc(var(--pi) - 3);
-    --flicker: flickering 0.07s;
 
     &.dark{
         --theme-light-curr-vals: var(--comp-purple-vals);
@@ -222,19 +203,19 @@ a{
     color: var(--theme-dark);
     transition: 0.75s ease;
     transition-property: color, text-shadow, outline-color;
-    outline: 5px solid var(--theme-dark-0-2);
+    outline: 5px solid rgba(var(--theme-dark-vals), 0.2);
     text-shadow: 0 0 0.05em var(--theme-dark);
 
     &.prominent{
-        outline-color: var(--theme-dark-0-4);
+        outline-color: rgba(var(--theme-dark-vals), 0.4);
     }
-    
+
     &:hover, &:focus{
         text-shadow: 0 0 0.25em var(--theme-dark);
-        outline-color: var(--theme-dark-0-4);
+        outline-color: rgba(var(--theme-dark-vals), 0.4);
         text-decoration-thickness: 0.1em;
         &.prominent{
-            outline-color: var(--theme-dark-0-6);
+            outline-color: rgba(var(--theme-dark-vals), 0.6)
         }
     }
 }
