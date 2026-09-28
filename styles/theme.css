@@ -87,11 +87,11 @@
     --pi-0: calc(var(--pi) - 3);
 
     &.dark{
-        --theme-light-curr-vals: var(--comp-purple-vals);
-        --theme-dark-curr-vals: var(--comp-orange-vals);
+        --theme-light-vals: var(--comp-purple-vals);
+        --theme-dark-vals: var(--comp-orange-vals);
 
-        --theme-light-other-curr-vals: var(--theme-white-vals);
-        --theme-dark-other-curr-vals: var(--theme-black-vals);
+        --theme-light-other-vals: var(--theme-white-vals);
+        --theme-dark-other-vals: var(--theme-black-vals);
 
         --black-white: white;
         --white-black: black;
