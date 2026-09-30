@@ -226,32 +226,46 @@ async function randstatus(){
 let currretryani = new Animation();
 let currretryrot = 0, retryrotadd = 0;
 let retryrotok = true;
+let retryturnaround = setTimeout(() => {}), retryturnok = false;
 
 statcover.addEventListener("click", (e) => {
     const retrysvg = statcover.querySelector("svg");
+    const currrotate = poat(compst(retrysvg).rotate);
     if(retryrotok){ // animation ended
-        currretryrot = compst(retrysvg).rotate;
+        currretryrot = currrotate;
         retryrotadd = 0;
     }
-    retryrotadd += 360;
     retryrotok = false;
-    const currrotate = compst(retrysvg).rotate;
-    const newrotate = `${poat(currrotate) + retryrotadd}deg`;
+    // new angles
+    retryrotadd = (retryturnok ? currrotate : retryrotadd) 
+        + 540;
+    const newrotate = retryrotadd;
+
+    // spammers
     currretryani.cancel();
+    clearTimeout(retryturnaround);
+    attachdebug(currrotate, newrotate);
+
+    const retryduration = 1500 * sqrt((retryrotadd - currrotate) / 360);
+
     currretryani = retrysvg.animate(
         [
-
-            {offset: 0, rotate: currrotate, easing: "ease-out"},
-            {offset: 0.4, rotate: newrotate, easing: docprop("--ease-more-in-out")},
-            {rotate: currretryrot, easing: "ease-in"}
+            {offset: 0, rotate: `${currrotate}deg`, easing: "ease-out"},
+            {offset: 0.4, rotate: `${newrotate}deg`, easing: docprop("--ease-more-in-out")},
+            {rotate: `${currretryrot}deg`, easing: "ease-in"}
         ],
 
         {
-            duration: 1500 * sqrt(retryrotadd / 360),
+            duration: retryduration,
         }
     );
 
     statcover.classList.add("active");
+    retryturnok = false;
+
+    retryturnaround = setTimeout(() => {
+        retryturnok = true;
+    }, retryduration * 0.4);
 
     currretryani.finished.then(() => {
         attachdebug(perf.now);
@@ -262,7 +276,7 @@ statcover.addEventListener("click", (e) => {
 });
 
 document.addEventListener("click", (e) => {
-    attachdebug(e.target.tagName, e.target.cloneNode(false).outerHTML);
+    // attachdebug(e.target.tagName, e.target.cloneNode(false).outerHTML);
 });
 
 function togglewcb(){
