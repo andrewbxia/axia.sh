@@ -174,7 +174,7 @@ p, div.p{
 .u{
     text-decoration: underline;
 }
-.b{
+b, strong, .b{
     font-variation-settings: var(--fw-bold);
 }
 .i{
