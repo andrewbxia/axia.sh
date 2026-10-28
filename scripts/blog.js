@@ -76,7 +76,7 @@ function generatepost(post){
     app(postelement, postcontent);
     
     
-    const wordcount = postelement.innerText.split(" ").length; // lazy but gets the job done heheheheheh
+    const wordcount = postelement.innerText.split(wordsplitregex).length; // lazy but gets the job done heheheheheh
     const postwc = mktxt("h6", `<<--|  ~${wordcount}±${(1 - abs(sin(wordcount)))
         .toFixed(randint(2, 2))}-ish words  |-->>`, {class: "post-wordcount"});
     appnest(postheader, misc, postwc)

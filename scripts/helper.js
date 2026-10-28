@@ -147,6 +147,7 @@ const assertnotreached = (msg = "unreachable thingy reached") => assert(false, m
 const pxlheight = window.innerHeight * window.devicePixelRatio;
 const pxlwidth = window.innerWidth * window.devicePixelRatio;
 const sp = "&nbsp;";
+const wordsplitregex = /[ ,.]+/;
 const nofunc = () => {};
 const zerofunc = () => 0;
 

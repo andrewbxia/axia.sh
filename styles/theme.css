@@ -218,7 +218,13 @@ a{
             outline-color: rgba(var(--theme-dark-vals), 0.6)
         }
     }
+
 }
+/* a[target='_blank']:not(:empty):not(:has(*))::after {
+	content: "↗";
+	display: inline-block;
+	margin-inline-start: 0.125rem;
+} */
 
 
 
