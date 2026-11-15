@@ -479,6 +479,7 @@ html{
         margin-left: .5em;
         margin-right: 1em;
         width: 250px;
+        image-rendering: pixelated;
         animation: border-flash-i-sparkle .7s infinite steps(2);
     }
     #desc{
